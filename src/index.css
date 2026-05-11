@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-aqua-50:  #f0fafb;
+  --color-aqua-100: #d0edf3;
+  --color-aqua-200: #a0d8e5;
+  --color-aqua-300: #60bece;
+  --color-aqua-400: #30a8c0;
+  --color-aqua-500: #0a8fa6;
+  --color-aqua-600: #0a7285;
+  --color-aqua-700: #075868;
+  --color-aqua-800: #054550;
+  --color-aqua-900: #1a1a1a;
+
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans:  'Inter', system-ui, sans-serif;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body {
+    @apply antialiased bg-white text-neutral-700;
+    font-family: var(--font-sans);
+    margin: 0;
+  }
+  #root { width: 100%; text-align: left; }
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+@keyframes float-bubble {
+  0%   { transform: translateY(0)     translateX(0px)   scale(1);    opacity: 0; }
+  8%   { opacity: 0.55; }
+  92%  { opacity: 0.35; }
+  100% { transform: translateY(-110vh) translateX(18px) scale(1.12); opacity: 0; }
+}
+
+@keyframes ripple-out {
+  0%   { transform: scale(0);  opacity: 0.5; }
+  100% { transform: scale(4);  opacity: 0; }
+}
+
+@keyframes wave-drift {
+  0%, 100% { d: path("M0,28 C180,56 360,0 540,28 C720,56 900,0 1080,28 C1260,56 1380,14 1440,28 L1440,56 L0,56 Z"); }
+  50%       { d: path("M0,38 C180,10 360,52 540,22 C720,4  900,50 1080,32 C1260,10 1380,42 1440,20 L1440,56 L0,56 Z"); }
+}
+
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  animation: float-bubble linear infinite;
+  pointer-events: none;
+}

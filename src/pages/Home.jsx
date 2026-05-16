@@ -116,8 +116,7 @@ function Hero() {
           transition={{ duration: 0.7, delay: 0.3 }}
           className="text-lg sm:text-xl text-neutral-300 max-w-2xl mx-auto mb-12 leading-relaxed"
         >
-          Expert waterproofing for bathrooms, balconies, and wet areas across Melbourne's Bayside,
-          Mornington Peninsula, and Eastern Suburbs.
+          Expert waterproofing for all rectification works, balconies, bathrooms and wet areas across Melbourne's Bayside, Mornington Peninsula, and Eastern Suburbs.
         </motion.p>
 
         <motion.div
@@ -273,11 +272,6 @@ const WHY_ITEMS = [
     title: "Free Inspections",
     desc: "Concerned about existing waterproofing? We offer free, obligation-free inspections. We'll tell you exactly what we find and what (if anything) needs to be done.",
   },
-  {
-    icon: ThumbsUp,
-    title: "Partner of Cherry Builds",
-    desc: "As the dedicated waterproofing arm of Cherry Builds, Aquatight can coordinate seamlessly with full renovation works — a complete, integrated solution under one roof.",
-  },
 ];
 
 function WhyChoose() {
@@ -307,7 +301,7 @@ function WhyChoose() {
                 hidden: { opacity: 0, y: 28 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
               }}
-              className={`rounded-2xl p-6 border${i === WHY_ITEMS.length - 1 ? " sm:col-span-2 flex flex-col items-center text-center" : ""}`}
+              className={`rounded-2xl p-6 border${WHY_ITEMS.length % 2 !== 0 && i === WHY_ITEMS.length - 1 ? " sm:col-span-2 flex flex-col items-center text-center" : ""}`}
               style={{ backgroundColor: "#2a2a2a", borderColor: "rgba(255,255,255,0.07)" }}
             >
               <div
@@ -322,7 +316,7 @@ function WhyChoose() {
               <h3 className="font-semibold text-white mb-2">{item.title}</h3>
               <p
                 className={`text-sm text-neutral-400 leading-relaxed${
-                  i === WHY_ITEMS.length - 1 ? " max-w-xl" : ""
+                  WHY_ITEMS.length % 2 !== 0 && i === WHY_ITEMS.length - 1 ? " max-w-xl" : ""
                 }`}
               >
                 {item.desc}
@@ -349,8 +343,7 @@ function Services() {
             Our Services
           </RevealText>
           <p className="mt-4 text-neutral-500 max-w-xl mx-auto">
-            From a single shower to a full balcony rectification — Aquatight delivers certified waterproofing
-            across all wet areas.
+            From a single shower to rectification works — Aquatight delivers certified waterproofing across all wet areas.
           </p>
         </motion.div>
 
@@ -512,7 +505,7 @@ function CherryBuilds() {
               Our Partner
             </span>
             <RevealText className="mt-3 font-serif text-4xl sm:text-5xl font-bold text-neutral-900 leading-tight">
-              Complete renovation solutions with Cherry Builds
+              Complete renovation solutions and rectification works with Cherry Builds
             </RevealText>
             <div className="flex items-center gap-6 mt-8 pt-6 border-t border-neutral-200">
               <img src="/logos/aqua-tight.png" alt="Aquatight" className="h-14 w-auto" />
@@ -531,6 +524,19 @@ function CherryBuilds() {
               From identifying the source of water damage through to quoting, project management, and
               completion of all trades — one coordinated team handles everything.
             </p>
+
+            <ul className="space-y-2.5">
+              {[
+                "As the dedicated waterproofing arm of Cherry Builds, Aquatight coordinates seamlessly with full renovation works — a complete, integrated solution under one roof",
+                "One point of contact across waterproofing, tiling, and all building trades",
+                "From water ingress diagnosis through to full rectification and rebuilds",
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-2.5 text-sm text-neutral-600">
+                  <Check className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: AQUA }} />
+                  {item}
+                </li>
+              ))}
+            </ul>
 
             <div className="pt-2 grid grid-cols-2 gap-4">
               {[

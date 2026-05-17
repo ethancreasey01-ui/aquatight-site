@@ -255,7 +255,7 @@ const WHY_ITEMS = [
   {
     icon: Shield,
     title: "AS3740 Compliant",
-    desc: "All work is completed to AS3740 Australian Standards — the mandatory standard for waterproofing in domestic wet areas. We never cut corners on compliance.",
+    desc: "All work is completed to AS3740 Australian Standards, the mandatory standard for waterproofing in domestic wet areas. We never cut corners on compliance.",
   },
   {
     icon: Award,
@@ -265,7 +265,7 @@ const WHY_ITEMS = [
   {
     icon: SlidersHorizontal,
     title: "Warranty on All Work",
-    desc: "Every job we complete is issued with a waterproofing certificate and backed by our workmanship warranty — so you're covered long after we leave.",
+    desc: "Every job we complete is issued with a waterproofing certificate and backed by our workmanship warranty, so you're covered long after we leave.",
   },
   {
     icon: Eye,
@@ -343,7 +343,7 @@ function Services() {
             Our Services
           </RevealText>
           <p className="mt-4 text-neutral-500 max-w-xl mx-auto">
-            From a single shower to rectification works — Aquatight delivers certified waterproofing across all wet areas.
+            From a single shower to rectification works. Aquatight delivers certified waterproofing across all wet areas.
           </p>
         </motion.div>
 
@@ -445,7 +445,7 @@ function Versipave() {
               </h2>
               <p className="text-blue-100 leading-relaxed mb-5">
                 The Versipave Pod System is a specialist drainage solution for suspended balconies that allows
-                full waterproofing membrane access without removing the existing tiling — saving significant
+                full waterproofing membrane access without removing the existing tiling, saving significant
                 cost and disruption for rectification projects.
               </p>
               <ul className="space-y-2.5 mb-8">
@@ -516,18 +516,18 @@ function CherryBuilds() {
 
           <motion.div {...fadeUp(0.2)} className="space-y-5">
             <p className="text-neutral-600 leading-relaxed">
-              Aquatight is the dedicated waterproofing division of Cherry Builds — Melbourne's trusted
+              Aquatight is the dedicated waterproofing division of Cherry Builds, Melbourne's trusted
               renovation specialists. By combining a fully licensed builder with a certified waterproofer,
               we offer a seamless, end-to-end service for renovations and rectification works.
             </p>
             <p className="text-neutral-600 leading-relaxed">
               From identifying the source of water damage through to quoting, project management, and
-              completion of all trades — one coordinated team handles everything.
+              completion of all trades. One coordinated team handles everything.
             </p>
 
             <ul className="space-y-2.5">
               {[
-                "As the dedicated waterproofing arm of Cherry Builds, Aquatight coordinates seamlessly with full renovation works — a complete, integrated solution under one roof",
+                "As the dedicated waterproofing arm of Cherry Builds, Aquatight coordinates seamlessly with full renovation works, providing a complete integrated solution under one roof",
                 "One point of contact across waterproofing, tiling, and all building trades",
                 "From water ingress diagnosis through to full rectification and rebuilds",
               ].map((item) => (
@@ -739,7 +739,7 @@ function Contact() {
                 </div>
                 <h3 className="text-lg font-semibold text-neutral-900">Enquiry sent!</h3>
                 <p className="text-neutral-500 text-sm">
-                  Thanks for reaching out — we'll be in touch shortly with your obligation-free quote.
+                  Thanks for reaching out. We'll be in touch shortly with your obligation-free quote.
                 </p>
               </div>
             ) : (

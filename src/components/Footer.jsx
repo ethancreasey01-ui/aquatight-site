@@ -31,12 +31,13 @@ export default function Footer() {
             <div className="font-semibold text-white mb-3 text-sm">Services</div>
             <ul className="space-y-1.5 text-xs">
               {[
+                "One Stop Service",
                 "Waterproofing Bathrooms",
+                "Rectification Works",
                 "Renovations",
                 "Tiling",
-                "Rectification Works",
-                "Over Existing Hard Surfaces",
                 "Versipave Pod System",
+                "Over Existing Hard Surfaces",
               ].map((s) => (
                 <li key={s}>
                   <a href="#services" onMouseEnter={hoverAqua} onMouseLeave={resetColor} className="transition-colors">
@@ -61,7 +62,7 @@ export default function Footer() {
                 <span>PO BOX 3109, Mentone East VIC 3194</span>
               </div>
               <a
-                href="https://www.cherrybuilds.com.au/"
+                href="https://cherrybuilds.com.au/"
                 target="_blank"
                 rel="noopener noreferrer"
                 onMouseEnter={hoverAqua}

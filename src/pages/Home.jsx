@@ -116,7 +116,7 @@ function Hero() {
           transition={{ duration: 0.7, delay: 0.3 }}
           className="text-lg sm:text-xl text-neutral-300 max-w-2xl mx-auto mb-12 leading-relaxed"
         >
-          Expert waterproofing for all rectification works, balconies, bathrooms and wet areas across Melbourne's Bayside, Mornington Peninsula, and Eastern Suburbs.
+          Expert waterproofing for bathrooms, balconies, wet areas, and rectification works across Melbourne's Bayside, Mornington Peninsula, and Eastern Suburbs.
         </motion.p>
 
         <motion.div
@@ -527,9 +527,9 @@ function CherryBuilds() {
 
             <ul className="space-y-2.5">
               {[
-                "As the dedicated waterproofing arm of Cherry Builds, Aquatight coordinates seamlessly with full renovation works, providing a complete integrated solution under one roof",
-                "One point of contact across waterproofing, tiling, and all building trades",
-                "From water ingress diagnosis through to full rectification and rebuilds",
+                "Licensed builder and certified waterproofer working together — no gaps between trades, no divided accountability",
+                "One point of contact from first inspection through to completion and waterproofing certificate",
+                "From a single shower waterproofing through to full bathroom rectification and rebuilds",
               ].map((item) => (
                 <li key={item} className="flex items-start gap-2.5 text-sm text-neutral-600">
                   <Check className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: AQUA }} />
@@ -565,7 +565,7 @@ function CherryBuilds() {
                 <ArrowRight className="w-4 h-4" />
               </a>
               <a
-                href="https://www.cherrybuilds.com.au/"
+                href="https://cherrybuilds.com.au/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 border border-neutral-300 text-neutral-700 hover:border-neutral-400 font-semibold px-6 py-3 rounded-xl transition-colors"
@@ -674,6 +674,10 @@ function Contact() {
     await fetch(e.target.action, { method: "POST", body: data, headers: { Accept: "application/json" } });
     setSubmitting(false);
     setSubmitted(true);
+    // Fire Google Ads "Form Enquiry" conversion
+    if (window.gtag) {
+      window.gtag('event', 'conversion', { send_to: 'AW-17961494205/qDQbCNummLQcEL3N2vRC' });
+    }
   };
 
   const inputClass =

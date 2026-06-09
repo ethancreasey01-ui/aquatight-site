@@ -354,67 +354,70 @@ function Services() {
           viewport={{ once: true, amount: 0.1 }}
           variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.08 } } }}
         >
-          {SERVICES.map((svc) => (
-            <motion.div
-              key={svc.title}
-              variants={{
-                hidden: { opacity: 0, y: 32 },
-                visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
-              }}
-              whileHover={{ y: -4 }}
-              className="group"
-            >
-              <Link
-                to={`/services/${svc.slug}`}
-                className="flex flex-col h-full bg-white border border-neutral-200 rounded-2xl overflow-hidden hover:shadow-md hover:border-aqua-100 transition-all"
+          {SERVICES.map((svc, idx) => {
+            const isLast = idx === SERVICES.length - 1;
+            return (
+              <motion.div
+                key={svc.title}
+                variants={{
+                  hidden: { opacity: 0, y: 32 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
+                }}
+                whileHover={{ y: -4 }}
+                className={`group${isLast ? " sm:col-span-2 lg:col-span-3" : ""}`}
               >
-                <div
-                  className="h-28 relative flex items-center justify-center flex-shrink-0 overflow-hidden"
-                  style={{ background: `linear-gradient(135deg, ${AQUA_LIGHT} 0%, #c0e5ef 100%)` }}
+                <Link
+                  to={`/services/${svc.slug}`}
+                  className={`flex h-full bg-white border border-neutral-200 rounded-2xl overflow-hidden hover:shadow-md transition-all${isLast ? " flex-col lg:flex-row" : " flex-col"}`}
+                  style={{ borderTop: `3px solid ${AQUA}` }}
                 >
-                  <svc.icon className="w-10 h-10 opacity-20" style={{ color: AQUA }} />
-                  {/* Mini bubbles inside card header */}
-                  {[
-                    { s: 6, l: "15%", d: "3s", dur: "7s" },
-                    { s: 9, l: "55%", d: "1s", dur: "9s" },
-                    { s: 5, l: "80%", d: "2s", dur: "8s" },
-                  ].map((b, bi) => (
-                    <span
-                      key={bi}
-                      className="bubble"
-                      style={{
-                        width: b.s, height: b.s,
-                        left: b.l, bottom: "-10%",
-                        border: `1px solid rgba(10,143,166,0.35)`,
-                        backgroundColor: "rgba(10,143,166,0.12)",
-                        animationDelay: b.d,
-                        animationDuration: b.dur,
-                      }}
-                    />
-                  ))}
-                  <div className="absolute bottom-3 left-3">
-                    <div
-                      className="w-8 h-8 rounded-lg flex items-center justify-center"
-                      style={{ backgroundColor: AQUA }}
-                    >
-                      <svc.icon className="w-4 h-4 text-white" />
+                  <div
+                    className={`relative flex items-center justify-center flex-shrink-0 overflow-hidden${isLast ? " h-36 lg:h-auto lg:w-72" : " h-32"}`}
+                    style={{ background: `linear-gradient(135deg, ${AQUA_LIGHT} 0%, #9fd8e4 100%)` }}
+                  >
+                    <svc.icon className="w-16 h-16 opacity-15" style={{ color: AQUA }} />
+                    {[
+                      { s: 6, l: "15%", d: "3s", dur: "7s" },
+                      { s: 9, l: "55%", d: "1s", dur: "9s" },
+                      { s: 5, l: "80%", d: "2s", dur: "8s" },
+                    ].map((b, bi) => (
+                      <span
+                        key={bi}
+                        className="bubble"
+                        style={{
+                          width: b.s, height: b.s,
+                          left: b.l, bottom: "-10%",
+                          border: `1px solid rgba(10,143,166,0.35)`,
+                          backgroundColor: "rgba(10,143,166,0.12)",
+                          animationDelay: b.d,
+                          animationDuration: b.dur,
+                        }}
+                      />
+                    ))}
+                    <div className="absolute bottom-3 left-3">
+                      <div
+                        className="w-9 h-9 rounded-lg flex items-center justify-center"
+                        style={{ backgroundColor: AQUA }}
+                      >
+                        <svc.icon className="w-5 h-5 text-white" />
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="flex flex-col flex-1 p-5">
-                  <h3 className="font-semibold text-neutral-900 mb-2 text-sm">{svc.title}</h3>
-                  <p className="text-xs text-neutral-500 leading-relaxed mb-4 flex-1">{svc.desc}</p>
-                  <div
-                    className="inline-flex items-center gap-1 text-xs font-semibold group-hover:gap-1.5 transition-all"
-                    style={{ color: AQUA }}
-                  >
-                    Learn More
-                    <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                  <div className={`flex flex-col flex-1 p-5${isLast ? " lg:justify-center" : ""}`}>
+                    <h3 className={`font-semibold text-neutral-900 mb-2${isLast ? " text-base" : " text-sm"}`}>{svc.title}</h3>
+                    <p className={`text-xs text-neutral-500 leading-relaxed mb-4 flex-1${isLast ? " lg:max-w-2xl" : ""}`}>{svc.desc}</p>
+                    <div
+                      className="inline-flex items-center gap-1 text-xs font-semibold group-hover:gap-1.5 transition-all"
+                      style={{ color: AQUA }}
+                    >
+                      Learn More
+                      <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                    </div>
                   </div>
-                </div>
-              </Link>
-            </motion.div>
-          ))}
+                </Link>
+              </motion.div>
+            );
+          })}
         </motion.div>
       </div>
     </section>

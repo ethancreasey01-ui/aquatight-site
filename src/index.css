@@ -30,12 +30,6 @@
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-/* Center lone last card in 3-col services grid */
-@media (min-width: 1024px) {
-  .services-grid > *:last-child:nth-child(3n+1) {
-    grid-column: 2;
-  }
-}
 
 /* Reviews marquee */
 @keyframes marquee {

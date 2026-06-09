@@ -196,8 +196,8 @@ function About() {
             </p>
             <p className="mt-4 text-neutral-600 leading-relaxed">
               Every job is completed to the Australian Standard and issued with a certificate on completion.
-              Whether you're building new, renovating, or rectifying a failed waterproofing system, Aquatight
-              delivers a result you can trust for years to come.
+              Whether you're building new, renovating, or fixing a failed system, we scope the job properly,
+              complete it to standard, and back it with a certificate and workmanship warranty.
             </p>
 
             <div className="mt-8 grid grid-cols-2 gap-3">
@@ -255,12 +255,12 @@ const WHY_ITEMS = [
   {
     icon: Shield,
     title: "AS3740 Compliant",
-    desc: "All work is completed to AS3740 Australian Standards, the mandatory standard for waterproofing in domestic wet areas. We never cut corners on compliance.",
+    desc: "All work is completed to AS3740 Australian Standards, the mandatory waterproofing standard for domestic wet areas. Fully documented, fully certified.",
   },
   {
     icon: Award,
     title: "Certified Professionals",
-    desc: "Our team holds the necessary licences and certifications for waterproofing and tiling. You get peace of mind that the job is done right, by qualified professionals.",
+    desc: "Our team holds the relevant licences and certifications for waterproofing and tiling. Qualified people doing the work, not subcontractors you've never met.",
   },
   {
     icon: SlidersHorizontal,
@@ -527,7 +527,7 @@ function CherryBuilds() {
 
             <ul className="space-y-2.5">
               {[
-                "Licensed builder and certified waterproofer working together — no gaps between trades, no divided accountability",
+                "Licensed builder and certified waterproofer working together. No gaps between trades, no divided accountability",
                 "One point of contact from first inspection through to completion and waterproofing certificate",
                 "From a single shower waterproofing through to full bathroom rectification and rebuilds",
               ].map((item) => (
@@ -862,7 +862,7 @@ export default function Home() {
         <title>Aquatight Waterproofing | AS3740 Certified Waterproofers Melbourne</title>
         <meta
           name="description"
-          content="AS3740 certified waterproofers in Melbourne — bathroom waterproofing, balcony rectification, tiling, renovations and the Versipave Pod System. Bayside, Mornington Peninsula and Eastern Suburbs. Certificate on every job. Free inspection."
+          content="AS3740 certified waterproofers in Melbourne: bathroom waterproofing, balcony rectification, tiling, renovations and the Versipave Pod System. Bayside, Mornington Peninsula and Eastern Suburbs. Certificate on every job. Free inspection."
         />
         <meta property="og:title" content="Aquatight Waterproofing | AS3740 Certified Waterproofers Melbourne" />
         <meta

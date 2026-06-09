@@ -1,40 +1,38 @@
 import { motion } from "framer-motion";
+import React from "react";
 
 const wordVariant = {
-  hidden: { opacity: 0, y: "105%", rotateX: -15 },
+  hidden: { opacity: 0, y: 10 },
   visible: (i) => ({
     opacity: 1,
     y: 0,
-    rotateX: 0,
-    transition: { duration: 0.52, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.5, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] },
   }),
 };
 
-export default function RevealText({ children, as: Tag = "h2", className = "", once = true }) {
+export default function RevealText({ children, as: Tag = "h2", className = "" }) {
   const words = String(children).split(" ");
 
   return (
-    <Tag className={className} style={{ perspective: "600px" }}>
+    <Tag className={className}>
       <motion.span
+        key={children}
         initial="hidden"
-        whileInView="visible"
-        viewport={{ once, amount: 0.2 }}
+        animate="visible"
         aria-label={children}
         style={{ display: "inline" }}
       >
         {words.map((word, i) => (
-          <span key={i} style={{ display: "inline" }}>
-            <span style={{ display: "inline-block", overflow: "hidden", verticalAlign: "bottom" }}>
-              <motion.span
-                custom={i}
-                variants={wordVariant}
-                style={{ display: "inline-block" }}
-              >
-                {word}
-              </motion.span>
-            </span>
+          <React.Fragment key={i}>
+            <motion.span
+              custom={i}
+              variants={wordVariant}
+              style={{ display: "inline-block" }}
+            >
+              {word}
+            </motion.span>
             {i < words.length - 1 ? " " : ""}
-          </span>
+          </React.Fragment>
         ))}
       </motion.span>
     </Tag>

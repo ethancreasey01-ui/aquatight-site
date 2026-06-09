@@ -747,7 +747,7 @@ function Contact() {
             <div className="mt-8 space-y-4">
               {[
                 { icon: Phone, label: "Phone",  value: "0438 499 146",                    href: "tel:0438499146" },
-                { icon: Mail,  label: "Email",  value: "info@aquatightwaterproofing.au",  href: "mailto:info@aquatightwaterproofing.au" },
+                { icon: Mail,  label: "Email",  value: "info@cherrybuilds.com.au",  href: "mailto:info@cherrybuilds.com.au" },
                 { icon: MapPin, label: "Postal", value: "PO BOX 3109, Mentone East VIC 3194", href: null },
               ].map(({ icon: Icon, label, value, href }) => (
                 <div key={label} className="flex items-start gap-3">

@@ -54,8 +54,8 @@ export default function Footer() {
               <a href="tel:0438499146" onMouseEnter={hoverAqua} onMouseLeave={resetColor} className="flex items-center gap-2 transition-colors">
                 <Phone className="w-3.5 h-3.5" /> 0438 499 146
               </a>
-              <a href="mailto:info@aquatightwaterproofing.au" onMouseEnter={hoverAqua} onMouseLeave={resetColor} className="flex items-center gap-2 transition-colors">
-                <Mail className="w-3.5 h-3.5" /> info@aquatightwaterproofing.au
+              <a href="mailto:info@cherrybuilds.com.au" onMouseEnter={hoverAqua} onMouseLeave={resetColor} className="flex items-center gap-2 transition-colors">
+                <Mail className="w-3.5 h-3.5" /> info@cherrybuilds.com.au
               </a>
               <div className="flex items-start gap-2">
                 <MapPin className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" />

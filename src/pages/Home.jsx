@@ -152,7 +152,7 @@ function Hero() {
         >
           {[
             { val: "18+", label: "Years Experience" },
-            { val: "500+", label: "Jobs Completed" },
+            { val: "99+", label: "Jobs Completed" },
             { val: "100%", label: "Certified on Completion" },
           ].map((s) => (
             <div key={s.label} className="text-center">
@@ -230,7 +230,7 @@ function About() {
             {[
               { val: "18+", label: "Years in the industry" },
               { val: "2008", label: "Established" },
-              { val: "500+", label: "Jobs completed" },
+              { val: "99+", label: "Jobs completed" },
               { val: "100%", label: "Certified on completion" },
             ].map((s) => (
               <div

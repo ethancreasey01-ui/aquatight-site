@@ -331,10 +331,67 @@ function WhyChoose() {
 
 // ─── Services ────────────────────────────────────────────────────────────────
 
+const BG_BUBBLES = [
+  { size: 80,  left: "5%",  delay: "0s",   dur: "18s" },
+  { size: 50,  left: "18%", delay: "4s",   dur: "22s" },
+  { size: 110, left: "35%", delay: "2s",   dur: "26s" },
+  { size: 40,  left: "52%", delay: "7s",   dur: "20s" },
+  { size: 90,  left: "68%", delay: "1s",   dur: "24s" },
+  { size: 60,  left: "80%", delay: "5s",   dur: "19s" },
+  { size: 35,  left: "92%", delay: "9s",   dur: "21s" },
+];
+
 function Services() {
   return (
-    <section id="services" className="py-24" style={{ backgroundColor: "#ededed" }}>
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+    <section id="services" className="relative py-24 overflow-hidden" style={{ backgroundColor: "#e8f4f7" }}>
+      {/* Dot-grid texture */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: `radial-gradient(circle, rgba(10,143,166,0.12) 1px, transparent 1px)`,
+          backgroundSize: "28px 28px",
+        }}
+      />
+      {/* Floating background bubbles */}
+      {BG_BUBBLES.map((b, i) => (
+        <span
+          key={i}
+          className="bubble"
+          style={{
+            width: b.size, height: b.size,
+            left: b.left, bottom: "-12%",
+            border: `1.5px solid rgba(10,143,166,0.18)`,
+            backgroundColor: "rgba(10,143,166,0.06)",
+            animationDelay: b.delay,
+            animationDuration: b.dur,
+          }}
+        />
+      ))}
+      {/* Wave divider top */}
+      <svg
+        className="absolute top-0 left-0 w-full pointer-events-none"
+        viewBox="0 0 1440 48" preserveAspectRatio="none"
+        style={{ height: 48 }}
+        aria-hidden="true"
+      >
+        <path
+          d="M0,24 C240,48 480,0 720,24 C960,48 1200,0 1440,24 L1440,0 L0,0 Z"
+          fill="white"
+        />
+      </svg>
+      {/* Wave divider bottom */}
+      <svg
+        className="absolute bottom-0 left-0 w-full pointer-events-none"
+        viewBox="0 0 1440 48" preserveAspectRatio="none"
+        style={{ height: 48 }}
+        aria-hidden="true"
+      >
+        <path
+          d="M0,24 C240,0 480,48 720,24 C960,0 1200,48 1440,24 L1440,48 L0,48 Z"
+          fill="white"
+        />
+      </svg>
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
         <motion.div {...fadeUp(0.1)} className="text-center mb-14">
           <span className="text-xs font-bold tracking-[0.2em] uppercase" style={{ color: AQUA }}>
             What We Do

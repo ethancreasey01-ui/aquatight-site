@@ -15,6 +15,7 @@ export const NAV_LINKS = [
   { label: "About",         href: "#about" },
   { label: "Services",      href: "#services" },
   { label: "Versipave",     href: "#versipave" },
+  { label: "Areas",         href: "/service-areas" },
   { label: "Cherry Builds", href: "#cherrybuilds" },
   { label: "FAQ",           href: "#faq" },
   { label: "Contact",       href: "#contact" },

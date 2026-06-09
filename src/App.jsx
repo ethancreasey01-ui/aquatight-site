@@ -5,6 +5,7 @@ import Footer from "./components/Footer.jsx";
 import StickyQuoteBar from "./components/StickyQuoteBar.jsx";
 import Home from "./pages/Home.jsx";
 import ServiceDetail from "./pages/ServiceDetail.jsx";
+import ServiceAreas from "./pages/ServiceAreas.jsx";
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
@@ -54,6 +55,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/services/:slug" element={<ServiceDetail />} />
+          <Route path="/service-areas" element={<ServiceAreas />} />
         </Routes>
       </main>
       <Footer />

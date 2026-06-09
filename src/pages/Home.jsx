@@ -20,6 +20,102 @@ const AQUA_LIGHT = "#f0fafb";
 const AQUA_BORDER = "#d0edf3";
 const AQUA_ACCENT = "#7dd8e8";
 
+// ─── Schema.org Structured Data ──────────────────────────────────────────────
+
+const schemaLocalBusiness = {
+  "@context": "https://schema.org",
+  "@type": ["Plumber", "LocalBusiness"],
+  "@id": "https://www.aquatightwaterproofing.au/#business",
+  name: "Aquatight Waterproofing",
+  description:
+    "AS3740-certified waterproofing specialists in Melbourne. Bathrooms, balconies, rectification works, tiling, and the Versipave Pod System across Bayside, Mornington Peninsula, and Eastern Suburbs. 18+ years experience.",
+  url: "https://www.aquatightwaterproofing.au",
+  telephone: "+61438499146",
+  email: "info@cherrybuilds.com.au",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "PO BOX 3109",
+    addressLocality: "Mentone East",
+    addressRegion: "VIC",
+    postalCode: "3194",
+    addressCountry: "AU",
+  },
+  geo: { "@type": "GeoCoordinates", latitude: -37.9736, longitude: 145.0724 },
+  areaServed: [
+    { "@type": "City", name: "Melbourne" },
+    { "@type": "AdministrativeArea", name: "Bayside, Victoria" },
+    { "@type": "AdministrativeArea", name: "Mornington Peninsula" },
+    { "@type": "AdministrativeArea", name: "Eastern Suburbs, Melbourne" },
+  ],
+  hasCredential: {
+    "@type": "EducationalOccupationalCredential",
+    credentialCategory: "licence",
+    name: "AS3740 Waterproofing Certification",
+  },
+  parentOrganization: {
+    "@type": "Organization",
+    name: "Cherry Builds",
+    url: "https://cherrybuilds.com.au",
+  },
+  foundingDate: "2008",
+  image: "https://www.aquatightwaterproofing.au/logos/aqua-tight.png",
+  logo: {
+    "@type": "ImageObject",
+    url: "https://www.aquatightwaterproofing.au/logos/aqua-tight.png",
+  },
+  priceRange: "$$",
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      opens: "07:00",
+      closes: "18:00",
+    },
+  ],
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "5.0",
+    bestRating: "5",
+    worstRating: "1",
+    ratingCount: "22",
+    reviewCount: "22",
+  },
+};
+
+const schemaServices = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "@id": "https://www.aquatightwaterproofing.au/#services",
+  name: "Waterproofing Services by Aquatight",
+  url: "https://www.aquatightwaterproofing.au/#services",
+  numberOfItems: SERVICES.length,
+  itemListElement: SERVICES.map((svc, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    item: {
+      "@type": "Service",
+      "@id": `https://www.aquatightwaterproofing.au/services/${svc.slug}`,
+      name: svc.title,
+      description: svc.desc,
+      url: `https://www.aquatightwaterproofing.au/services/${svc.slug}`,
+      provider: { "@id": "https://www.aquatightwaterproofing.au/#business" },
+      areaServed: "Melbourne, Victoria, Australia",
+      serviceType: "Waterproofing",
+    },
+  })),
+};
+
+const schemaFAQ = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://www.aquatightwaterproofing.au/#faq",
+  mainEntity: FAQS.map((faq) => ({
+    "@type": "Question",
+    name: faq.q,
+    acceptedAnswer: { "@type": "Answer", text: faq.a },
+  })),
+};
+
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
   whileInView: { opacity: 1, y: 0 },
@@ -975,7 +1071,12 @@ export default function Home() {
           content="AS3740-certified waterproofing across Melbourne. Bathrooms, balconies, tiling, rectification, and the Versipave Pod System. 18+ years experience. Certificate on every job."
         />
         <meta property="og:url" content="https://www.aquatightwaterproofing.au/" />
+        <meta property="og:locale" content="en_AU" />
         <link rel="canonical" href="https://www.aquatightwaterproofing.au/" />
+        {/* Structured data */}
+        <script type="application/ld+json">{JSON.stringify(schemaLocalBusiness)}</script>
+        <script type="application/ld+json">{JSON.stringify(schemaServices)}</script>
+        <script type="application/ld+json">{JSON.stringify(schemaFAQ)}</script>
       </Helmet>
       <Hero />
       {/* Hero gradient ends ~#074955 → into white TrustBar */}

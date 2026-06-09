@@ -78,7 +78,24 @@ export default function ServiceDetail() {
         <meta property="og:title" content={metaTitle} />
         <meta property="og:description" content={metaDesc} />
         <meta property="og:url" content={`https://www.aquatightwaterproofing.au/services/${service.slug}`} />
+        <meta property="og:image" content="https://www.aquatightwaterproofing.au/logos/aqua-tight.png" />
+        <meta property="og:locale" content="en_AU" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={metaTitle} />
+        <meta name="twitter:description" content={metaDesc} />
+        <meta name="twitter:image" content="https://www.aquatightwaterproofing.au/logos/aqua-tight.png" />
         <link rel="canonical" href={`https://www.aquatightwaterproofing.au/services/${service.slug}`} />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "@id": `https://www.aquatightwaterproofing.au/services/${service.slug}`,
+          name: service.title,
+          description: metaDesc,
+          url: `https://www.aquatightwaterproofing.au/services/${service.slug}`,
+          provider: { "@id": "https://www.aquatightwaterproofing.au/#business" },
+          areaServed: "Melbourne, Victoria, Australia",
+          serviceType: "Waterproofing",
+        })}</script>
       </Helmet>
       <ScrollProgress />
 

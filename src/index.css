@@ -30,6 +30,28 @@
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
+/* Center lone last card in 3-col services grid */
+@media (min-width: 1024px) {
+  .services-grid > *:last-child:nth-child(3n+1) {
+    grid-column: 2;
+  }
+}
+
+/* Reviews marquee */
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.reviews-marquee {
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  animation: marquee 60s linear infinite;
+  padding-block: 8px;
+  margin-block: -8px;
+}
+.reviews-marquee:hover { animation-play-state: paused; }
+
 @keyframes float-bubble {
   0%   { transform: translateY(0)     translateX(0px)   scale(1);    opacity: 0; }
   8%   { opacity: 0.55; }

@@ -5,7 +5,7 @@ import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion"
 import {
   Phone, Mail, MapPin, ChevronDown, ChevronRight,
   Award, Check, ArrowRight, ExternalLink, Shield,
-  Droplets, Eye, ThumbsUp, SlidersHorizontal,
+  Droplets, Eye, ThumbsUp, SlidersHorizontal, Star,
 } from "lucide-react";
 import { SERVICES, TESTIMONIALS, FAQS, CREDENTIALS } from "../data/index.js";
 import RevealText from "../components/RevealText.jsx";
@@ -348,7 +348,7 @@ function Services() {
         </motion.div>
 
         <motion.div
-          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"
+          className="services-grid grid sm:grid-cols-2 lg:grid-cols-3 gap-5"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
@@ -583,23 +583,68 @@ function CherryBuilds() {
 
 // ─── Testimonials ────────────────────────────────────────────────────────────
 
+const REVIEWS_DOUBLED = [...TESTIMONIALS, ...TESTIMONIALS];
+
 function Testimonials() {
   return (
-    <section className="py-24" style={{ backgroundColor: "#1a1a1a" }}>
+    <section className="py-24 overflow-hidden" style={{ backgroundColor: "#1a1a1a" }}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <motion.div {...fadeUp(0.1)} className="text-center mb-14">
+        <motion.div {...fadeUp(0.1)} className="mb-12">
           <span className="text-xs font-bold tracking-[0.2em] uppercase" style={{ color: AQUA_ACCENT }}>
             Reviews
           </span>
           <RevealText className="mt-3 font-serif text-4xl sm:text-5xl font-bold text-white">
             What Our Clients Say
           </RevealText>
-        </motion.div>
-
-        <motion.div {...fadeUp(0.15)}>
-          <TestimonialsCarousel testimonials={TESTIMONIALS.slice(0, 4)} cardBg="#2a2a2a" cardWidth="clamp(280px, 70vw, 340px)" />
+          <p className="mt-2 text-xs text-neutral-600">Hover to pause</p>
         </motion.div>
       </div>
+
+      <motion.div {...fadeUp(0.15)} className="overflow-hidden">
+        <div className="reviews-marquee">
+          {REVIEWS_DOUBLED.map((t, i) => (
+            <div
+              key={i}
+              className="flex-shrink-0 rounded-2xl p-6"
+              style={{
+                width: 300,
+                background: "rgba(255,255,255,0.04)",
+                border: "1px solid rgba(255,255,255,0.08)",
+              }}
+            >
+              <div className="flex gap-0.5 mb-3">
+                {[1,2,3,4,5].map(s => (
+                  <Star key={s} className="w-3.5 h-3.5 fill-current" style={{ color: "#e8a020" }} />
+                ))}
+              </div>
+              <p
+                className="text-sm leading-relaxed mb-4"
+                style={{
+                  color: "rgba(232,232,232,0.72)",
+                  display: "-webkit-box",
+                  WebkitLineClamp: 4,
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                }}
+              >
+                &ldquo;{t.text}&rdquo;
+              </p>
+              <div className="flex items-center gap-2.5">
+                <div
+                  className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0"
+                  style={{ backgroundColor: AQUA }}
+                >
+                  {t.name.charAt(0)}
+                </div>
+                <div>
+                  <div className="text-xs font-semibold text-white">{t.name}</div>
+                  <div className="text-[11px]" style={{ color: "rgba(232,232,232,0.4)" }}>{t.suburb}</div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </motion.div>
     </section>
   );
 }

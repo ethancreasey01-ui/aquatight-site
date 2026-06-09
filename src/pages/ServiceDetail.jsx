@@ -7,7 +7,7 @@ import { SERVICES, TESTIMONIALS } from "../data/index.js";
 import ScrollProgress from "../components/ScrollProgress.jsx";
 import RevealText from "../components/RevealText.jsx";
 import WaveDivider from "../components/WaveDivider.jsx";
-import TestimonialsCarousel from "../components/TestimonialsCarousel.jsx";
+import { Star } from "lucide-react";
 
 const AQUA = "#0a8fa6";
 const AQUA_HOVER = "#0a7285";
@@ -223,7 +223,30 @@ export default function ServiceDetail() {
             {serviceTestimonials.length > 0 && (
               <motion.div {...fadeUp(0.28)}>
                 <RevealText className="font-serif text-2xl font-bold text-neutral-900 mb-5">What Our Clients Say</RevealText>
-                <TestimonialsCarousel testimonials={serviceTestimonials.slice(0, 3)} cardBg="#1a1a1a" />
+                <div className="space-y-4">
+                  {serviceTestimonials.slice(0, 3).map((t, i) => (
+                    <div key={i} className="rounded-2xl p-6 border border-neutral-200 bg-white">
+                      <div className="flex gap-0.5 mb-3">
+                        {[1,2,3,4,5].map(s => (
+                          <Star key={s} className="w-3.5 h-3.5 fill-current" style={{ color: "#e8a020" }} />
+                        ))}
+                      </div>
+                      <p className="text-sm text-neutral-600 leading-relaxed mb-4">"{t.text}"</p>
+                      <div className="flex items-center gap-2.5">
+                        <div
+                          className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0"
+                          style={{ backgroundColor: AQUA }}
+                        >
+                          {t.name.charAt(0)}
+                        </div>
+                        <div>
+                          <div className="text-xs font-semibold text-neutral-800">{t.name}</div>
+                          <div className="text-[11px] text-neutral-400">{t.suburb}</div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </motion.div>
             )}
           </div>

@@ -101,20 +101,22 @@ export default function ServiceDetail() {
 
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 w-full pb-12 pt-24">
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.1 }}>
-            <Link
-              to="/#services"
-              className="inline-flex items-center gap-1.5 text-neutral-400 hover:text-white text-sm mb-6 transition-colors"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              All Services
-            </Link>
+            <div className="flex flex-col items-start gap-3 mb-6">
+              <Link
+                to="/#services"
+                className="inline-flex items-center gap-1.5 text-neutral-400 hover:text-white text-sm transition-colors"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                All Services
+              </Link>
 
-            <div
-              className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold mb-4 border"
-              style={{ backgroundColor: "rgba(10,143,166,0.25)", borderColor: "rgba(10,143,166,0.45)", color: AQUA_ACCENT }}
-            >
-              <service.icon className="w-3.5 h-3.5" />
-              Aquatight Service
+              <div
+                className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold border"
+                style={{ backgroundColor: "rgba(10,143,166,0.25)", borderColor: "rgba(10,143,166,0.45)", color: AQUA_ACCENT }}
+              >
+                <service.icon className="w-3.5 h-3.5" />
+                Aquatight Service
+              </div>
             </div>
 
             <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-tight">

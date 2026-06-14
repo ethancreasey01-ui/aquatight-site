@@ -1,4 +1,4 @@
-import { Phone, Mail, MapPin, ExternalLink, Instagram } from "lucide-react";
+import { Phone, Mail, MapPin, ExternalLink } from "lucide-react";
 
 export default function Footer() {
   const hoverAqua = (e) => (e.currentTarget.style.color = "#7dd8e8");
@@ -77,9 +77,9 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 onMouseEnter={hoverAqua}
                 onMouseLeave={resetColor}
-                className="flex items-center gap-2 transition-colors"
+                className="transition-colors"
               >
-                <Instagram className="w-3.5 h-3.5" /> @aquatightwaterproofing
+                Follow us on Instagram
               </a>
             </div>
           </div>

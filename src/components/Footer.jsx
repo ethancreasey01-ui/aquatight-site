@@ -1,4 +1,4 @@
-import { Phone, Mail, MapPin, ExternalLink } from "lucide-react";
+import { Phone, Mail, MapPin, ExternalLink, Facebook } from "lucide-react";
 
 export default function Footer() {
   const hoverAqua = (e) => (e.currentTarget.style.color = "#7dd8e8");
@@ -71,16 +71,31 @@ export default function Footer() {
               >
                 <ExternalLink className="w-3.5 h-3.5" /> Cherry Builds
               </a>
-              <a
-                href="https://www.instagram.com/aquatightwaterproofing/"
-                target="_blank"
-                rel="noopener noreferrer"
-                onMouseEnter={hoverAqua}
-                onMouseLeave={resetColor}
-                className="transition-colors"
-              >
-                Follow us on Instagram
-              </a>
+              <div className="pt-2 border-t border-white/10">
+                <div className="text-white text-xs font-semibold mb-2">Follow us</div>
+                <div className="flex gap-3">
+                  <a
+                    href="https://www.facebook.com/aquatightwaterproofing"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onMouseEnter={hoverAqua}
+                    onMouseLeave={resetColor}
+                    className="flex items-center gap-1.5 transition-colors"
+                  >
+                    <Facebook className="w-4 h-4" /> Facebook
+                  </a>
+                  <a
+                    href="https://www.instagram.com/aquatightwaterproofing/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onMouseEnter={hoverAqua}
+                    onMouseLeave={resetColor}
+                    className="flex items-center gap-1.5 transition-colors"
+                  >
+                    📷 Instagram
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>

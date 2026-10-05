@@ -15,10 +15,22 @@ export const NAV_LINKS = [
   { label: "About",         href: "#about" },
   { label: "Services",      href: "#services" },
   { label: "Versipave",     href: "#versipave" },
+  { label: "Our Work",      href: "#work" },
   { label: "Areas",         href: "/service-areas" },
   { label: "Cherry Builds", href: "#cherrybuilds" },
   { label: "FAQ",           href: "#faq" },
   { label: "Contact",       href: "#contact" },
+];
+
+// Danny's own job photos (no stock). Files in public/work as -800 and -1600 WebP.
+export const WORK = [
+  { id: "pods-middle-park",     caption: "Versipave pods and tiles with steps", place: "Middle Park",  w: 1600, h: 1205 },
+  { id: "balcony-mentone",      caption: "Balcony rebuild",                     place: "Mentone",      w: 1600, h: 1200 },
+  { id: "pods-maribyrnong",     caption: "Versipave pods going down",           place: "Maribyrnong",  w: 1600, h: 1200 },
+  { id: "bathroom-mentone",     caption: "Finished bathroom",                   place: "Mentone",      w: 1200, h: 1600 },
+  { id: "balcony-hampton",      caption: "Balcony waterproofing",               place: "Hampton",      w: 1600, h: 1200 },
+  { id: "balcony-mordialloc",   caption: "New balcony membrane",                place: "Mordialloc",   w: 1600, h: 1200 },
+  { id: "shower-waterproofing", caption: "Shower and bath waterproofing",       place: "Melbourne",    w: 1600, h: 1200 },
 ];
 
 export const SERVICES = [

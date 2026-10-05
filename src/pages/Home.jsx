@@ -5,9 +5,9 @@ import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion"
 import {
   Phone, Mail, MapPin, ChevronDown, ChevronRight,
   Award, Check, ArrowRight, ExternalLink, Shield,
-  Droplets, Eye, ThumbsUp, SlidersHorizontal, Star,
+  Droplets, Eye, ThumbsUp, SlidersHorizontal, Star, X, ChevronLeft,
 } from "lucide-react";
-import { SERVICES, TESTIMONIALS, FAQS, CREDENTIALS } from "../data/index.js";
+import { SERVICES, TESTIMONIALS, FAQS, CREDENTIALS, WORK } from "../data/index.js";
 import RevealText from "../components/RevealText.jsx";
 import CountUp from "../components/CountUp.jsx";
 import TrustBar from "../components/TrustBar.jsx";
@@ -649,6 +649,97 @@ function Versipave() {
   );
 }
 
+// ─── Our Work ────────────────────────────────────────────────────────────────
+// Real Aquatight jobs. Grid loads the 800px WebP lazily; tapping opens the 1600px version.
+
+const workSrc = (id, w) => `/work/${id}-${w}.webp`;
+
+function OurWork() {
+  const [open, setOpen] = React.useState(null);
+  const go = (d) => setOpen((i) => (i + d + WORK.length) % WORK.length);
+  React.useEffect(() => {
+    if (open === null) return;
+    const onKey = (e) => {
+      if (e.key === "Escape") setOpen(null);
+      if (e.key === "ArrowRight") go(1);
+      if (e.key === "ArrowLeft") go(-1);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+  const item = open !== null ? WORK[open] : null;
+  return (
+    <section id="work" className="pb-24 bg-white">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <motion.div {...fadeUp(0.05)} className="text-center mb-12">
+          <h2 className="font-serif text-4xl sm:text-5xl font-bold mb-4" style={{ color: "#1a1a1a" }}>Our Work</h2>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            Real balconies, pods and bathrooms we&apos;ve waterproofed around Melbourne. No stock photos.
+          </p>
+        </motion.div>
+        <div className="grid grid-cols-2 md:grid-cols-4 grid-flow-dense auto-rows-[150px] sm:auto-rows-[210px] lg:auto-rows-[240px] gap-3 sm:gap-4">
+          {WORK.map((p, i) => (
+            <motion.button
+              key={p.id}
+              type="button"
+              {...fadeUp(0.05 + (i % 3) * 0.08)}
+              onClick={() => setOpen(i)}
+              className={`group relative overflow-hidden rounded-2xl bg-gray-100 text-left ${p.h > p.w ? "row-span-2" : ""}`}
+              aria-label={`View photo: ${p.caption}, ${p.place}`}
+            >
+              <img
+                src={workSrc(p.id, 800)}
+                srcSet={`${workSrc(p.id, 800)} 800w, ${workSrc(p.id, 1600)} 1600w`}
+                sizes="(min-width: 768px) 25vw, 50vw"
+                alt={`${p.caption}, ${p.place}`}
+                width={p.w}
+                height={p.h}
+                loading="lazy"
+                decoding="async"
+                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-3 sm:p-4">
+                <div className="text-white text-sm font-semibold leading-tight">{p.caption}</div>
+                <div className="text-white/75 text-xs">{p.place}</div>
+              </div>
+            </motion.button>
+          ))}
+        </div>
+      </div>
+
+      <AnimatePresence>
+        {item && (
+          <motion.div
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setOpen(null)}
+            role="dialog"
+            aria-label={`${item.caption}, ${item.place}`}
+          >
+            <button type="button" aria-label="Close" className="absolute top-4 right-4 rounded-full bg-white/10 p-2 text-white hover:bg-white/20" onClick={() => setOpen(null)}>
+              <X className="w-6 h-6" />
+            </button>
+            <button type="button" aria-label="Previous photo" className="absolute left-2 sm:left-6 rounded-full bg-white/10 p-2 text-white hover:bg-white/20" onClick={(e) => { e.stopPropagation(); go(-1); }}>
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+            <motion.figure key={item.id} initial={{ scale: 0.96, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="max-w-5xl w-full flex flex-col items-center" onClick={(e) => e.stopPropagation()}>
+              <img src={workSrc(item.id, 1600)} alt={`${item.caption}, ${item.place}`} className="max-h-[75vh] max-w-full h-auto w-auto rounded-xl" />
+              <figcaption className="mt-3 px-10 text-center text-sm sm:text-base text-white">
+                <span className="font-semibold">{item.caption}</span> <span className="text-white/70">· {item.place}</span>
+              </figcaption>
+            </motion.figure>
+            <button type="button" aria-label="Next photo" className="absolute right-2 sm:right-6 rounded-full bg-white/10 p-2 text-white hover:bg-white/20" onClick={(e) => { e.stopPropagation(); go(1); }}>
+              <ChevronRight className="w-6 h-6" />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </section>
+  );
+}
+
 // ─── Cherry Builds ───────────────────────────────────────────────────────────
 
 function CherryBuilds() {
@@ -1115,6 +1206,7 @@ export default function Home() {
       {/* Services (light grey) → Versipave (white) */}
       <WaveDivider topColor="#ededed" bottomColor="#ffffff" height={48} />
       <Versipave />
+      <OurWork />
       {/* Versipave (white) → CherryBuilds (light grey) */}
       <WaveDivider topColor="#ffffff" bottomColor="#ededed" height={48} />
       <CherryBuilds />

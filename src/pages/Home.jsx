@@ -7,7 +7,7 @@ import {
   Award, Check, ArrowRight, ExternalLink, Shield,
   Droplets, Eye, SlidersHorizontal, Star,
 } from "lucide-react";
-import { SERVICES, TESTIMONIALS, FAQS, CREDENTIALS, WORK, workSrc, projectSlug, projectTitle } from "../data/index.js";
+import { SERVICES, TESTIMONIALS, FAQS, CREDENTIALS, WORK, GALLERY, workSrc, projectSlug, projectTitle } from "../data/index.js";
 import RevealText from "../components/RevealText.jsx";
 import CountUp from "../components/CountUp.jsx";
 import TrustBar from "../components/TrustBar.jsx";
@@ -662,7 +662,7 @@ function Versipave() {
 // Real Aquatight jobs, all driven by WORK in data/index.js. Auto-scrolling strip on top,
 // grid below (800px WebP lazily; the lightbox opens the 1600px version).
 
-const WORK_ITEMS = WORK.map((p) => ({ src: workSrc(p.id, 1600), alt: `${p.caption}, ${p.place}`, caption: p.caption, sub: p.place }));
+const WORK_ITEMS = GALLERY.map((p) => ({ src: workSrc(p.id, 1600), alt: p.alt, caption: p.caption, sub: p.place }));
 
 function OurWork() {
   const [open, setOpen] = React.useState(null);
@@ -682,20 +682,20 @@ function OurWork() {
       </div>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-2 md:grid-cols-4 grid-flow-dense auto-rows-[150px] sm:auto-rows-[210px] lg:auto-rows-[240px] gap-3 sm:gap-4">
-          {WORK.map((p, i) => (
+          {GALLERY.map((p, i) => (
             <motion.button
               key={p.id}
               type="button"
               {...fadeUp(0.05 + (i % 3) * 0.08)}
               onClick={() => setOpen(i)}
               className={`group relative overflow-hidden rounded-2xl bg-gray-100 text-left ${p.h > p.w ? "row-span-2" : ""}`}
-              aria-label={`View photo: ${p.caption}, ${p.place}`}
+              aria-label={`View photo: ${p.alt}`}
             >
               <img
                 src={workSrc(p.id, 800)}
                 srcSet={`${workSrc(p.id, 800)} 800w, ${workSrc(p.id, 1600)} 1600w`}
                 sizes="(min-width: 768px) 25vw, 50vw"
-                alt={`${p.caption}, ${p.place}`}
+                alt={p.alt}
                 width={p.w}
                 height={p.h}
                 loading="lazy"

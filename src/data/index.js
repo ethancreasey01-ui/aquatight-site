@@ -39,18 +39,29 @@ export const NAV_LINKS = [
 // Only add facts the client has confirmed. Alt text/captions: job type + suburb only, never
 // client names, street addresses or anything identifying. Strip EXIF/GPS from new photos.
 export const WORK = [
+  { pod: true, id: "pod-bayside-1", slug: "pods-bayside", caption: "Balcony pods", place: "Bayside", w: 1600, h: 1200, photos: [{ id: "pod-bayside-2", w: 1200, h: 1600 }, { id: "pod-bayside-3", w: 1600, h: 1200 }, { id: "pod-bayside-4", w: 1200, h: 1600 }, { id: "pod-bayside-5", w: 1600, h: 1200 }] },
   { pod: true, id: "pods-middle-park",     caption: "Versipave pods and tiles with steps", place: "Middle Park",  w: 1600, h: 1205 },
-  { pod: true, id: "pods-maribyrnong",     caption: "Versipave pods going down",           place: "Maribyrnong",  w: 1600, h: 1200 },
-  { id: "balcony-mentone",      caption: "Balcony rebuild",                     place: "Mentone",      w: 1600, h: 1200 },
+  { pod: true, id: "pods-maribyrnong",     caption: "Versipave pods going down",           place: "Maribyrnong",  w: 1600, h: 1200, photos: [{ id: "pods-maribyrnong-2", w: 1600, h: 1200 }] },
+  { id: "balcony-mentone",      caption: "Balcony rebuild",                     place: "Mentone",      w: 1600, h: 1200, photos: [{ id: "balcony-mentone-2", w: 1200, h: 1600 }] },
   { id: "bathroom-mentone",     caption: "Finished bathroom",                   place: "Mentone",      w: 1200, h: 1600 },
   { id: "balcony-hampton",      caption: "Balcony waterproofing",               place: "Hampton",      w: 1600, h: 1200 },
-  { id: "balcony-mordialloc",   caption: "New balcony membrane",                place: "Mordialloc",   w: 1600, h: 1200 },
+  { id: "balcony-mordialloc",   caption: "New balcony membrane",                place: "Mordialloc",   w: 1600, h: 1200, photos: [{ id: "balcony-mordialloc-2", w: 1600, h: 1200 }, { id: "balcony-mordialloc-3", w: 1600, h: 1200 }, { id: "balcony-mordialloc-4", w: 1600, h: 1200 }, { id: "balcony-mordialloc-5", w: 1600, h: 1200 }, { id: "balcony-mordialloc-6", w: 1600, h: 1200 }] },
   { id: "shower-waterproofing", caption: "Shower and bath waterproofing",       place: "Melbourne",    w: 1600, h: 1200 },
+  { id: "courtyard-brighton-1", slug: "courtyard-brighton", caption: "Courtyard waterproofing", place: "Brighton", w: 1600, h: 1200, photos: [{ id: "courtyard-brighton-2", w: 1600, h: 1200 }, { id: "courtyard-brighton-3", w: 1600, h: 1200 }, { id: "courtyard-brighton-4", w: 1600, h: 1200 }, { id: "courtyard-brighton-5", w: 1600, h: 1200 }, { id: "courtyard-brighton-6", w: 1600, h: 1200 }] },
 ];
 
 export const workSrc = (id, w) => `/work/${id}-${w}.webp`;
 export const projectSlug = (p) => p.slug ?? p.id;
 export const projectTitle = (p) => p.title ?? p.caption;
+// Every photo (a job's main image + its `photos`) as a flat list, in WORK order.
+// Each item: { id, w, h, caption, place, slug, pod, alt }
+export const GALLERY = WORK.flatMap((p) =>
+  [p, ...(p.photos ?? [])].map((ph, i) => ({
+    id: ph.id, w: ph.w, h: ph.h, caption: p.caption, place: p.place, slug: projectSlug(p), pod: !!p.pod,
+    alt: ph.alt ?? `${p.caption}, ${p.place}${i ? ` (photo ${i + 1})` : ""}`,
+  }))
+);
+export const POD_GALLERY = GALLERY.filter((g) => g.pod);
 export const POD_WORK = WORK.filter((p) => p.pod);
 export const getProject = (slug) => WORK.find((p) => projectSlug(p) === slug);
 

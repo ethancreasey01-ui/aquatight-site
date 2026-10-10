@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, ArrowRight, Phone, Droplets, MapPin } from "lucide-react";
-import { SERVICES, POD_WORK, workSrc, projectSlug, projectTitle } from "../data/index.js";
+import { SERVICES, POD_WORK, POD_GALLERY, workSrc } from "../data/index.js";
 import ScrollProgress from "../components/ScrollProgress.jsx";
 import RevealText from "../components/RevealText.jsx";
 import Lightbox from "../components/Lightbox.jsx";
@@ -34,7 +34,7 @@ export default function AquaPods() {
   const url = `${SITE}/aqua-pods`;
   const title = "Aqua Pods | Versipave Pod System Melbourne | Aquatight Waterproofing";
   const desc = "Aqua Pods: the Versipave Pod System for suspended balconies. Membrane access without removing the tiling. AS3740 certified waterproofers across Melbourne. Free quote.";
-  const items = POD_WORK.map((p) => ({ src: workSrc(p.id, 1600), alt: `${p.caption}, ${p.place}`, caption: p.caption, sub: p.place }));
+  const items = POD_GALLERY.map((p) => ({ src: workSrc(p.id, 1600), alt: p.alt, caption: p.caption, sub: p.place }));
   const hero = POD_WORK[0];
 
   return (
@@ -96,7 +96,7 @@ export default function AquaPods() {
         </motion.div>
       </section>
 
-      {POD_WORK.length > 0 && (
+      {POD_GALLERY.length > 0 && (
         <section className="pb-20" style={{ backgroundColor: "#fff" }}>
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <motion.div {...fadeUp(0.05)} className="mb-8">
@@ -104,14 +104,14 @@ export default function AquaPods() {
               <p className="mt-2 text-neutral-600">Real Aquatight pod installations. Tap a photo to enlarge, or open the project.</p>
             </motion.div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {POD_WORK.map((p, i) => (
+              {POD_GALLERY.map((p, i) => (
                 <motion.div key={p.id} {...fadeUp(0.05 + (i % 3) * 0.08)} className="overflow-hidden rounded-2xl border border-neutral-200 bg-white">
-                  <button type="button" onClick={() => setOpen(i)} aria-label={`View photo: ${p.caption}, ${p.place}`} className="group block w-full overflow-hidden bg-gray-100">
+                  <button type="button" onClick={() => setOpen(i)} aria-label={`View photo: ${p.alt}`} className="group block w-full overflow-hidden bg-gray-100">
                     <img
                       src={workSrc(p.id, 800)}
                       srcSet={`${workSrc(p.id, 800)} 800w, ${workSrc(p.id, 1600)} 1600w`}
                       sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                      alt={`${p.caption}, ${p.place}`}
+                      alt={p.alt}
                       width={p.w}
                       height={p.h}
                       loading="lazy"
@@ -121,10 +121,10 @@ export default function AquaPods() {
                   </button>
                   <div className="p-4 flex items-center justify-between gap-2 text-sm">
                     <div>
-                      <div className="font-semibold text-neutral-900">{projectTitle(p)}</div>
+                      <div className="font-semibold text-neutral-900">{p.caption}</div>
                       <div className="flex items-center gap-1 text-neutral-500"><MapPin className="w-3.5 h-3.5" style={{ color: AQUA }} />{p.place}</div>
                     </div>
-                    <Link to={`/projects/${projectSlug(p)}`} className="font-medium whitespace-nowrap" style={{ color: AQUA }}>View project</Link>
+                    <Link to={`/projects/${p.slug}`} className="font-medium whitespace-nowrap" style={{ color: AQUA }}>View project</Link>
                   </div>
                 </motion.div>
               ))}

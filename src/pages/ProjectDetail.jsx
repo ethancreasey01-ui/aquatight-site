@@ -60,6 +60,9 @@ export default function ProjectDetail() {
       <section className="relative h-[55vh] min-h-[400px] overflow-hidden" style={{ backgroundColor: "#1a1a1a" }}>
         <img
           src={workSrc(project.id, 1600)}
+          srcSet={`${workSrc(project.id, 800)} 800w, ${workSrc(project.id, 1600)} 1600w`}
+          sizes="100vw"
+          fetchPriority="high"
           alt=""
           width={project.w}
           height={project.h}

@@ -5,7 +5,7 @@ export default function Footer() {
   const resetColor = (e) => (e.currentTarget.style.color = "");
 
   return (
-    <footer style={{ backgroundColor: "#1a1a1a" }} className="text-neutral-400 py-12">
+    <footer style={{ backgroundColor: "#1a1a1a" }} className="text-neutral-400 pt-12 pb-24 sm:pb-12">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8 mb-8">
           <div>

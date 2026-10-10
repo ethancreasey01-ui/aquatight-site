@@ -31,7 +31,7 @@ export default function AquaPods() {
   const title = "Aqua Pods Melbourne | Aquatight Waterproofing";
   const desc = "Aqua Pods for suspended balconies, built on the Versipave system. Membrane access without removing the tiling. AS3740 certified waterproofers across Melbourne. Free quote.";
   const items = POD_GALLERY.map((p) => ({ src: workSrc(p.id, 1600), alt: p.alt, caption: p.caption, sub: p.place }));
-  const hero = POD_WORK[0];
+  const hero = POD_GALLERY.find((g) => g.id === "pods-maribyrnong-2") ?? POD_GALLERY[POD_GALLERY.length - 1] ?? POD_WORK[0];
 
   return (
     <div className="min-h-screen bg-white">
@@ -49,7 +49,7 @@ export default function AquaPods() {
 
       <section className="relative min-h-[60vh] overflow-hidden" style={{ background: "linear-gradient(135deg, #0a1f25 0%, #0a8fa6 100%)" }}>
         {hero && (
-          <img src={workSrc(hero.id, 1600)} alt="" width={hero.w} height={hero.h} decoding="async" className="absolute inset-0 h-full w-full object-cover opacity-25" />
+          <img src={workSrc(hero.id, 1600)} srcSet={`${workSrc(hero.id, 800)} 800w, ${workSrc(hero.id, 1600)} 1600w`} sizes="100vw" alt="" width={hero.w} height={hero.h} fetchPriority="high" decoding="async" className="absolute inset-0 h-full w-full object-cover opacity-25" />
         )}
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 pt-32 pb-16 text-white">
           <div className="inline-flex items-center gap-2 bg-white/15 border border-white/20 rounded-full px-3 py-1 text-sm font-medium mb-5">

@@ -43,17 +43,18 @@ export default function OurWork() {
                   alt={p.alt}
                   width={p.w}
                   height={p.h}
-                  loading={i < 3 ? "eager" : "lazy"}
+                  loading={i < 6 ? "eager" : "lazy"}
+                  fetchPriority={i < 4 ? "high" : undefined}
                   decoding="async"
                   className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </button>
-              <div className="p-4 text-sm flex items-center justify-between gap-2">
+              <div className="p-4 text-sm flex flex-col items-start gap-1.5">
                 <div>
                   <div className="font-semibold text-neutral-900">{p.caption}</div>
                   <div className="text-neutral-500">{p.place}</div>
                 </div>
-                <Link to={`/projects/${p.slug}`} className="font-medium whitespace-nowrap" style={{ color: AQUA }}>View project</Link>
+                <Link to={`/projects/${p.slug}`} className="font-medium" style={{ color: AQUA }}>View project</Link>
               </div>
             </div>
           ))}

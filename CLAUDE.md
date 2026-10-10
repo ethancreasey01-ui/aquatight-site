@@ -10,26 +10,34 @@ Aquatight Waterproofing — waterproofing specialists, Melbourne (Bayside, Morni
 **GitHub remote**: connected — push to `master` to deploy (once Vercel GitHub integration is linked)
 
 ## Structure
-Different from dsea-site — uses a pages folder:
-- `index.html` — meta tags, canonical URL, Google tag (when added)
-- `src/App.jsx` — router/layout shell
-- `src/pages/Home.jsx` — main page content, contact form (~line 733), phone number (~line 140)
+Uses a pages folder:
+- `index.html` — meta tags, canonical URL, Google tag (AW-17961494205)
+- `src/App.jsx` — router/layout shell; routes: `/`, `/services/:slug`, `/service-areas`, `/aqua-pods`, `/projects/:slug`, `*` (NotFound); also the global tel: click conversion tracker
+- `src/pages/Home.jsx` — main page content, contact form, phone number
+- `src/pages/AquaPods.jsx` — Aqua Pods (Versipave) page; reuses wording from the Versipave service data
+- `src/pages/ProjectDetail.jsx` — `/projects/:slug`, rendered from `WORK`
+- `src/components/` — `WorkStrip` (auto-scroll photo strip), `Lightbox`, `BeforeAfter` (draggable/keyboard slider)
+- `src/data/index.js` — `WORK` (jobs/photos), `SERVICES`, `TESTIMONIALS`, `NAV_LINKS`, helpers
+
+## Photos and projects (data-driven)
+Adding a job = one `WORK` entry in `src/data/index.js` + `public/work/<id>-800.webp` and `<id>-1600.webp`.
+It then appears in the strip, grid, Recent projects (first 6), its own `/projects/<id>` page. Pod jobs: `pod: true`
+(keep them first in the array; they feed `/aqua-pods`). Optional fields (render only if present): `slug`, `title`, `overview`,
+`scope`, `duration`, `photos` (extra images), `before` + `after` (`{id,w,h}` pair -> Before/After slider). See the comment above `WORK`.
+Add new project slugs to `public/sitemap.xml`. Never invent facts. Alt text/captions: job type + suburb only; no client names or addresses;
+strip EXIF/GPS and compress to WebP before committing. `prefers-reduced-motion` stops the strip animating (it becomes a scrollable row).
 
 ## Phone Number
-**Display**: 0438 499 146  
-**Tel href**: `tel:0438499146`  
-⚠️ Confirm this is the real client number before going live — may still be a placeholder.
+**Display**: 0408 827 996  
+**Tel href**: `tel:0408827996`  
+⚠️ Confirm this is the real client number before going live.
 
 ## Contact Form
-**Formspree endpoint**: `https://formspree.io/f/placeholder` ← NOT SET UP  
-Action: replace `placeholder` with real Formspree form ID before launch.
+**Formspree endpoint**: `https://formspree.io/f/meewklkk` (shared with Cherry Builds on purpose). Do not change.
 
 ## Google Ads
-⚠️ NOT SET UP YET  
-When configured, follow this pattern (learned from dsea-site):
-- Base Google tag goes in `index.html` head
-- Phone swap snippet goes in `App` useEffect (NOT index.html — React SPA, DOM is empty when head scripts run)
-- Form conversion event fires inside `handleSubmit` AFTER Formspree fetch resolves
+Base Google tag (AW-17961494205) is in `index.html` head. Phone-click conversion is in `App.jsx` (`PhoneClickTracker`);
+form conversion fires in Home's form submit handler. Still verify with Tag Assistant (ad blocker OFF).
 
 ## Performance Standards
 - Videos: compress with ffmpeg before committing. Target <1MB each.  
@@ -40,12 +48,12 @@ When configured, follow this pattern (learned from dsea-site):
 
 ## Launch Checklist
 - [ ] Confirm real client phone number
-- [ ] Replace Formspree placeholder with real form ID
+- [x] Formspree form ID set
 - [ ] Set up Google Ads account + get tag ID
-- [ ] Add Google base tag to `index.html` head
+- [x] Add Google base tag to `index.html` head
 - [ ] Add phone swap snippet to `App` useEffect
-- [ ] Add form conversion event to `handleSubmit`
+- [x] Add form conversion event to `handleSubmit`
 - [ ] Compress all videos <1MB
-- [ ] Canonical URL points to production domain
+- [x] Canonical URL points to production domain
 - [ ] Connect GitHub remote for auto-deploy
 - [ ] Test Tag Assistant with ad blocker OFF

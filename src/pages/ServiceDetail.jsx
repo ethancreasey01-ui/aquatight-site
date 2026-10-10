@@ -10,7 +10,6 @@ import WaveDivider from "../components/WaveDivider.jsx";
 import { Star } from "lucide-react";
 
 const AQUA = "#0a8fa6";
-const AQUA_HOVER = "#0a7285";
 const AQUA_LIGHT = "#f0fafb";
 const AQUA_BORDER = "#d0edf3";
 const AQUA_ACCENT = "#7dd8e8";

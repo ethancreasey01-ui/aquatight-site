@@ -14,7 +14,7 @@ import {
 export const NAV_LINKS = [
   { label: "About",         href: "#about" },
   { label: "Services",      href: "#services" },
-  { label: "Versipave",     href: "#versipave" },
+  { label: "Aqua Pods",     href: "/aqua-pods" },
   { label: "Our Work",      href: "#work" },
   { label: "Areas",         href: "/service-areas" },
   { label: "Cherry Builds", href: "#cherrybuilds" },
@@ -23,15 +23,36 @@ export const NAV_LINKS = [
 ];
 
 // Danny's own job photos (no stock). Files in public/work as -800 and -1600 WebP.
+// Each WORK entry is one job: it appears in the Our Work strip + grid, on Home under
+// "Recent projects", and on its own page at /projects/<slug> (slug defaults to id).
+// Required: id, caption, place, w, h. Files: public/work/<id>-800.webp and <id>-1600.webp
+// (w/h = the 1600px file's pixel size).
+// Optional (omit and the page simply doesn't render them):
+//   slug        URL slug, if you don't want it to equal id
+//   overview    paragraph(s) of text, "\n\n" separates paragraphs
+//   scope       ["Item", ...] list of work carried out
+//   duration    "3 weeks" etc.
+//   photos      extra photos of the same job: [{ id, w, h, alt? }] (same -800/-1600 file naming)
+//   before, after   { id, w, h } pair -> draggable Before/After slider on the project page
+//   pod         true for Aqua Pods (Versipave) jobs: listed first, shown on /aqua-pods
+// Order here = order everywhere (strip, grid, Recent projects), so keep pod jobs at the top.
+// Only add facts the client has confirmed. Alt text/captions: job type + suburb only, never
+// client names, street addresses or anything identifying. Strip EXIF/GPS from new photos.
 export const WORK = [
-  { id: "pods-middle-park",     caption: "Versipave pods and tiles with steps", place: "Middle Park",  w: 1600, h: 1205 },
+  { pod: true, id: "pods-middle-park",     caption: "Versipave pods and tiles with steps", place: "Middle Park",  w: 1600, h: 1205 },
+  { pod: true, id: "pods-maribyrnong",     caption: "Versipave pods going down",           place: "Maribyrnong",  w: 1600, h: 1200 },
   { id: "balcony-mentone",      caption: "Balcony rebuild",                     place: "Mentone",      w: 1600, h: 1200 },
-  { id: "pods-maribyrnong",     caption: "Versipave pods going down",           place: "Maribyrnong",  w: 1600, h: 1200 },
   { id: "bathroom-mentone",     caption: "Finished bathroom",                   place: "Mentone",      w: 1200, h: 1600 },
   { id: "balcony-hampton",      caption: "Balcony waterproofing",               place: "Hampton",      w: 1600, h: 1200 },
   { id: "balcony-mordialloc",   caption: "New balcony membrane",                place: "Mordialloc",   w: 1600, h: 1200 },
   { id: "shower-waterproofing", caption: "Shower and bath waterproofing",       place: "Melbourne",    w: 1600, h: 1200 },
 ];
+
+export const workSrc = (id, w) => `/work/${id}-${w}.webp`;
+export const projectSlug = (p) => p.slug ?? p.id;
+export const projectTitle = (p) => p.title ?? p.caption;
+export const POD_WORK = WORK.filter((p) => p.pod);
+export const getProject = (slug) => WORK.find((p) => projectSlug(p) === slug);
 
 export const SERVICES = [
   {

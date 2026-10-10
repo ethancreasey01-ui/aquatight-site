@@ -10,6 +10,7 @@ export default function CountUp({ value, className = "", style }) {
     if (!inView) return;
 
     const match = String(value).match(/^(\d+)(.*)$/);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (!match) { setDisplay(value); return; }
 
     const target = parseInt(match[1], 10);

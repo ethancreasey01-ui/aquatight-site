@@ -6,6 +6,9 @@ import StickyQuoteBar from "./components/StickyQuoteBar.jsx";
 import Home from "./pages/Home.jsx";
 import ServiceDetail from "./pages/ServiceDetail.jsx";
 import ServiceAreas from "./pages/ServiceAreas.jsx";
+import ProjectDetail from "./pages/ProjectDetail.jsx";
+import AquaPods from "./pages/AquaPods.jsx";
+import NotFound from "./pages/NotFound.jsx";
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
@@ -56,6 +59,9 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/services/:slug" element={<ServiceDetail />} />
           <Route path="/service-areas" element={<ServiceAreas />} />
+          <Route path="/aqua-pods" element={<AquaPods />} />
+          <Route path="/projects/:slug" element={<ProjectDetail />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       <Footer />

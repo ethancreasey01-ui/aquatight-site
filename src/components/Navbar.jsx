@@ -20,6 +20,7 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   React.useEffect(() => { setOpen(false); }, [location]);
 
   const transparent = isHome && !scrolled;

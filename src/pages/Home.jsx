@@ -5,14 +5,15 @@ import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion"
 import {
   Phone, Mail, MapPin, ChevronDown, ChevronRight,
   Award, Check, ArrowRight, ExternalLink, Shield,
-  Droplets, Eye, ThumbsUp, SlidersHorizontal, Star, X, ChevronLeft,
+  Droplets, Eye, SlidersHorizontal, Star,
 } from "lucide-react";
-import { SERVICES, TESTIMONIALS, FAQS, CREDENTIALS, WORK } from "../data/index.js";
+import { SERVICES, TESTIMONIALS, FAQS, CREDENTIALS, WORK, workSrc, projectSlug, projectTitle } from "../data/index.js";
 import RevealText from "../components/RevealText.jsx";
 import CountUp from "../components/CountUp.jsx";
 import TrustBar from "../components/TrustBar.jsx";
 import WaveDivider from "../components/WaveDivider.jsx";
-import TestimonialsCarousel from "../components/TestimonialsCarousel.jsx";
+import WorkStrip from "../components/WorkStrip.jsx";
+import Lightbox from "../components/Lightbox.jsx";
 
 const AQUA = "#0a8fa6";
 const AQUA_HOVER = "#0a7285";
@@ -618,14 +619,22 @@ function Versipave() {
                   </li>
                 ))}
               </ul>
-              <a
-                href="#contact"
-                className="inline-flex items-center gap-2 bg-white font-semibold px-6 py-3 rounded-xl hover:bg-blue-50 transition-colors shadow-lg"
-                style={{ color: AQUA }}
-              >
-                Ask About Versipave
-                <ArrowRight className="w-4 h-4" />
-              </a>
+              <div className="flex flex-wrap gap-3">
+                <Link
+                  to="/aqua-pods"
+                  className="inline-flex items-center gap-2 bg-white font-semibold px-6 py-3 rounded-xl hover:bg-blue-50 transition-colors shadow-lg"
+                  style={{ color: AQUA }}
+                >
+                  See Aqua Pods
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+                <a
+                  href="#contact"
+                  className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/25 font-semibold px-6 py-3 rounded-xl transition-colors"
+                >
+                  Ask About Versipave
+                </a>
+              </div>
             </motion.div>
 
             <motion.div {...fadeUp(0.25)} className="grid grid-cols-2 gap-4">
@@ -650,24 +659,13 @@ function Versipave() {
 }
 
 // ─── Our Work ────────────────────────────────────────────────────────────────
-// Real Aquatight jobs. Grid loads the 800px WebP lazily; tapping opens the 1600px version.
+// Real Aquatight jobs, all driven by WORK in data/index.js. Auto-scrolling strip on top,
+// grid below (800px WebP lazily; the lightbox opens the 1600px version).
 
-const workSrc = (id, w) => `/work/${id}-${w}.webp`;
+const WORK_ITEMS = WORK.map((p) => ({ src: workSrc(p.id, 1600), alt: `${p.caption}, ${p.place}`, caption: p.caption, sub: p.place }));
 
 function OurWork() {
   const [open, setOpen] = React.useState(null);
-  const go = (d) => setOpen((i) => (i + d + WORK.length) % WORK.length);
-  React.useEffect(() => {
-    if (open === null) return;
-    const onKey = (e) => {
-      if (e.key === "Escape") setOpen(null);
-      if (e.key === "ArrowRight") go(1);
-      if (e.key === "ArrowLeft") go(-1);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [open]);
-  const item = open !== null ? WORK[open] : null;
   return (
     <section id="work" className="pb-24 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -676,7 +674,13 @@ function OurWork() {
           <p className="text-gray-600 max-w-2xl mx-auto">
             Real balconies, pods and bathrooms we&apos;ve waterproofed around Melbourne. No stock photos.
           </p>
+          <p className="mt-2 text-xs text-gray-400">Hover to pause · click any photo to open</p>
         </motion.div>
+      </div>
+      <div className="mb-10">
+        <WorkStrip />
+      </div>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-2 md:grid-cols-4 grid-flow-dense auto-rows-[150px] sm:auto-rows-[210px] lg:auto-rows-[240px] gap-3 sm:gap-4">
           {WORK.map((p, i) => (
             <motion.button
@@ -708,34 +712,53 @@ function OurWork() {
       </div>
 
       <AnimatePresence>
-        {item && (
-          <motion.div
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setOpen(null)}
-            role="dialog"
-            aria-label={`${item.caption}, ${item.place}`}
-          >
-            <button type="button" aria-label="Close" className="absolute top-4 right-4 rounded-full bg-white/10 p-2 text-white hover:bg-white/20" onClick={() => setOpen(null)}>
-              <X className="w-6 h-6" />
-            </button>
-            <button type="button" aria-label="Previous photo" className="absolute left-2 sm:left-6 rounded-full bg-white/10 p-2 text-white hover:bg-white/20" onClick={(e) => { e.stopPropagation(); go(-1); }}>
-              <ChevronLeft className="w-6 h-6" />
-            </button>
-            <motion.figure key={item.id} initial={{ scale: 0.96, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="max-w-5xl w-full flex flex-col items-center" onClick={(e) => e.stopPropagation()}>
-              <img src={workSrc(item.id, 1600)} alt={`${item.caption}, ${item.place}`} className="max-h-[75vh] max-w-full h-auto w-auto rounded-xl" />
-              <figcaption className="mt-3 px-10 text-center text-sm sm:text-base text-white">
-                <span className="font-semibold">{item.caption}</span> <span className="text-white/70">· {item.place}</span>
-              </figcaption>
-            </motion.figure>
-            <button type="button" aria-label="Next photo" className="absolute right-2 sm:right-6 rounded-full bg-white/10 p-2 text-white hover:bg-white/20" onClick={(e) => { e.stopPropagation(); go(1); }}>
-              <ChevronRight className="w-6 h-6" />
-            </button>
-          </motion.div>
-        )}
+        {open !== null && <Lightbox items={WORK_ITEMS} index={open} onClose={() => setOpen(null)} onIndex={setOpen} />}
       </AnimatePresence>
+    </section>
+  );
+}
+
+// ─── Recent Projects ─────────────────────────────────────────────────────────
+
+const RECENT_PROJECTS = 6;
+
+function RecentProjects() {
+  const list = WORK.slice(0, RECENT_PROJECTS);
+  if (list.length === 0) return null;
+  return (
+    <section id="projects" className="py-24" style={{ backgroundColor: "#f0fafb" }}>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <motion.div {...fadeUp(0.05)} className="text-center mb-12">
+          <span className="text-xs font-bold tracking-[0.2em] uppercase" style={{ color: AQUA }}>Projects</span>
+          <h2 className="mt-3 font-serif text-4xl sm:text-5xl font-bold" style={{ color: "#1a1a1a" }}>Recent projects</h2>
+        </motion.div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {list.map((p, i) => (
+            <motion.div key={p.id} {...fadeUp(0.05 + (i % 3) * 0.08)}>
+              <Link to={`/projects/${projectSlug(p)}`} className="group block overflow-hidden rounded-2xl bg-white border border-neutral-200 shadow-sm hover:shadow-md transition-shadow">
+                <div className="aspect-[4/3] overflow-hidden bg-gray-100">
+                  <img
+                    src={workSrc(p.id, 800)}
+                    alt={`${p.caption}, ${p.place}`}
+                    width={p.w}
+                    height={p.h}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <div className="p-5">
+                  <h3 className="font-serif text-lg font-bold text-neutral-900">{projectTitle(p)}</h3>
+                  <div className="mt-1 flex items-center justify-between text-sm text-neutral-500">
+                    <span className="flex items-center gap-1.5"><MapPin className="w-4 h-4" style={{ color: AQUA }} />{p.place}</span>
+                    <span className="flex items-center gap-1 font-medium" style={{ color: AQUA }}>View project <ArrowRight className="w-4 h-4" /></span>
+                  </div>
+                </div>
+              </Link>
+            </motion.div>
+          ))}
+        </div>
+      </div>
     </section>
   );
 }
@@ -754,7 +777,7 @@ function CherryBuilds() {
             <RevealText className="mt-3 font-serif text-4xl sm:text-5xl font-bold text-neutral-900 leading-tight">
               Complete renovation solutions and rectification works with Cherry Builds
             </RevealText>
-            <div className="flex items-center gap-6 mt-8 pt-6 border-t border-neutral-200">
+            <div className="flex flex-wrap items-center gap-6 mt-8 pt-6 border-t border-neutral-200">
               <img src="/logos/aqua-tight.png" alt="Aquatight" className="h-14 w-auto" />
               <span className="text-neutral-300 text-lg font-light">×</span>
               <img src="/logos/cherry-builds-navbar.png" alt="Cherry Builds" className="h-14 w-auto" />
@@ -1033,14 +1056,14 @@ function Contact() {
               <div className="flex items-center gap-2 text-sm" style={{ color: AQUA }}>
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" /></svg>
                 <a href="https://www.facebook.com/aquatightwaterproofing" target="_blank" rel="noopener noreferrer"
-                   onMouseEnter={e => (e.currentTarget.style.color = AQUA_DARK)}
+                   onMouseEnter={e => (e.currentTarget.style.color = AQUA_HOVER)}
                    onMouseLeave={e => (e.currentTarget.style.color = AQUA)}
                    className="transition-colors">Follow us on Facebook</a>
               </div>
               <div className="flex items-center gap-2 text-sm" style={{ color: AQUA }}>
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="currentColor" strokeWidth="2"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" strokeWidth="2"/><circle cx="18.5" cy="5.5" r="1.5" fill="currentColor"/></svg>
                 <a href="https://www.instagram.com/aquatightwaterproofing/" target="_blank" rel="noopener noreferrer"
-                   onMouseEnter={e => (e.currentTarget.style.color = AQUA_DARK)}
+                   onMouseEnter={e => (e.currentTarget.style.color = AQUA_HOVER)}
                    onMouseLeave={e => (e.currentTarget.style.color = AQUA)}
                    className="transition-colors">Follow us on Instagram</a>
               </div>
@@ -1207,8 +1230,9 @@ export default function Home() {
       <WaveDivider topColor="#ededed" bottomColor="#ffffff" height={48} />
       <Versipave />
       <OurWork />
-      {/* Versipave (white) → CherryBuilds (light grey) */}
-      <WaveDivider topColor="#ffffff" bottomColor="#ededed" height={48} />
+      <RecentProjects />
+      {/* RecentProjects (aqua tint) → CherryBuilds (light grey) */}
+      <WaveDivider topColor="#f0fafb" bottomColor="#ededed" height={48} />
       <CherryBuilds />
       {/* CherryBuilds (light grey) → Testimonials (dark) */}
       <WaveDivider topColor="#ededed" bottomColor="#1a1a1a" height={48} />

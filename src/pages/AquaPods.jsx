@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, ArrowRight, Phone, Droplets, MapPin } from "lucide-react";
-import { SERVICES, POD_WORK, POD_GALLERY, workSrc, gridCols } from "../data/index.js";
+import { SERVICES, POD_WORK, POD_GALLERY, workSrc, gridCols, gridSizes } from "../data/index.js";
 import ScrollProgress from "../components/ScrollProgress.jsx";
 import RevealText from "../components/RevealText.jsx";
 import Lightbox from "../components/Lightbox.jsx";
@@ -106,7 +106,7 @@ export default function AquaPods() {
                     <img
                       src={workSrc(p.id, 800)}
                       srcSet={`${workSrc(p.id, 800)} 800w, ${workSrc(p.id, 1600)} 1600w`}
-                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                      sizes={gridSizes(POD_GALLERY.length)}
                       alt={p.alt}
                       width={p.w}
                       height={p.h}

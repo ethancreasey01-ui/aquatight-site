@@ -14,9 +14,6 @@ export default function TrustBar() {
     <div className="bg-white border-b border-neutral-100">
       <motion.div
         className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-center flex-wrap gap-x-6 gap-y-2"
-        initial={{ opacity: 0, y: -8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.8 }}
       >
         {BADGES.map((badge, i) => (
           <div key={badge.text} className="flex items-center gap-4">

@@ -1,19 +1,17 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Phone, Mail, MapPin, ChevronDown, ChevronRight,
   Award, Check, ArrowRight, ExternalLink, Shield,
-  Droplets, Eye, SlidersHorizontal, Star,
+  Droplets, Eye, ShieldCheck, Star,
 } from "lucide-react";
-import { SERVICES, TESTIMONIALS, FAQS, CREDENTIALS, WORK, GALLERY, workSrc, projectSlug, projectTitle } from "../data/index.js";
+import { SERVICES, TESTIMONIALS, FAQS, CREDENTIALS, WORK, GALLERY, POD_GALLERY, workSrc, projectSlug, projectTitle, gridCols } from "../data/index.js";
 import RevealText from "../components/RevealText.jsx";
 import CountUp from "../components/CountUp.jsx";
 import TrustBar from "../components/TrustBar.jsx";
-import WaveDivider from "../components/WaveDivider.jsx";
 import WorkStrip from "../components/WorkStrip.jsx";
-import Lightbox from "../components/Lightbox.jsx";
 
 const AQUA = "#0a8fa6";
 const AQUA_HOVER = "#0a7285";
@@ -29,7 +27,7 @@ const schemaLocalBusiness = {
   "@id": "https://www.aquatightwaterproofing.au/#business",
   name: "Aquatight Waterproofing",
   description:
-    "AS3740-certified waterproofing specialists in Melbourne. Bathrooms, balconies, rectification works, tiling, and the Versipave Pod System across Bayside, Mornington Peninsula, and Eastern Suburbs. 18+ years experience.",
+    "AS3740-certified waterproofing specialists in Melbourne. Bathrooms, balconies, rectification works, tiling, and Aqua Pods across Bayside, Mornington Peninsula, and Eastern Suburbs. 18+ years experience.",
   url: "https://www.aquatightwaterproofing.au",
   telephone: "+61408827996",
   email: "info@cherrybuilds.com.au",
@@ -117,111 +115,49 @@ const schemaFAQ = {
   })),
 };
 
-const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 24 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.15 },
-  transition: { duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] },
-});
+// Scroll-reveal animations were removed on purpose: content must be visible on first paint.
+const fadeUp = () => ({});
 
 // ─── Hero ────────────────────────────────────────────────────────────────────
 
 function Hero() {
-  const { scrollY } = useScroll();
-  const gridY = useTransform(scrollY, [0, 700], [0, 80]);
-
+  const hero = WORK.find((w) => w.id === "pods-middle-park") ?? WORK[0];
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      <div
-        className="absolute inset-0"
-        style={{ background: "linear-gradient(135deg, #0a1f25 0%, #074955 45%, #0a8fa6 100%)" }}
+    <section className="relative min-h-[88vh] flex items-center justify-center overflow-hidden bg-[#0a1f25]">
+      <img
+        src={workSrc(hero.id, 1600)}
+        srcSet={`${workSrc(hero.id, 800)} 800w, ${workSrc(hero.id, 1600)} 1600w`}
+        sizes="100vw"
+        alt=""
+        width={hero.w}
+        height={hero.h}
+        fetchPriority="high"
+        decoding="async"
+        className="absolute inset-0 h-full w-full object-cover"
       />
-      <motion.div
-        className="absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage:
-            "repeating-linear-gradient(0deg,transparent,transparent 60px,rgba(255,255,255,1) 60px,rgba(255,255,255,1) 61px),repeating-linear-gradient(90deg,transparent,transparent 60px,rgba(255,255,255,1) 60px,rgba(255,255,255,1) 61px)",
-          y: gridY,
-        }}
-      />
-      <div
-        className="absolute top-20 right-16 w-96 h-96 rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(125,216,232,0.12) 0%, transparent 70%)" }}
-      />
-      <div
-        className="absolute bottom-24 left-16 w-72 h-72 rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(10,143,166,0.15) 0%, transparent 70%)" }}
-      />
+      <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(10,31,37,0.78) 0%, rgba(10,31,37,0.62) 50%, rgba(10,31,37,0.85) 100%)" }} />
 
-      {/* Animated rising bubbles */}
-      {[
-        { size: 10, left: "8%",  delay: "0s",   duration: "11s", opacity: 0.45 },
-        { size: 18, left: "20%", delay: "2s",   duration: "14s", opacity: 0.3  },
-        { size: 7,  left: "35%", delay: "0.6s", duration: "9s",  opacity: 0.5  },
-        { size: 22, left: "52%", delay: "3.5s", duration: "16s", opacity: 0.25 },
-        { size: 12, left: "67%", delay: "1.2s", duration: "12s", opacity: 0.4  },
-        { size: 8,  left: "80%", delay: "0.3s", duration: "10s", opacity: 0.45 },
-        { size: 15, left: "91%", delay: "2.8s", duration: "13s", opacity: 0.3  },
-      ].map((b, i) => (
-        <span
-          key={i}
-          className="bubble"
-          style={{
-            width: b.size,
-            height: b.size,
-            left: b.left,
-            bottom: "-5%",
-            border: `1.5px solid rgba(125,216,232,${b.opacity + 0.25})`,
-            backgroundColor: `rgba(10,143,166,${b.opacity * 0.35})`,
-            animationDelay: b.delay,
-            animationDuration: b.duration,
-          }}
-        />
-      ))}
-
-      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center py-32">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium mb-8 tracking-wide border"
-          style={{
-            backgroundColor: "rgba(10,143,166,0.2)",
-            borderColor: "rgba(10,143,166,0.4)",
-            color: AQUA_ACCENT,
-          }}
+      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center pt-28 pb-20">
+        <div
+          className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs sm:text-sm font-medium mb-6 tracking-wide border"
+          style={{ backgroundColor: "rgba(10,143,166,0.3)", borderColor: "rgba(125,216,232,0.5)", color: "#ffffff" }}
         >
-          <Award className="w-4 h-4" />
+          <Award className="w-4 h-4 flex-shrink-0" />
           AS3740 Certified · Master Tradesman · 18+ Years Experience
-        </motion.div>
+        </div>
 
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          className="font-serif text-5xl sm:text-6xl md:text-7xl font-bold text-white leading-[1.08] mb-6 tracking-tight"
-        >
-          Melbourne's Trusted
+        <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl font-bold text-white leading-[1.1] mb-5 tracking-tight">
+          Melbourne&apos;s Trusted
           <span className="block mt-1" style={{ color: AQUA_ACCENT }}>
             Waterproofing Specialists
           </span>
-        </motion.h1>
+        </h1>
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.3 }}
-          className="text-lg sm:text-xl text-neutral-300 max-w-2xl mx-auto mb-12 leading-relaxed"
-        >
-          Expert waterproofing for bathrooms, balconies, wet areas, and rectification works across Melbourne's Bayside, Mornington Peninsula, and Eastern Suburbs.
-        </motion.p>
+        <p className="text-base sm:text-xl text-white/90 max-w-2xl mx-auto mb-9 leading-relaxed">
+          Expert waterproofing for bathrooms, balconies, wet areas, and rectification works across Melbourne&apos;s Bayside, Mornington Peninsula, and Eastern Suburbs.
+        </p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.4 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
-        >
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
           <a
             href="#contact"
             className="inline-flex items-center gap-2 text-white font-semibold px-8 py-4 rounded-xl transition-all shadow-xl"
@@ -234,40 +170,26 @@ function Hero() {
           </a>
           <a
             href="tel:0408827996"
-            className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/15 border border-white/20 text-white font-semibold px-8 py-4 rounded-xl transition-all backdrop-blur-sm"
+            className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/30 text-white font-semibold px-8 py-4 rounded-xl transition-all backdrop-blur-sm"
           >
             <Phone className="w-4 h-4" />
             0408 827 996
           </a>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.55 }}
-          className="mt-20 grid grid-cols-3 gap-6 max-w-md mx-auto"
-        >
+        <div className="mt-12 grid grid-cols-3 gap-4 sm:gap-6 max-w-md mx-auto">
           {[
             { val: "18+", label: "Years Experience" },
             { val: "99+", label: "Jobs Completed" },
             { val: "100%", label: "Certified on Completion" },
           ].map((s) => (
             <div key={s.label} className="text-center">
-              <CountUp value={s.val} className="font-serif text-3xl font-bold" style={{ color: AQUA_ACCENT }} />
-              <div className="text-xs text-neutral-400 mt-1.5 leading-snug">{s.label}</div>
+              <div className="font-serif text-3xl font-bold" style={{ color: AQUA_ACCENT }}>{s.val}</div>
+              <div className="text-xs text-white/75 mt-1.5 leading-snug">{s.label}</div>
             </div>
           ))}
-        </motion.div>
+        </div>
       </div>
-
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-neutral-500"
-      >
-        <ChevronDown className="w-5 h-5 animate-bounce" />
-      </motion.div>
     </section>
   );
 }
@@ -276,7 +198,7 @@ function Hero() {
 
 function About() {
   return (
-    <section id="about" className="py-24 bg-white">
+    <section id="about" className="py-16 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="grid md:grid-cols-2 gap-16 items-center">
           <motion.div {...fadeUp(0.1)}>
@@ -288,7 +210,7 @@ function About() {
             </h2>
             <p className="mt-5 text-neutral-600 leading-relaxed">
               Aquatight Waterproofing has been protecting Melbourne homes and structures from water damage
-              for over 18 years. Our licensed waterproofers specialise in AS3740-compliant systems for
+              for 18+ years. Our licensed waterproofers specialise in AS3740-compliant systems for
               bathrooms, balconies, laundries, and all domestic wet areas.
             </p>
             <p className="mt-4 text-neutral-600 leading-relaxed">
@@ -360,7 +282,7 @@ const WHY_ITEMS = [
     desc: "Our team holds the relevant licences and certifications for waterproofing and tiling. Qualified people doing the work, not subcontractors you've never met.",
   },
   {
-    icon: SlidersHorizontal,
+    icon: ShieldCheck,
     title: "Warranty on All Work",
     desc: "Every job we complete is issued with a waterproofing certificate and backed by our workmanship warranty, so you're covered long after we leave.",
   },
@@ -373,7 +295,7 @@ const WHY_ITEMS = [
 
 function WhyChoose() {
   return (
-    <section className="py-24" style={{ backgroundColor: "#1a1a1a" }}>
+    <section className="py-16" style={{ backgroundColor: "#1a1a1a" }}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <motion.div {...fadeUp(0.1)} className="text-center mb-14">
           <span className="text-xs font-bold tracking-[0.2em] uppercase" style={{ color: AQUA_ACCENT }}>
@@ -384,20 +306,10 @@ function WhyChoose() {
           </RevealText>
         </motion.div>
 
-        <motion.div
-          className="grid sm:grid-cols-2 gap-5"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
-          variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.09 } } }}
-        >
+        <div className="grid sm:grid-cols-2 gap-5">
           {WHY_ITEMS.map((item, i) => (
-            <motion.div
+            <div
               key={item.title}
-              variants={{
-                hidden: { opacity: 0, y: 28 },
-                visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
-              }}
               className={`rounded-2xl p-6 border${WHY_ITEMS.length % 2 !== 0 && i === WHY_ITEMS.length - 1 ? " sm:col-span-2 flex flex-col items-center text-center" : ""}`}
               style={{ backgroundColor: "#2a2a2a", borderColor: "rgba(255,255,255,0.07)" }}
             >
@@ -418,344 +330,191 @@ function WhyChoose() {
               >
                 {item.desc}
               </p>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
 }
+
+const WORK_BY_PHOTO = Object.fromEntries(GALLERY.map((g) => [g.id, g]));
 
 // ─── Services ────────────────────────────────────────────────────────────────
 
-const BG_BUBBLES = [
-  { size: 80,  left: "5%",  delay: "0s",   dur: "18s" },
-  { size: 50,  left: "18%", delay: "4s",   dur: "22s" },
-  { size: 110, left: "35%", delay: "2s",   dur: "26s" },
-  { size: 40,  left: "52%", delay: "7s",   dur: "20s" },
-  { size: 90,  left: "68%", delay: "1s",   dur: "24s" },
-  { size: 60,  left: "80%", delay: "5s",   dur: "19s" },
-  { size: 35,  left: "92%", delay: "9s",   dur: "21s" },
-];
-
 function Services() {
   return (
-    <section id="services" className="relative py-24 overflow-hidden" style={{ backgroundColor: "#e8f4f7" }}>
-      {/* Dot-grid texture */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage: `radial-gradient(circle, rgba(10,143,166,0.12) 1px, transparent 1px)`,
-          backgroundSize: "28px 28px",
-        }}
-      />
-      {/* Floating background bubbles */}
-      {BG_BUBBLES.map((b, i) => (
-        <span
-          key={i}
-          className="bubble"
-          style={{
-            width: b.size, height: b.size,
-            left: b.left, bottom: "-12%",
-            border: `1.5px solid rgba(10,143,166,0.18)`,
-            backgroundColor: "rgba(10,143,166,0.06)",
-            animationDelay: b.delay,
-            animationDuration: b.dur,
-          }}
-        />
-      ))}
-      {/* Wave divider top */}
-      <svg
-        className="absolute top-0 left-0 w-full pointer-events-none"
-        viewBox="0 0 1440 48" preserveAspectRatio="none"
-        style={{ height: 48 }}
-        aria-hidden="true"
-      >
-        <path
-          d="M0,24 C240,48 480,0 720,24 C960,48 1200,0 1440,24 L1440,0 L0,0 Z"
-          fill="white"
-        />
-      </svg>
-      {/* Wave divider bottom */}
-      <svg
-        className="absolute bottom-0 left-0 w-full pointer-events-none"
-        viewBox="0 0 1440 48" preserveAspectRatio="none"
-        style={{ height: 48 }}
-        aria-hidden="true"
-      >
-        <path
-          d="M0,24 C240,0 480,48 720,24 C960,0 1200,48 1440,24 L1440,48 L0,48 Z"
-          fill="white"
-        />
-      </svg>
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
-        <motion.div {...fadeUp(0.1)} className="text-center mb-14">
-          <span className="text-xs font-bold tracking-[0.2em] uppercase" style={{ color: AQUA }}>
-            What We Do
-          </span>
-          <RevealText className="mt-3 font-serif text-4xl sm:text-5xl font-bold text-neutral-900">
-            Our Services
-          </RevealText>
+    <section id="services" className="py-16" style={{ backgroundColor: "#e8f4f7" }}>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="text-center mb-10">
+          <span className="text-xs font-bold tracking-[0.2em] uppercase" style={{ color: AQUA }}>What We Do</span>
+          <h2 className="mt-3 font-serif text-4xl sm:text-5xl font-bold text-neutral-900">Our Services</h2>
           <p className="mt-4 text-neutral-500 max-w-xl mx-auto">
             From a single shower to rectification works. Aquatight delivers certified waterproofing across all wet areas.
           </p>
-        </motion.div>
+        </div>
 
-        <motion.div
-          className="services-grid grid sm:grid-cols-2 lg:grid-cols-3 gap-5"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
-          variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.08 } } }}
-        >
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5">
           {SERVICES.map((svc, idx) => {
+            const photo = WORK_BY_PHOTO[svc.photo];
             const isLast = idx === SERVICES.length - 1;
             return (
-              <motion.div
-                key={svc.title}
-                variants={{
-                  hidden: { opacity: 0, y: 32 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
-                }}
-                whileHover={{ y: -4 }}
-                className={`group${isLast ? " sm:col-span-2 lg:col-span-3" : ""}`}
+              <Link
+                key={svc.slug}
+                to={`/services/${svc.slug}`}
+                className={`group flex h-full flex-col bg-white border border-neutral-200 rounded-2xl overflow-hidden hover:shadow-md transition-shadow${isLast ? " col-span-2 lg:col-span-3 lg:flex-row" : ""}`}
               >
-                <Link
-                  to={`/services/${svc.slug}`}
-                  className={`flex h-full bg-white border border-neutral-200 rounded-2xl overflow-hidden hover:shadow-md transition-all${isLast ? " flex-col lg:flex-row" : " flex-col"}`}
-                  style={{ borderTop: `3px solid ${AQUA}` }}
-                >
-                  <div
-                    className={`relative flex items-center justify-center flex-shrink-0 overflow-hidden${isLast ? " h-36 lg:h-auto lg:w-72" : " h-32"}`}
-                    style={{ background: `linear-gradient(135deg, ${AQUA_LIGHT} 0%, #9fd8e4 100%)` }}
-                  >
-                    <svc.icon className="w-16 h-16 opacity-15" style={{ color: AQUA }} />
-                    {[
-                      { s: 6, l: "15%", d: "3s", dur: "7s" },
-                      { s: 9, l: "55%", d: "1s", dur: "9s" },
-                      { s: 5, l: "80%", d: "2s", dur: "8s" },
-                    ].map((b, bi) => (
-                      <span
-                        key={bi}
-                        className="bubble"
-                        style={{
-                          width: b.s, height: b.s,
-                          left: b.l, bottom: "-10%",
-                          border: `1px solid rgba(10,143,166,0.35)`,
-                          backgroundColor: "rgba(10,143,166,0.12)",
-                          animationDelay: b.d,
-                          animationDuration: b.dur,
-                        }}
-                      />
-                    ))}
-                    <div className="absolute bottom-3 left-3">
-                      <div
-                        className="w-9 h-9 rounded-lg flex items-center justify-center"
-                        style={{ backgroundColor: AQUA }}
-                      >
-                        <svc.icon className="w-5 h-5 text-white" />
-                      </div>
-                    </div>
+                <div className={`aspect-[4/3] overflow-hidden bg-gray-100${isLast ? " lg:w-1/3 lg:flex-shrink-0" : ""}`}>
+                  {photo && (
+                    <img
+                      src={workSrc(photo.id, 800)}
+                      alt={svc.title}
+                      width={photo.w}
+                      height={photo.h}
+                      loading="lazy"
+                      decoding="async"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  )}
+                </div>
+                <div className={`flex flex-col flex-1 p-3 sm:p-5${isLast ? " lg:justify-center" : ""}`}>
+                  <h3 className="font-semibold text-neutral-900 mb-2 text-sm sm:text-base">{svc.title}</h3>
+                  <p className="hidden sm:block text-sm text-neutral-500 leading-relaxed mb-4 flex-1">{svc.desc}</p>
+                  <div className="inline-flex items-center gap-1 text-sm font-semibold" style={{ color: AQUA }}>
+                    Learn More
+                    <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
                   </div>
-                  <div className={`flex flex-col flex-1 p-5${isLast ? " lg:justify-center" : ""}`}>
-                    <h3 className={`font-semibold text-neutral-900 mb-2${isLast ? " text-base" : " text-sm"}`}>{svc.title}</h3>
-                    <p className={`text-xs text-neutral-500 leading-relaxed mb-4 flex-1${isLast ? " lg:max-w-2xl" : ""}`}>{svc.desc}</p>
-                    <div
-                      className="inline-flex items-center gap-1 text-xs font-semibold group-hover:gap-1.5 transition-all"
-                      style={{ color: AQUA }}
-                    >
-                      Learn More
-                      <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
-                    </div>
-                  </div>
-                </Link>
-              </motion.div>
+                </div>
+              </Link>
             );
           })}
-        </motion.div>
-      </div>
-    </section>
-  );
-}
-
-// ─── Versipave ───────────────────────────────────────────────────────────────
-
-function Versipave() {
-  return (
-    <section id="versipave" className="py-24 bg-white">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div
-          className="rounded-3xl p-8 sm:p-14 text-white relative overflow-hidden"
-          style={{ background: "linear-gradient(135deg, #0a1f25 0%, #0a8fa6 100%)" }}
-        >
-          <div className="absolute top-0 right-0 w-72 h-72 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
-          <div className="absolute bottom-0 left-0 w-56 h-56 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
-
-          <div className="relative z-10 grid md:grid-cols-2 gap-10 items-center">
-            <motion.div {...fadeUp(0.1)}>
-              <div className="inline-flex items-center gap-2 bg-white/15 border border-white/20 rounded-full px-3 py-1 text-sm font-medium mb-5">
-                <Droplets className="w-4 h-4" />
-                Specialist System
-              </div>
-              <h2 className="font-serif text-4xl sm:text-5xl font-bold leading-tight mb-5">
-                Versipave Pod System
-              </h2>
-              <p className="text-blue-100 leading-relaxed mb-5">
-                The Versipave Pod System is a specialist drainage solution for suspended balconies that allows
-                full waterproofing membrane access without removing the existing tiling, saving significant
-                cost and disruption for rectification projects.
-              </p>
-              <ul className="space-y-2.5 mb-8">
-                {[
-                  "No tile removal required in most cases",
-                  "Full membrane access for inspection and repair",
-                  "Suitable for all suspended balcony types",
-                  "Significantly reduces rectification cost",
-                  "AS3740 compliant installation",
-                ].map((item) => (
-                  <li key={item} className="flex items-center gap-2.5 text-sm text-blue-100">
-                    <Check className="w-4 h-4 text-blue-200 flex-shrink-0" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              <div className="flex flex-wrap gap-3">
-                <Link
-                  to="/aqua-pods"
-                  className="inline-flex items-center gap-2 bg-white font-semibold px-6 py-3 rounded-xl hover:bg-blue-50 transition-colors shadow-lg"
-                  style={{ color: AQUA }}
-                >
-                  See Aqua Pods
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-                <a
-                  href="#contact"
-                  className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/25 font-semibold px-6 py-3 rounded-xl transition-colors"
-                >
-                  Ask About Versipave
-                </a>
-              </div>
-            </motion.div>
-
-            <motion.div {...fadeUp(0.25)} className="grid grid-cols-2 gap-4">
-              {[
-                { icon: Shield,   title: "No Demolition",    desc: "Waterproof without tile removal" },
-                { icon: Award,    title: "Certified System", desc: "Industry-proven product" },
-                { icon: Check,    title: "Cost Effective",   desc: "Major savings over full strip-out" },
-                { icon: Droplets, title: "Balcony Focused",  desc: "Designed for suspended balconies" },
-              ].map(({ icon: Icon, title, desc }) => (
-                <div key={title} className="bg-white/10 border border-white/20 rounded-xl p-4">
-                  <Icon className="w-5 h-5 text-blue-200 mb-2" />
-                  <div className="font-semibold text-white text-sm">{title}</div>
-                  <div className="text-xs text-blue-200 mt-0.5">{desc}</div>
-                </div>
-              ))}
-            </motion.div>
-          </div>
         </div>
       </div>
     </section>
   );
 }
 
-// ─── Our Work ────────────────────────────────────────────────────────────────
-// Real Aquatight jobs, all driven by WORK in data/index.js. Auto-scrolling strip on top,
-// grid below (800px WebP lazily; the lightbox opens the 1600px version).
+// ─── Aqua Pods ───────────────────────────────────────────────────────────────
 
-const WORK_ITEMS = GALLERY.map((p) => ({ src: workSrc(p.id, 1600), alt: p.alt, caption: p.caption, sub: p.place }));
-
-function OurWork() {
-  const [open, setOpen] = React.useState(null);
+function AquaPodsSection() {
+  const pod = POD_GALLERY.find((g) => g.id === "pods-maribyrnong") ?? POD_GALLERY[0];
   return (
-    <section id="work" className="pb-24 bg-white">
+    <section id="aqua-pods" className="py-16 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <motion.div {...fadeUp(0.05)} className="text-center mb-12">
-          <h2 className="font-serif text-4xl sm:text-5xl font-bold mb-4" style={{ color: "#1a1a1a" }}>Our Work</h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            Real balconies, pods and bathrooms we&apos;ve waterproofed around Melbourne. No stock photos.
-          </p>
-          <p className="mt-2 text-xs text-gray-400">Hover to pause · click any photo to open</p>
-        </motion.div>
-      </div>
-      <div className="mb-10">
-        <WorkStrip />
-      </div>
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="grid grid-cols-2 md:grid-cols-4 grid-flow-dense auto-rows-[150px] sm:auto-rows-[210px] lg:auto-rows-[240px] gap-3 sm:gap-4">
-          {GALLERY.map((p, i) => (
-            <motion.button
-              key={p.id}
-              type="button"
-              {...fadeUp(0.05 + (i % 3) * 0.08)}
-              onClick={() => setOpen(i)}
-              className={`group relative overflow-hidden rounded-2xl bg-gray-100 text-left ${p.h > p.w ? "row-span-2" : ""}`}
-              aria-label={`View photo: ${p.alt}`}
-            >
+        <div className="rounded-3xl overflow-hidden text-white grid md:grid-cols-2" style={{ background: "linear-gradient(135deg, #0a1f25 0%, #0a8fa6 100%)" }}>
+          <div className="p-8 sm:p-12">
+            <div className="inline-flex items-center gap-2 bg-white/15 border border-white/20 rounded-full px-3 py-1 text-sm font-medium mb-5">
+              <Droplets className="w-4 h-4" />
+              Specialist System
+            </div>
+            <h2 className="font-serif text-4xl sm:text-5xl font-bold leading-tight mb-5">Aqua Pods</h2>
+            <p className="text-white/90 leading-relaxed mb-5">
+              Aqua Pods are a specialist drainage solution for suspended balconies that allows full waterproofing
+              membrane access without removing the existing tiling, saving significant cost and disruption for
+              rectification projects.
+            </p>
+            <ul className="space-y-2.5 mb-8">
+              {[
+                "No tile removal required in most cases",
+                "Full membrane access for inspection and repair",
+                "Significantly reduces rectification cost",
+                "AS3740 compliant installation",
+              ].map((item) => (
+                <li key={item} className="flex items-center gap-2.5 text-sm text-white/90">
+                  <Check className="w-4 h-4 text-blue-200 flex-shrink-0" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div className="flex flex-wrap gap-3">
+              <Link to="/aqua-pods" className="inline-flex items-center gap-2 bg-white font-semibold px-6 py-3 rounded-xl hover:bg-blue-50 transition-colors shadow-lg" style={{ color: AQUA }}>
+                See Aqua Pods
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <a href="#contact" className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/25 font-semibold px-6 py-3 rounded-xl transition-colors">
+                Ask About Aqua Pods
+              </a>
+            </div>
+          </div>
+          {pod && (
+            <div className="relative min-h-[240px] md:min-h-0">
               <img
-                src={workSrc(p.id, 800)}
-                srcSet={`${workSrc(p.id, 800)} 800w, ${workSrc(p.id, 1600)} 1600w`}
-                sizes="(min-width: 768px) 25vw, 50vw"
-                alt={p.alt}
-                width={p.w}
-                height={p.h}
+                src={workSrc(pod.id, 800)}
+                srcSet={`${workSrc(pod.id, 800)} 800w, ${workSrc(pod.id, 1600)} 1600w`}
+                sizes="(min-width: 768px) 50vw, 100vw"
+                alt={pod.alt}
+                width={pod.w}
+                height={pod.h}
                 loading="lazy"
                 decoding="async"
-                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                className="absolute inset-0 h-full w-full object-cover"
               />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-3 sm:p-4">
-                <div className="text-white text-sm font-semibold leading-tight">{p.caption}</div>
-                <div className="text-white/75 text-xs">{p.place}</div>
-              </div>
-            </motion.button>
-          ))}
+            </div>
+          )}
         </div>
       </div>
+    </section>
+  );
+}
 
-      <AnimatePresence>
-        {open !== null && <Lightbox items={WORK_ITEMS} index={open} onClose={() => setOpen(null)} onIndex={setOpen} />}
-      </AnimatePresence>
+// ─── Our Work (one gallery: the strip; the full grid lives on /our-work) ─────
+
+function OurWork() {
+  return (
+    <section id="work" className="py-16" style={{ backgroundColor: "#ededed" }}>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center mb-8">
+        <h2 className="font-serif text-4xl sm:text-5xl font-bold mb-4" style={{ color: "#1a1a1a" }}>Our Work</h2>
+        <p className="text-gray-600 max-w-2xl mx-auto">
+          Real balconies, pods and wet areas we&apos;ve waterproofed around Melbourne. No stock photos.
+        </p>
+      </div>
+      <WorkStrip />
+      <div className="mt-8 text-center">
+        <Link to="/our-work" className="inline-flex items-center gap-2 font-semibold px-6 py-3 rounded-xl text-white" style={{ backgroundColor: AQUA }}>
+          View all our work
+          <ArrowRight className="w-4 h-4" />
+        </Link>
+      </div>
     </section>
   );
 }
 
 // ─── Recent Projects ─────────────────────────────────────────────────────────
 
-const RECENT_PROJECTS = 6;
+const RECENT_PROJECTS = 3;
 
 function RecentProjects() {
   const list = WORK.slice(0, RECENT_PROJECTS);
   if (list.length === 0) return null;
   return (
-    <section id="projects" className="py-24" style={{ backgroundColor: "#f0fafb" }}>
+    <section id="projects" className="py-16 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <motion.div {...fadeUp(0.05)} className="text-center mb-12">
+        <div className="text-center mb-10">
           <span className="text-xs font-bold tracking-[0.2em] uppercase" style={{ color: AQUA }}>Projects</span>
           <h2 className="mt-3 font-serif text-4xl sm:text-5xl font-bold" style={{ color: "#1a1a1a" }}>Recent projects</h2>
-        </motion.div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {list.map((p, i) => (
-            <motion.div key={p.id} {...fadeUp(0.05 + (i % 3) * 0.08)}>
-              <Link to={`/projects/${projectSlug(p)}`} className="group block overflow-hidden rounded-2xl bg-white border border-neutral-200 shadow-sm hover:shadow-md transition-shadow">
-                <div className="aspect-[4/3] overflow-hidden bg-gray-100">
-                  <img
-                    src={workSrc(p.id, 800)}
-                    alt={`${p.caption}, ${p.place}`}
-                    width={p.w}
-                    height={p.h}
-                    loading="lazy"
-                    decoding="async"
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
+        </div>
+        <div className={`grid gap-6 ${gridCols(list.length)}`}>
+          {list.map((p) => (
+            <Link key={p.id} to={`/projects/${projectSlug(p)}`} className="group block overflow-hidden rounded-2xl bg-white border border-neutral-200 shadow-sm hover:shadow-md transition-shadow">
+              <div className="aspect-[4/3] overflow-hidden bg-gray-100">
+                <img
+                  src={workSrc(p.id, 800)}
+                  alt={`${p.caption}, ${p.place}`}
+                  width={p.w}
+                  height={p.h}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+              <div className="p-5">
+                <h3 className="font-serif text-lg font-bold text-neutral-900">{projectTitle(p)}</h3>
+                <div className="mt-1 flex items-center justify-between text-sm text-neutral-500">
+                  <span className="flex items-center gap-1.5"><MapPin className="w-4 h-4" style={{ color: AQUA }} />{p.place}</span>
+                  <span className="flex items-center gap-1 font-medium" style={{ color: AQUA }}>View project <ArrowRight className="w-4 h-4" /></span>
                 </div>
-                <div className="p-5">
-                  <h3 className="font-serif text-lg font-bold text-neutral-900">{projectTitle(p)}</h3>
-                  <div className="mt-1 flex items-center justify-between text-sm text-neutral-500">
-                    <span className="flex items-center gap-1.5"><MapPin className="w-4 h-4" style={{ color: AQUA }} />{p.place}</span>
-                    <span className="flex items-center gap-1 font-medium" style={{ color: AQUA }}>View project <ArrowRight className="w-4 h-4" /></span>
-                  </div>
-                </div>
-              </Link>
-            </motion.div>
+              </div>
+            </Link>
           ))}
         </div>
       </div>
@@ -767,7 +526,7 @@ function RecentProjects() {
 
 function CherryBuilds() {
   return (
-    <section id="cherrybuilds" className="py-24" style={{ backgroundColor: "#ededed" }}>
+    <section id="cherrybuilds" className="py-16" style={{ backgroundColor: "#ededed" }}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="grid md:grid-cols-2 gap-16 items-center">
           <motion.div {...fadeUp(0.1)}>
@@ -857,7 +616,7 @@ const REVIEWS_DOUBLED = [...TESTIMONIALS, ...TESTIMONIALS];
 
 function Testimonials() {
   return (
-    <section className="py-24 overflow-hidden" style={{ backgroundColor: "#1a1a1a" }}>
+    <section className="py-16 overflow-hidden" style={{ backgroundColor: "#1a1a1a" }}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <motion.div {...fadeUp(0.1)} className="mb-12">
           <span className="text-xs font-bold tracking-[0.2em] uppercase" style={{ color: AQUA_ACCENT }}>
@@ -870,7 +629,7 @@ function Testimonials() {
         </motion.div>
       </div>
 
-      <motion.div {...fadeUp(0.15)} className="overflow-hidden">
+      <motion.div {...fadeUp(0.15)} className="reviews-wrap">
         <div className="reviews-marquee">
           {REVIEWS_DOUBLED.map((t, i) => (
             <div
@@ -925,7 +684,7 @@ function FAQ() {
   const [open, setOpen] = React.useState(null);
 
   return (
-    <section id="faq" className="py-24 bg-white">
+    <section id="faq" className="py-16 bg-white">
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
         <motion.div {...fadeUp(0.1)} className="text-center mb-14">
           <span className="text-xs font-bold tracking-[0.2em] uppercase" style={{ color: AQUA }}>
@@ -1005,7 +764,7 @@ function Contact() {
     "w-full rounded-lg border border-neutral-200 bg-white px-3 py-2.5 text-neutral-800 text-sm focus:outline-none focus:ring-2 focus:ring-aqua-500";
 
   return (
-    <section id="contact" className="py-24" style={{ backgroundColor: "#ededed" }}>
+    <section id="contact" className="py-16" style={{ backgroundColor: "#ededed" }}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="grid md:grid-cols-2 gap-14 items-start">
           <motion.div {...fadeUp(0.1)}>
@@ -1136,7 +895,7 @@ function Contact() {
                     <option>Tiling</option>
                     <option>Rectification Works</option>
                     <option>Waterproofing over Existing Hard Surfaces</option>
-                    <option>Versipave Pod System</option>
+                    <option>Aqua Pods</option>
                     <option>Other / Not sure</option>
                   </select>
                 </div>
@@ -1177,9 +936,6 @@ function FloatingCall() {
   return (
     <motion.a
       href="tel:0408827996"
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay: 1.5 }}
       whileHover={{ scale: 1.08 }}
       whileTap={{ scale: 0.95 }}
       className="fixed bottom-20 right-5 z-50 md:hidden flex items-center gap-2 text-white font-semibold text-sm px-4 py-3 rounded-full shadow-lg"
@@ -1200,12 +956,12 @@ export default function Home() {
         <title>Aquatight Waterproofing | AS3740 Certified Waterproofers Melbourne</title>
         <meta
           name="description"
-          content="AS3740 certified waterproofers in Melbourne: bathroom waterproofing, balcony rectification, tiling, renovations and the Versipave Pod System. Bayside, Mornington Peninsula and Eastern Suburbs. Certificate on every job. Free inspection."
+          content="AS3740 certified waterproofers in Melbourne: bathroom waterproofing, balcony rectification, tiling, renovations and Aqua Pods. Bayside, Mornington Peninsula and Eastern Suburbs. Certificate on every job. Free inspection."
         />
         <meta property="og:title" content="Aquatight Waterproofing | AS3740 Certified Waterproofers Melbourne" />
         <meta
           property="og:description"
-          content="AS3740-certified waterproofing across Melbourne. Bathrooms, balconies, tiling, rectification, and the Versipave Pod System. 18+ years experience. Certificate on every job."
+          content="AS3740-certified waterproofing across Melbourne. Bathrooms, balconies, tiling, rectification, and Aqua Pods. 18+ years experience. Certificate on every job."
         />
         <meta property="og:url" content="https://www.aquatightwaterproofing.au/" />
         <meta property="og:locale" content="en_AU" />
@@ -1216,32 +972,16 @@ export default function Home() {
         <script type="application/ld+json">{JSON.stringify(schemaFAQ)}</script>
       </Helmet>
       <Hero />
-      {/* Hero gradient ends ~#074955 → into white TrustBar */}
-      <WaveDivider topColor="#074955" bottomColor="#ffffff" height={56} />
       <TrustBar />
       <About />
-      {/* About (white) → WhyChoose (dark) */}
-      <WaveDivider topColor="#ffffff" bottomColor="#1a1a1a" height={48} />
       <WhyChoose />
-      {/* WhyChoose (dark) → Services (light grey) */}
-      <WaveDivider topColor="#1a1a1a" bottomColor="#ededed" height={48} />
       <Services />
-      {/* Services (light grey) → Versipave (white) */}
-      <WaveDivider topColor="#ededed" bottomColor="#ffffff" height={48} />
-      <Versipave />
+      <AquaPodsSection />
       <OurWork />
       <RecentProjects />
-      {/* RecentProjects (aqua tint) → CherryBuilds (light grey) */}
-      <WaveDivider topColor="#f0fafb" bottomColor="#ededed" height={48} />
       <CherryBuilds />
-      {/* CherryBuilds (light grey) → Testimonials (dark) */}
-      <WaveDivider topColor="#ededed" bottomColor="#1a1a1a" height={48} />
       <Testimonials />
-      {/* Testimonials (dark) → FAQ (white) */}
-      <WaveDivider topColor="#1a1a1a" bottomColor="#ffffff" height={48} />
       <FAQ />
-      {/* FAQ (white) → Contact (light grey) */}
-      <WaveDivider topColor="#ffffff" bottomColor="#ededed" height={48} />
       <Contact />
       <FloatingCall />
     </>

@@ -12,12 +12,12 @@ export default function NotFound() {
       </Helmet>
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden" style={{ backgroundColor: "#1a1a1a" }}>
         <div className="relative z-10 max-w-lg mx-auto px-6 text-center">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+          <motion.div>
             <span className="font-serif font-bold leading-none select-none block" style={{ fontSize: "clamp(6rem, 20vw, 10rem)", color: "rgba(10,143,166,0.25)" }}>
               404
             </span>
           </motion.div>
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.15 }}>
+          <motion.div>
             <h1 className="font-serif text-3xl sm:text-4xl font-bold text-white mt-2 mb-4">Page not found</h1>
             <p className="text-neutral-400 leading-relaxed mb-10">
               The page you&rsquo;re looking for doesn&rsquo;t exist or may have moved.

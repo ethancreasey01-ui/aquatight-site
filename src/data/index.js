@@ -15,7 +15,7 @@ export const NAV_LINKS = [
   { label: "About",         href: "#about" },
   { label: "Services",      href: "#services" },
   { label: "Aqua Pods",     href: "/aqua-pods" },
-  { label: "Our Work",      href: "#work" },
+  { label: "Our Work",      href: "/our-work" },
   { label: "Areas",         href: "/service-areas" },
   { label: "Cherry Builds", href: "#cherrybuilds" },
   { label: "FAQ",           href: "#faq" },
@@ -23,8 +23,8 @@ export const NAV_LINKS = [
 ];
 
 // Danny's own job photos (no stock). Files in public/work as -800 and -1600 WebP.
-// Each WORK entry is one job: it appears in the Our Work strip + grid, on Home under
-// "Recent projects", and on its own page at /projects/<slug> (slug defaults to id).
+// Each WORK entry is one job: it appears in the Home strip, the /our-work grid, Home under
+// "Recent projects" (first 3 jobs), and on its own page at /projects/<slug> (slug defaults to id).
 // Required: id, caption, place, w, h. Files: public/work/<id>-800.webp and <id>-1600.webp
 // (w/h = the 1600px file's pixel size).
 // Optional (omit and the page simply doesn't render them):
@@ -34,20 +34,18 @@ export const NAV_LINKS = [
 //   duration    "3 weeks" etc.
 //   photos      extra photos of the same job: [{ id, w, h, alt? }] (same -800/-1600 file naming)
 //   before, after   { id, w, h } pair -> draggable Before/After slider on the project page
-//   pod         true for Aqua Pods (Versipave) jobs: listed first, shown on /aqua-pods
+//   pod         true for Aqua Pods jobs: listed first, shown on /aqua-pods
 // Order here = order everywhere (strip, grid, Recent projects), so keep pod jobs at the top.
 // Only add facts the client has confirmed. Alt text/captions: job type + suburb only, never
 // client names, street addresses or anything identifying. Strip EXIF/GPS from new photos.
+// Photos are cropped to one 4:3 ratio (1600x1200 + 800x600) so every grid stays even.
+// SERVICES entries may carry photo: "<WORK photo id>" for the card image on Home.
 export const WORK = [
-  { pod: true, id: "pod-bayside-1", slug: "pods-bayside", caption: "Balcony pods", place: "Bayside", w: 1600, h: 1200, photos: [{ id: "pod-bayside-2", w: 1200, h: 1600 }, { id: "pod-bayside-3", w: 1600, h: 1200 }, { id: "pod-bayside-4", w: 1200, h: 1600 }, { id: "pod-bayside-5", w: 1600, h: 1200 }] },
-  { pod: true, id: "pods-middle-park",     caption: "Versipave pods and tiles with steps", place: "Middle Park",  w: 1600, h: 1205 },
-  { pod: true, id: "pods-maribyrnong",     caption: "Versipave pods going down",           place: "Maribyrnong",  w: 1600, h: 1200, photos: [{ id: "pods-maribyrnong-2", w: 1600, h: 1200 }] },
-  { id: "balcony-mentone",      caption: "Balcony rebuild",                     place: "Mentone",      w: 1600, h: 1200, photos: [{ id: "balcony-mentone-2", w: 1200, h: 1600 }] },
-  { id: "bathroom-mentone",     caption: "Finished bathroom",                   place: "Mentone",      w: 1200, h: 1600 },
-  { id: "balcony-hampton",      caption: "Balcony waterproofing",               place: "Hampton",      w: 1600, h: 1200 },
-  { id: "balcony-mordialloc",   caption: "New balcony membrane",                place: "Mordialloc",   w: 1600, h: 1200, photos: [{ id: "balcony-mordialloc-2", w: 1600, h: 1200 }, { id: "balcony-mordialloc-3", w: 1600, h: 1200 }, { id: "balcony-mordialloc-4", w: 1600, h: 1200 }, { id: "balcony-mordialloc-5", w: 1600, h: 1200 }, { id: "balcony-mordialloc-6", w: 1600, h: 1200 }] },
-  { id: "shower-waterproofing", caption: "Shower and bath waterproofing",       place: "Melbourne",    w: 1600, h: 1200 },
-  { id: "courtyard-brighton-1", slug: "courtyard-brighton", caption: "Courtyard waterproofing", place: "Brighton", w: 1600, h: 1200, photos: [{ id: "courtyard-brighton-2", w: 1600, h: 1200 }, { id: "courtyard-brighton-3", w: 1600, h: 1200 }, { id: "courtyard-brighton-4", w: 1600, h: 1200 }, { id: "courtyard-brighton-5", w: 1600, h: 1200 }, { id: "courtyard-brighton-6", w: 1600, h: 1200 }] },
+  { pod: true, id: "pods-middle-park", slug: "pods-middle-park", caption: "Aqua Pods and tiles with steps", place: "Middle Park", w: 1600, h: 1200 },
+  { pod: true, id: "pods-maribyrnong", slug: "pods-maribyrnong", caption: "Aqua Pods going down", place: "Maribyrnong", w: 1600, h: 1200 },
+  { id: "balcony-mordialloc-1", slug: "balcony-mordialloc", caption: "New balcony membrane", place: "Mordialloc", w: 1600, h: 1200, photos: [{ id: "balcony-mordialloc-2", w: 1600, h: 1200 }, { id: "balcony-mordialloc-3", w: 1600, h: 1200 }] },
+  { id: "courtyard-brighton-1", slug: "courtyard-brighton", caption: "Courtyard waterproofing", place: "Brighton", w: 1600, h: 1200, photos: [{ id: "courtyard-brighton-2", w: 1600, h: 1200 }] },
+  { id: "shower-waterproofing", slug: "shower-waterproofing", caption: "Shower and bath waterproofing", place: "Melbourne", w: 1600, h: 1200 },
 ];
 
 export const workSrc = (id, w) => `/work/${id}-${w}.webp`;
@@ -62,6 +60,8 @@ export const GALLERY = WORK.flatMap((p) =>
   }))
 );
 export const POD_GALLERY = GALLERY.filter((g) => g.pod);
+// grid columns that avoid orphan items for n cards
+export const gridCols = (n) => (n <= 1 ? "" : n === 2 ? "sm:grid-cols-2" : n % 3 === 0 ? "sm:grid-cols-3" : n % 4 === 0 ? "sm:grid-cols-2 lg:grid-cols-4" : n % 2 === 0 ? "sm:grid-cols-2" : "sm:grid-cols-2 lg:grid-cols-3");
 export const POD_WORK = WORK.filter((p) => p.pod);
 export const getProject = (slug) => WORK.find((p) => projectSlug(p) === slug);
 
@@ -69,6 +69,7 @@ export const SERVICES = [
   {
     icon: CheckCircle,
     slug: "one-stop-service",
+    photo: "balcony-mordialloc-3",
     title: "One Stop Service",
     desc: "Complete waterproofing and renovation solution under one roof, from inspection through to completion, certification, and coordinated building works with Cherry Builds.",
     overviewHeading: "One Stop Waterproofing & Renovation",
@@ -82,7 +83,7 @@ export const SERVICES = [
       "Tiling, all formats, wet and dry areas",
       "Rectification of failed waterproofing and water damage",
       "Coordination with Cherry Builds for broader building works",
-      "Balcony rectification including Versipave Pod System option",
+      "Balcony rectification including Aqua Pods option",
       "Waterproofing certificate on every job",
       "One point of contact from start to finish",
       "Covered by workmanship warranty",
@@ -102,12 +103,13 @@ export const SERVICES = [
   {
     icon: Wrench,
     slug: "rectification-works",
+    photo: "courtyard-brighton-1",
     title: "Rectification Works",
     desc: "Expert diagnosis and repair of failed waterproofing, water damage, and structural defects in bathrooms, balconies, and all wet areas.",
     overviewHeading: "Melbourne Waterproofing Rectification",
     includesHeading: "Our Rectification Services",
     seoDesc: "Failed waterproofing Melbourne? Aquatight diagnoses and fixes water ingress in bathrooms and balconies, full strip-out, repair and AS3740 re-waterproofing with new certificate. Bayside, Mornington Peninsula and Eastern Suburbs. Free inspection.",
-    overview: "Waterproofing failure is one of the most expensive and disruptive building defects a homeowner can face. Water penetrates slowly and silently, seeping through failed membranes, compromised joints, or deteriorated grout, often going undetected for years until damage becomes severe.\n\nAquatight specialises in identifying the source of water ingress, assessing the extent of damage, and completing all rectification work to the correct standard. We don't patch over problems, we find the root cause and fix it properly, issuing a new waterproofing certificate on completion.\n\nFor balcony rectification, we offer the Versipave Pod System, a specialist solution that provides full membrane access in many cases without removing the existing tiling.",
+    overview: "Waterproofing failure is one of the most expensive and disruptive building defects a homeowner can face. Water penetrates slowly and silently, seeping through failed membranes, compromised joints, or deteriorated grout, often going undetected for years until damage becomes severe.\n\nAquatight specialises in identifying the source of water ingress, assessing the extent of damage, and completing all rectification work to the correct standard. We don't patch over problems, we find the root cause and fix it properly, issuing a new waterproofing certificate on completion.\n\nFor balcony rectification, we offer the Aqua Pods, a specialist solution that provides full membrane access in many cases without removing the existing tiling.",
     includes: [
       "Investigation and water ingress source identification",
       "Full demolition of failed tiles and membrane",
@@ -116,7 +118,7 @@ export const SERVICES = [
       "AS3740-compliant waterproofing membrane",
       "Retiling to match or replace existing finishes",
       "New drainage installation where required",
-      "Versipave Pod System option for balconies",
+      "Aqua Pods option for balconies",
       "Waterproofing certificate on completion",
       "Written scope and photographic documentation",
     ],
@@ -129,21 +131,22 @@ export const SERVICES = [
     faqs: [
       { q: "How do I know if my waterproofing has failed?", a: "Signs include damp patches on walls or ceilings near wet areas, mould growth, lifting or cracked tiles, efflorescence (white salt deposits), or musty odours. We offer free inspections, contact us if you're concerned." },
       { q: "Can rectification work be covered by insurance?", a: "In some cases, yes, particularly where failure was caused by a building defect rather than general wear and tear. We can provide detailed written documentation to support a claim." },
-      { q: "Can you fix it without removing the tiles?", a: "For balconies, our Versipave Pod System can often provide membrane access without tile removal. For bathroom failures, a full strip-out and redo is almost always the only reliable long-term solution." },
+      { q: "Can you fix it without removing the tiles?", a: "For balconies, our Aqua Pods can often provide membrane access without tile removal. For bathroom failures, a full strip-out and redo is almost always the only reliable long-term solution." },
     ],
   },
   {
     icon: LayoutGrid,
     slug: "versipave-pod-system",
-    title: "Versipave Pod System",
+    photo: "pods-maribyrnong",
+    title: "Aqua Pods",
     desc: "Industry-leading suspended balcony drainage solution that provides full membrane access without tile removal, ideal for balcony rectification.",
-    overviewHeading: "The Versipave Pod System",
-    includesHeading: "What the Versipave System Includes",
-    seoDesc: "Versipave Pod System Melbourne, balcony waterproofing rectification without tile removal. Aquatight is a certified Versipave installer. Significant cost saving over full strip-out. AS3740 certified. Suitable for strata and body corporate. Free quote.",
-    overview: "The Versipave Pod System is a specialist drainage and access solution for suspended balconies that solves one of the most challenging problems in waterproofing rectification, how to inspect, maintain, and repair the membrane beneath a tiled balcony without removing all the tiles.\n\nTraditional balcony rectification requires complete demolition of the tile surface above, a costly, time-consuming process that disrupts the space for weeks. The Versipave system creates a drained void space beneath the tiles that provides ongoing access to the membrane, without disturbing the tiling above.\n\nAquatight is certified to install the Versipave Pod System. For property owners facing balcony water ingress, it represents a significant saving in both cost and disruption compared to a conventional strip-out approach.",
+    overviewHeading: "Aqua Pods",
+    includesHeading: "What Aqua Pods Include",
+    seoDesc: "Aqua Pods Melbourne, balcony waterproofing rectification without tile removal. Aquatight is a certified Aqua Pods installer. Significant cost saving over full strip-out. AS3740 certified. Suitable for strata and body corporate. Free quote.",
+    overview: "Aqua Pods are a specialist drainage and access solution for suspended balconies, built on the Versipave system, that solve one of the most challenging problems in waterproofing rectification, how to inspect, maintain, and repair the membrane beneath a tiled balcony without removing all the tiles.\n\nTraditional balcony rectification requires complete demolition of the tile surface above, a costly, time-consuming process that disrupts the space for weeks. Aqua Pods create a drained void space beneath the tiles that provides ongoing access to the membrane, without disturbing the tiling above.\n\nAquatight is certified to install Aqua Pods. For property owners facing balcony water ingress, it represents a significant saving in both cost and disruption compared to a conventional strip-out approach.",
     includes: [
       "Full feasibility assessment and site inspection",
-      "Versipave pod installation to specification",
+      "Aqua Pods installation to specification",
       "Drainage channel and outlet integration",
       "AS3740-compliant waterproofing membrane below",
       "Reinstatement where required",
@@ -154,20 +157,21 @@ export const SERVICES = [
       "Suitable for new builds and rectification projects",
     ],
     process: [
-      { step: "1", title: "Feasibility Assessment", desc: "We inspect the balcony, assess suitability for the Versipave system, and provide a detailed scope and fixed quote." },
+      { step: "1", title: "Feasibility Assessment", desc: "We inspect the balcony, assess suitability for Aqua Pods, and provide a detailed scope and fixed quote." },
       { step: "2", title: "Drainage Setup", desc: "Drainage channels and pod outlets installed to correct specification and fall to drain." },
-      { step: "3", title: "Pod Installation", desc: "Versipave pods positioned to specification, creating the drainage void beneath the finished surface." },
+      { step: "3", title: "Pod Installation", desc: "Aqua Pods positioned to specification, creating the drainage void beneath the finished surface." },
       { step: "4", title: "Membrane & Certificate", desc: "Waterproofing membrane applied and inspected. Certificate issued on satisfactory completion." },
     ],
     faqs: [
-      { q: "How does the Versipave Pod System work?", a: "The system uses interlocking plastic pods to create a drained void beneath the tile surface. Water drains freely off the membrane below while the pods support the tile above, and the void provides inspection access to the membrane without tile removal." },
-      { q: "Is it suitable for all balconies?", a: "The Versipave system is designed for suspended balconies with adequate structural support. We assess each situation individually, not all balconies are suitable, and we'll tell you clearly if a conventional approach is more appropriate." },
-      { q: "How does the cost compare to a full strip-out?", a: "In most cases the Versipave approach represents a significant saving over full demolition and retiling. Cost varies by balcony size and complexity, we provide a comparative quote on request." },
+      { q: "How do Aqua Pods work?", a: "The system uses interlocking plastic pods to create a drained void beneath the tile surface. Water drains freely off the membrane below while the pods support the tile above, and the void provides inspection access to the membrane without tile removal." },
+      { q: "Is it suitable for all balconies?", a: "Aqua Pods are designed for suspended balconies with adequate structural support. We assess each situation individually, not all balconies are suitable, and we'll tell you clearly if a conventional approach is more appropriate." },
+      { q: "How does the cost compare to a full strip-out?", a: "In most cases the Aqua Pods approach represents a significant saving over full demolition and retiling. Cost varies by balcony size and complexity, we provide a comparative quote on request." },
     ],
   },
   {
     icon: Droplets,
     slug: "waterproofing-bathrooms",
+    photo: "shower-waterproofing",
     title: "Waterproofing Bathrooms",
     desc: "AS3740-compliant shower and bathroom waterproofing, new builds, renovations, and full rebuilds. Certificate issued on every completion.",
     overviewHeading: "Melbourne Bathroom Waterproofing",
@@ -201,6 +205,7 @@ export const SERVICES = [
   {
     icon: Hammer,
     slug: "renovations",
+    photo: "balcony-mordialloc-1",
     title: "Renovations",
     desc: "Bathroom and wet area renovations completed to the highest standard, from targeted upgrades to complete rebuilds with waterproofing in-house.",
     overviewHeading: "Melbourne Bathroom Renovations",
@@ -234,6 +239,7 @@ export const SERVICES = [
   {
     icon: Layers,
     slug: "tiling",
+    photo: "pods-middle-park",
     title: "Tiling",
     desc: "All tile formats and finishes, heritage mosaic to large-format porcelain, floor and wall, wet and dry areas. Laid to the Australian Standard.",
     overviewHeading: "Melbourne Tiling Services",
@@ -267,6 +273,7 @@ export const SERVICES = [
   {
     icon: Shield,
     slug: "over-existing-surfaces",
+    photo: "balcony-mordialloc-2",
     title: "Over Existing Hard Surfaces",
     desc: "Specialist systems applied directly over existing hard surfaces, eliminating full demolition in many rectification scenarios.",
     overviewHeading: "Waterproofing Without Full Demolition",
@@ -294,7 +301,7 @@ export const SERVICES = [
     faqs: [
       { q: "Is waterproofing over existing surfaces as reliable as a full strip-out?", a: "When the existing substrate is sound and the system is correctly applied, the result is a fully compliant membrane. However, it's not always the right solution, we assess carefully and recommend it only when it's genuinely appropriate." },
       { q: "Will it raise the floor height?", a: "Yes, slightly. This is one of the key factors we check during assessment. If height allowances won't accommodate the additional thickness, we'll recommend a full strip-out instead." },
-      { q: "Can this be done on a balcony?", a: "For balconies, our Versipave Pod System is often a more suitable solution. We'll assess both options and recommend the right approach for your specific situation." },
+      { q: "Can this be done on a balcony?", a: "For balconies, our Aqua Pods are often a more suitable solution. We'll assess both options and recommend the right approach for your specific situation." },
     ],
   },
 ];
@@ -314,15 +321,15 @@ export const FAQS = [
   },
   {
     q: "Can you waterproof without removing tiles?",
-    a: "In some situations, yes. We offer systems that can be applied over existing hard surfaces, and our Versipave Pod System provides membrane access on balconies without tile removal. We'll assess your specific situation and advise the best approach.",
+    a: "In some situations, yes. We offer systems that can be applied over existing hard surfaces, and our Aqua Pods provide membrane access on balconies without tile removal. We'll assess your specific situation and advise the best approach.",
   },
   {
     q: "How do I know if my waterproofing has failed?",
     a: "Signs include damp patches on walls or ceilings near wet areas, mould growth, lifting tiles, or musty odours. We offer free, obligation-free inspections, get in touch if you're concerned.",
   },
   {
-    q: "What is the Versipave Pod System?",
-    a: "The Versipave Pod System is a specialist drainage solution for suspended balconies that allows inspection and repair of the waterproofing membrane without removing the tiling above, significantly reducing rectification cost and disruption.",
+    q: "What are Aqua Pods?",
+    a: "Aqua Pods are a specialist drainage solution for suspended balconies that allow inspection and repair of the waterproofing membrane without removing the tiling above, significantly reducing rectification cost and disruption.",
   },
 ];
 

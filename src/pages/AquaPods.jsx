@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, ArrowRight, Phone, Droplets, MapPin } from "lucide-react";
-import { SERVICES, POD_WORK, POD_GALLERY, workSrc } from "../data/index.js";
+import { SERVICES, POD_WORK, POD_GALLERY, workSrc, gridCols } from "../data/index.js";
 import ScrollProgress from "../components/ScrollProgress.jsx";
 import RevealText from "../components/RevealText.jsx";
 import Lightbox from "../components/Lightbox.jsx";
@@ -11,15 +11,11 @@ import Lightbox from "../components/Lightbox.jsx";
 const AQUA = "#0a8fa6";
 const SITE = "https://www.aquatightwaterproofing.au";
 
-const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 24 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.1 },
-  transition: { duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] },
-});
+// Scroll-reveal animations were removed on purpose: content must be visible on first paint.
+const fadeUp = () => ({});
 
-// Benefits and explanation reuse wording already on the site (Home "Versipave" section and
-// the Versipave service page); nothing new is claimed here.
+// Benefits and explanation reuse wording already on the site (Home Aqua Pods section and
+// the Aqua Pods service page); nothing new is claimed here.
 const BENEFITS = [
   "No tile removal required in most cases",
   "Full membrane access for inspection and repair",
@@ -32,8 +28,8 @@ export default function AquaPods() {
   const [open, setOpen] = useState(null);
   const paras = service.overview.split(/\n\n+/);
   const url = `${SITE}/aqua-pods`;
-  const title = "Aqua Pods | Versipave Pod System Melbourne | Aquatight Waterproofing";
-  const desc = "Aqua Pods: the Versipave Pod System for suspended balconies. Membrane access without removing the tiling. AS3740 certified waterproofers across Melbourne. Free quote.";
+  const title = "Aqua Pods Melbourne | Aquatight Waterproofing";
+  const desc = "Aqua Pods for suspended balconies, built on the Versipave system. Membrane access without removing the tiling. AS3740 certified waterproofers across Melbourne. Free quote.";
   const items = POD_GALLERY.map((p) => ({ src: workSrc(p.id, 1600), alt: p.alt, caption: p.caption, sub: p.place }));
   const hero = POD_WORK[0];
 
@@ -75,7 +71,7 @@ export default function AquaPods() {
 
       <section className="max-w-6xl mx-auto px-4 sm:px-6 py-20 grid lg:grid-cols-3 gap-12">
         <motion.div {...fadeUp(0.05)} className="lg:col-span-2">
-          <RevealText className="font-serif text-3xl font-bold text-neutral-900 mb-5">{service.overviewHeading}</RevealText>
+          <RevealText className="font-serif text-3xl font-bold text-neutral-900 mb-5">What are Aqua Pods?</RevealText>
           <div className="space-y-4">
             {paras.map((t, i) => <p key={i} className="text-neutral-600 leading-relaxed text-[1.05rem]">{t}</p>)}
           </div>
@@ -103,10 +99,10 @@ export default function AquaPods() {
               <RevealText className="font-serif text-3xl font-bold text-neutral-900">Pod jobs</RevealText>
               <p className="mt-2 text-neutral-600">Real Aquatight pod installations. Tap a photo to enlarge, or open the project.</p>
             </motion.div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className={`grid grid-cols-1 gap-4 ${gridCols(POD_GALLERY.length)}`}>
               {POD_GALLERY.map((p, i) => (
                 <motion.div key={p.id} {...fadeUp(0.05 + (i % 3) * 0.08)} className="overflow-hidden rounded-2xl border border-neutral-200 bg-white">
-                  <button type="button" onClick={() => setOpen(i)} aria-label={`View photo: ${p.alt}`} className="group block w-full overflow-hidden bg-gray-100">
+                  <button type="button" onClick={() => setOpen(i)} aria-label={`View photo: ${p.alt}`} className="group block w-full aspect-[4/3] overflow-hidden bg-gray-100">
                     <img
                       src={workSrc(p.id, 800)}
                       srcSet={`${workSrc(p.id, 800)} 800w, ${workSrc(p.id, 1600)} 1600w`}
@@ -116,7 +112,7 @@ export default function AquaPods() {
                       height={p.h}
                       loading="lazy"
                       decoding="async"
-                      className="h-auto w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                   </button>
                   <div className="p-4 flex items-center justify-between gap-2 text-sm">

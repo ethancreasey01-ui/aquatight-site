@@ -38,7 +38,7 @@ export default function WorkStrip() {
                   alt={dup ? "" : p.alt}
                   width={p.w}
                   height={p.h}
-                  loading="lazy"
+                  loading={dup ? "lazy" : "eager"}
                   decoding="async"
                   draggable="false"
                   className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"

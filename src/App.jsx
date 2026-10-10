@@ -7,6 +7,7 @@ import Home from "./pages/Home.jsx";
 import ServiceDetail from "./pages/ServiceDetail.jsx";
 import ServiceAreas from "./pages/ServiceAreas.jsx";
 import ProjectDetail from "./pages/ProjectDetail.jsx";
+import OurWork from "./pages/OurWork.jsx";
 import AquaPods from "./pages/AquaPods.jsx";
 import NotFound from "./pages/NotFound.jsx";
 
@@ -59,6 +60,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/services/:slug" element={<ServiceDetail />} />
           <Route path="/service-areas" element={<ServiceAreas />} />
+          <Route path="/our-work" element={<OurWork />} />
           <Route path="/aqua-pods" element={<AquaPods />} />
           <Route path="/projects/:slug" element={<ProjectDetail />} />
           <Route path="*" element={<NotFound />} />

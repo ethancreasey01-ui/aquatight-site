@@ -19,7 +19,7 @@ export default function Footer() {
             </div>
             <p className="text-xs leading-relaxed mb-3">
               Melbourne's certified waterproofing specialists: bathrooms, balconies, tiling,
-              rectification works, and the Versipave Pod System.
+              rectification works, and Aqua Pods.
             </p>
             <div className="text-xs space-y-0.5">
               <div>18+ Years Experience</div>
@@ -36,7 +36,7 @@ export default function Footer() {
                 "Rectification Works",
                 "Renovations",
                 "Tiling",
-                "Versipave Pod System",
+                "Aqua Pods",
                 "Over Existing Hard Surfaces",
               ].map((s) => (
                 <li key={s}>

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, ArrowRight, Phone, Droplets, MapPin } from "lucide-react";
-import { SERVICES, POD_WORK, POD_GALLERY, workSrc, gridCols, gridSizes } from "../data/index.js";
+import { SERVICES, POD_GALLERY, workSrc, gridCols, gridSizes } from "../data/index.js";
 import ScrollProgress from "../components/ScrollProgress.jsx";
 import RevealText from "../components/RevealText.jsx";
 import Lightbox from "../components/Lightbox.jsx";
@@ -31,7 +31,6 @@ export default function AquaPods() {
   const title = "Aqua Pods Melbourne | Aquatight Waterproofing";
   const desc = "Aqua Pods for suspended balconies, built on the Versipave system. Membrane access without removing the tiling. AS3740 certified waterproofers across Melbourne. Free quote.";
   const items = POD_GALLERY.map((p) => ({ src: workSrc(p.id, 1600), alt: p.alt, caption: p.caption, sub: p.place }));
-  const hero = POD_GALLERY.find((g) => g.id === "pods-maribyrnong-2") ?? POD_GALLERY[POD_GALLERY.length - 1] ?? POD_WORK[0];
 
   return (
     <div className="min-h-screen bg-white">
@@ -41,16 +40,13 @@ export default function AquaPods() {
         <meta property="og:title" content={title} />
         <meta property="og:description" content={desc} />
         <meta property="og:url" content={url} />
-        {hero && <meta property="og:image" content={`${SITE}${workSrc(hero.id, 1600)}`} />}
+        {POD_GALLERY[0] && <meta property="og:image" content={`${SITE}${workSrc(POD_GALLERY[0].id, 1600)}`} />}
         <meta property="og:locale" content="en_AU" />
         <link rel="canonical" href={url} />
       </Helmet>
       <ScrollProgress />
 
       <section className="relative min-h-[60vh] overflow-hidden" style={{ background: "linear-gradient(135deg, #0a1f25 0%, #0a8fa6 100%)" }}>
-        {hero && (
-          <img src={workSrc(hero.id, 1600)} srcSet={`${workSrc(hero.id, 800)} 800w, ${workSrc(hero.id, 1600)} 1600w`} sizes="100vw" alt="" width={hero.w} height={hero.h} fetchPriority="high" decoding="async" className="absolute inset-0 h-full w-full object-cover opacity-25" />
-        )}
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 pt-32 pb-16 text-white">
           <div className="inline-flex items-center gap-2 bg-white/15 border border-white/20 rounded-full px-3 py-1 text-sm font-medium mb-5">
             <Droplets className="w-4 h-4" />

@@ -57,18 +57,7 @@ export default function ProjectDetail() {
       </Helmet>
       <ScrollProgress />
 
-      <section className="relative h-[55vh] min-h-[400px] overflow-hidden" style={{ backgroundColor: "#1a1a1a" }}>
-        <img
-          src={workSrc(project.id, 1600)}
-          srcSet={`${workSrc(project.id, 800)} 800w, ${workSrc(project.id, 1600)} 1600w`}
-          sizes="100vw"
-          fetchPriority="high"
-          alt=""
-          width={project.w}
-          height={project.h}
-          decoding="async"
-          className="absolute inset-0 w-full h-full object-cover opacity-40"
-        />
+      <section className="relative h-[40vh] min-h-[320px] overflow-hidden" style={{ background: "linear-gradient(135deg, #0a1f25 0%, #074955 60%, #0a8fa6 100%)" }}>
         <div className="absolute inset-0" style={{ background: "linear-gradient(to top, #1a1a1a 0%, rgba(26,26,26,0.5) 50%, rgba(26,26,26,0.2) 100%)" }} />
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 h-full flex flex-col justify-end pb-12 pt-24">
           <Link to="/#work" className="inline-flex items-center gap-1.5 text-neutral-300 hover:text-white text-sm mb-6 transition-colors">
@@ -115,19 +104,19 @@ export default function ProjectDetail() {
 
             <motion.div {...fadeUp(0.15)}>
               <RevealText className="font-serif text-2xl font-bold text-neutral-900 mb-4">{photos.length > 1 ? "Photos" : "Photo"}</RevealText>
-              <div className={`grid gap-3 ${photos.length > 1 ? "grid-cols-2" : "grid-cols-1"}`}>
+              <div className={`grid gap-3 ${photos.length > 1 ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1"}`}>
                 {photos.map((ph, i) => (
                   <button
                     key={ph.id}
                     type="button"
                     onClick={() => setLightboxIdx(i)}
                     aria-label={`View larger: ${lightboxItems[i].alt}`}
-                    className={`group overflow-hidden rounded-2xl bg-gray-100 ${i === 0 && photos.length > 1 ? "col-span-2" : ""}`}
+                    className={`group overflow-hidden rounded-2xl bg-gray-100 `}
                   >
                     <img
-                      src={workSrc(ph.id, i === 0 ? 1600 : 800)}
+                      src={workSrc(ph.id, photos.length > 1 ? 800 : 1600)}
                       srcSet={`${workSrc(ph.id, 800)} 800w, ${workSrc(ph.id, 1600)} 1600w`}
-                      sizes={i === 0 ? "(min-width: 1024px) 60vw, 100vw" : "(min-width: 1024px) 30vw, 50vw"}
+                      sizes={photos.length > 1 ? "(min-width: 1024px) 28vw, (min-width: 640px) 45vw, 100vw" : "(min-width: 1024px) 60vw, 100vw"}
                       alt={lightboxItems[i].alt}
                       width={ph.w}
                       height={ph.h}

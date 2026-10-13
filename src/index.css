@@ -97,3 +97,18 @@
   .work-strip { animation: none; }
   .work-strip-dup { display: none; }
 }
+
+.reviews-wrap { overflow: hidden; }
+
+/* Respect reduced motion everywhere: stop decorative animation, keep content reachable */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reviews-wrap { overflow-x: auto; }
+  .reviews-marquee { animation: none !important; }
+  .bubble { display: none; }
+}

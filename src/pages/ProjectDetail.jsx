@@ -13,12 +13,8 @@ import NotFound from "./NotFound.jsx";
 const AQUA = "#0a8fa6";
 const SITE = "https://www.aquatightwaterproofing.au";
 
-const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 24 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.1 },
-  transition: { duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] },
-});
+// Scroll-reveal animations were removed on purpose: content must be visible on first paint.
+const fadeUp = () => ({});
 
 export default function ProjectDetail() {
   const { slug } = useParams();

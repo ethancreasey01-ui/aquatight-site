@@ -12,7 +12,7 @@ Aquatight Waterproofing — waterproofing specialists, Melbourne (Bayside, Morni
 ## Structure
 Uses a pages folder:
 - `index.html` — meta tags, canonical URL, Google tag (AW-17961494205)
-- `src/App.jsx` — router/layout shell; routes: `/`, `/services/:slug`, `/service-areas`, `/aqua-pods`, `/projects/:slug`, `*` (NotFound); also the global tel: click conversion tracker
+- `src/App.jsx` — router/layout shell; routes: `/`, `/services/:slug`, `/service-areas`, `/our-work`, `/aqua-pods`, `/projects/:slug`, `*` (NotFound); also the global tel: click conversion tracker
 - `src/pages/Home.jsx` — main page content, contact form, phone number
 - `src/pages/AquaPods.jsx` — Aqua Pods (Versipave) page; reuses wording from the Versipave service data
 - `src/pages/ProjectDetail.jsx` — `/projects/:slug`, rendered from `WORK`
@@ -21,11 +21,11 @@ Uses a pages folder:
 
 ## Photos and projects (data-driven)
 Adding a job = one `WORK` entry in `src/data/index.js` + `public/work/<id>-800.webp` and `<id>-1600.webp`.
-It then appears in the strip, grid, Recent projects (first 6), its own `/projects/<id>` page. Pod jobs: `pod: true`
+It then appears in the Home strip, the `/our-work` grid, Recent projects on Home (first 3 jobs), and its own `/projects/<slug>` page. All photos are cropped to 4:3 (1600x1200 + 800x600) so grids stay even; `SERVICES[].photo` picks each Home service card image. Pod jobs: `pod: true`
 (keep them first in the array; they feed `/aqua-pods`). Optional fields (render only if present): `slug`, `title`, `overview`,
 `scope`, `duration`, `photos` (extra images), `before` + `after` (`{id,w,h}` pair -> Before/After slider). See the comment above `WORK`.
 Add new project slugs to `public/sitemap.xml`. Never invent facts. Alt text/captions: job type + suburb only; no client names or addresses;
-strip EXIF/GPS and compress to WebP before committing. `prefers-reduced-motion` stops the strip animating (it becomes a scrollable row).
+strip EXIF/GPS and compress to WebP before committing. Scroll-reveal/count-up animations were removed on purpose (content visible on first paint). `prefers-reduced-motion` stops the strip/reviews animating (they become scrollable rows). Naming: "Aqua Pods" everywhere; "Versipave" appears once (service overview) plus verbatim client quotes.
 
 ## Phone Number
 **Display**: 0408 827 996  

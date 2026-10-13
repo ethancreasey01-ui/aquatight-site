@@ -14,12 +14,8 @@ const AQUA_LIGHT = "#f0fafb";
 const AQUA_BORDER = "#d0edf3";
 const AQUA_ACCENT = "#7dd8e8";
 
-const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 24 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.1 },
-  transition: { duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] },
-});
+// Scroll-reveal animations were removed on purpose: content must be visible on first paint.
+const fadeUp = () => ({});
 
 // Subtle animated bubbles for the service hero banner
 function HeroBubbles() {
@@ -116,7 +112,7 @@ export default function ServiceDetail() {
         <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(10,31,37,0.85) 0%, rgba(10,31,37,0.3) 60%, transparent 100%)" }} />
 
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 w-full pb-12 pt-24">
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.1 }}>
+          <motion.div>
             <div className="flex flex-col items-start gap-3 mb-6">
               <Link
                 to="/#services"

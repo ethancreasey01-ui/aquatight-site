@@ -39,6 +39,7 @@ export default function WorkStrip() {
                   width={p.w}
                   height={p.h}
                   loading={dup ? "lazy" : "eager"}
+                  fetchPriority={i < 4 ? "high" : undefined}
                   decoding="async"
                   draggable="false"
                   className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"

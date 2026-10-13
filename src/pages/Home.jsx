@@ -7,7 +7,7 @@ import {
   Award, Check, ArrowRight, ExternalLink, Shield,
   Droplets, Eye, ShieldCheck, Star,
 } from "lucide-react";
-import { SERVICES, TESTIMONIALS, FAQS, CREDENTIALS, WORK, GALLERY, POD_GALLERY, workSrc, projectSlug, projectTitle, gridCols } from "../data/index.js";
+import { SERVICES, TESTIMONIALS, FAQS, CREDENTIALS, WORK, GALLERY, workSrc, projectSlug, projectTitle, gridCols } from "../data/index.js";
 import RevealText from "../components/RevealText.jsx";
 import CountUp from "../components/CountUp.jsx";
 import TrustBar from "../components/TrustBar.jsx";
@@ -137,7 +137,7 @@ function Hero() {
       />
       <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(10,31,37,0.78) 0%, rgba(10,31,37,0.62) 50%, rgba(10,31,37,0.85) 100%)" }} />
 
-      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center pt-28 pb-20">
+      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center pt-24 pb-12 sm:pt-28 sm:pb-20">
         <div
           className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs sm:text-sm font-medium mb-6 tracking-wide border"
           style={{ backgroundColor: "rgba(10,143,166,0.3)", borderColor: "rgba(125,216,232,0.5)", color: "#ffffff" }}
@@ -153,7 +153,7 @@ function Hero() {
           </span>
         </h1>
 
-        <p className="text-base sm:text-xl text-white/90 max-w-2xl mx-auto mb-9 leading-relaxed">
+        <p className="text-base sm:text-xl text-white/90 max-w-2xl mx-auto mb-7 sm:mb-9 leading-relaxed">
           Expert waterproofing for bathrooms, balconies, wet areas, and rectification works across Melbourne&apos;s Bayside, Mornington Peninsula, and Eastern Suburbs.
         </p>
 
@@ -177,7 +177,7 @@ function Hero() {
           </a>
         </div>
 
-        <div className="mt-12 grid grid-cols-3 gap-4 sm:gap-6 max-w-md mx-auto">
+        <div className="mt-8 sm:mt-12 grid grid-cols-3 gap-4 sm:gap-6 max-w-md mx-auto">
           {[
             { val: "18+", label: "Years Experience" },
             { val: "99+", label: "Jobs Completed" },
@@ -397,7 +397,6 @@ function Services() {
 // ─── Aqua Pods ───────────────────────────────────────────────────────────────
 
 function AquaPodsSection() {
-  const pod = POD_GALLERY.find((g) => g.id === "pods-maribyrnong") ?? POD_GALLERY[0];
   return (
     <section id="aqua-pods" className="py-16 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -436,21 +435,20 @@ function AquaPodsSection() {
               </a>
             </div>
           </div>
-          {pod && (
-            <div className="relative min-h-[240px] md:min-h-0">
-              <img
-                src={workSrc(pod.id, 800)}
-                srcSet={`${workSrc(pod.id, 800)} 800w, ${workSrc(pod.id, 1600)} 1600w`}
-                sizes="(min-width: 768px) 50vw, 100vw"
-                alt={pod.alt}
-                width={pod.w}
-                height={pod.h}
-                loading="lazy"
-                decoding="async"
-                className="absolute inset-0 h-full w-full object-cover"
-              />
-            </div>
-          )}
+          <div className="grid grid-cols-2 gap-4 p-8 sm:p-12 md:pl-0 content-center">
+            {[
+              { icon: Shield,   title: "No Demolition",    desc: "Waterproof without tile removal" },
+              { icon: Award,    title: "Certified System", desc: "Industry-proven product" },
+              { icon: Check,    title: "Cost Effective",   desc: "Major savings over full strip-out" },
+              { icon: Droplets, title: "Balcony Focused",  desc: "Designed for suspended balconies" },
+            ].map(({ icon: Icon, title, desc }) => (
+              <div key={title} className="bg-white/10 border border-white/20 rounded-xl p-4">
+                <Icon className="w-5 h-5 text-blue-200 mb-2" />
+                <div className="font-semibold text-white text-sm">{title}</div>
+                <div className="text-xs text-blue-200 mt-0.5">{desc}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -484,7 +482,8 @@ function OurWork() {
 const RECENT_PROJECTS = 3;
 
 function RecentProjects() {
-  const list = WORK.slice(0, RECENT_PROJECTS);
+  const featured = WORK.filter((w) => w.featured);
+  const list = (featured.length ? featured : WORK).slice(0, RECENT_PROJECTS);
   if (list.length === 0) return null;
   return (
     <section id="projects" className="py-16 bg-white">
@@ -498,7 +497,7 @@ function RecentProjects() {
             <Link key={p.id} to={`/projects/${projectSlug(p)}`} className="group block overflow-hidden rounded-2xl bg-white border border-neutral-200 shadow-sm hover:shadow-md transition-shadow">
               <div className="aspect-[4/3] overflow-hidden bg-gray-100">
                 <img
-                  src={workSrc(p.id, 800)}
+                  src={workSrc(p.card ?? p.id, 800)}
                   alt={`${p.caption}, ${p.place}`}
                   width={p.w}
                   height={p.h}

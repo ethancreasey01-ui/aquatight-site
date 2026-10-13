@@ -34,6 +34,8 @@ export const NAV_LINKS = [
 //   duration    "3 weeks" etc.
 //   photos      extra photos of the same job: [{ id, w, h, alt? }] (same -800/-1600 file naming)
 //   before, after   { id, w, h } pair -> draggable Before/After slider on the project page
+//   featured    true to show the job as a card under "Recent projects" on Home (first 3 featured; falls back to the first 3 jobs)
+//   card        photo id to use for the Recent projects card instead of the main photo (keeps one photo from repeating on Home)
 //   pod         true for Aqua Pods jobs: listed first, shown on /aqua-pods
 // Order here = order everywhere (strip, grid, Recent projects), so keep pod jobs at the top.
 // Only add facts the client has confirmed. Alt text/captions: job type + suburb only, never
@@ -42,10 +44,11 @@ export const NAV_LINKS = [
 // SERVICES entries may carry photo: "<WORK photo id>" for the card image on Home.
 export const WORK = [
   { pod: true, id: "pods-middle-park", slug: "pods-middle-park", caption: "Aqua Pods and tiles with steps", place: "Middle Park", w: 1600, h: 1200 },
-  { pod: true, id: "pods-maribyrnong", slug: "pods-maribyrnong", caption: "Aqua Pods going down", place: "Maribyrnong", w: 1600, h: 1200 },
-  { id: "balcony-mordialloc-1", slug: "balcony-mordialloc", caption: "New balcony membrane", place: "Mordialloc", w: 1600, h: 1200, photos: [{ id: "balcony-mordialloc-2", w: 1600, h: 1200 }, { id: "balcony-mordialloc-3", w: 1600, h: 1200 }] },
-  { id: "courtyard-brighton-1", slug: "courtyard-brighton", caption: "Courtyard waterproofing", place: "Brighton", w: 1600, h: 1200, photos: [{ id: "courtyard-brighton-2", w: 1600, h: 1200 }] },
+  { pod: true, id: "pods-maribyrnong", slug: "pods-maribyrnong", caption: "Aqua Pods going down", place: "Maribyrnong", w: 1600, h: 1200, featured: true, photos: [{ id: "pods-maribyrnong-2", w: 1600, h: 1200 }] },
+  { id: "balcony-mordialloc-1", slug: "balcony-mordialloc", caption: "New balcony membrane", place: "Mordialloc", w: 1600, h: 1200, featured: true, card: "balcony-mordialloc-4", photos: [{ id: "balcony-mordialloc-2", w: 1600, h: 1200 }, { id: "balcony-mordialloc-3", w: 1600, h: 1200 }, { id: "balcony-mordialloc-4", w: 1600, h: 1200 }, { id: "balcony-mordialloc-5", w: 1600, h: 1200 }] },
+  { id: "courtyard-brighton-1", slug: "courtyard-brighton", caption: "Courtyard waterproofing", place: "Brighton", w: 1600, h: 1200, featured: true, photos: [{ id: "courtyard-brighton-2", w: 1600, h: 1200 }] },
   { id: "shower-waterproofing", slug: "shower-waterproofing", caption: "Shower and bath waterproofing", place: "Melbourne", w: 1600, h: 1200 },
+  { id: "tiled-balcony-bayside-1", slug: "tiled-balcony-bayside", caption: "Tiled balcony", place: "Bayside", w: 1600, h: 1200 },
 ];
 
 export const workSrc = (id, w) => `/work/${id}-${w}.webp`;
@@ -61,7 +64,7 @@ export const GALLERY = WORK.flatMap((p) =>
 );
 export const POD_GALLERY = GALLERY.filter((g) => g.pod);
 // grid columns that avoid orphan items for n cards
-export const gridCols = (n) => (n <= 1 ? "" : n === 2 ? "sm:grid-cols-2" : n % 3 === 0 ? "sm:grid-cols-3" : n % 4 === 0 ? "sm:grid-cols-2 lg:grid-cols-4" : n % 2 === 0 ? "sm:grid-cols-2" : "sm:grid-cols-2 lg:grid-cols-3");
+export const gridCols = (n) => (n <= 1 ? "" : n === 2 ? "sm:grid-cols-2" : n % 3 === 0 ? "sm:grid-cols-3" : n % 5 === 0 ? "sm:grid-cols-2 lg:grid-cols-5" : n % 4 === 0 ? "sm:grid-cols-2 lg:grid-cols-4" : n % 2 === 0 ? "sm:grid-cols-2" : "sm:grid-cols-2 lg:grid-cols-3");
 export const POD_WORK = WORK.filter((p) => p.pod);
 export const getProject = (slug) => WORK.find((p) => projectSlug(p) === slug);
 
@@ -103,7 +106,7 @@ export const SERVICES = [
   {
     icon: Wrench,
     slug: "rectification-works",
-    photo: "courtyard-brighton-1",
+    photo: "courtyard-brighton-2",
     title: "Rectification Works",
     desc: "Expert diagnosis and repair of failed waterproofing, water damage, and structural defects in bathrooms, balconies, and all wet areas.",
     overviewHeading: "Melbourne Waterproofing Rectification",
@@ -137,7 +140,7 @@ export const SERVICES = [
   {
     icon: LayoutGrid,
     slug: "versipave-pod-system",
-    photo: "pods-maribyrnong",
+    photo: "pods-maribyrnong-2",
     title: "Aqua Pods",
     desc: "Industry-leading suspended balcony drainage solution that provides full membrane access without tile removal, ideal for balcony rectification.",
     overviewHeading: "Aqua Pods",
@@ -205,7 +208,7 @@ export const SERVICES = [
   {
     icon: Hammer,
     slug: "renovations",
-    photo: "balcony-mordialloc-1",
+    photo: "balcony-mordialloc-2",
     title: "Renovations",
     desc: "Bathroom and wet area renovations completed to the highest standard, from targeted upgrades to complete rebuilds with waterproofing in-house.",
     overviewHeading: "Melbourne Bathroom Renovations",
@@ -239,7 +242,7 @@ export const SERVICES = [
   {
     icon: Layers,
     slug: "tiling",
-    photo: "pods-middle-park",
+    photo: "tiled-balcony-bayside-1",
     title: "Tiling",
     desc: "All tile formats and finishes, heritage mosaic to large-format porcelain, floor and wall, wet and dry areas. Laid to the Australian Standard.",
     overviewHeading: "Melbourne Tiling Services",
@@ -273,7 +276,7 @@ export const SERVICES = [
   {
     icon: Shield,
     slug: "over-existing-surfaces",
-    photo: "balcony-mordialloc-2",
+    photo: "balcony-mordialloc-1",
     title: "Over Existing Hard Surfaces",
     desc: "Specialist systems applied directly over existing hard surfaces, eliminating full demolition in many rectification scenarios.",
     overviewHeading: "Waterproofing Without Full Demolition",

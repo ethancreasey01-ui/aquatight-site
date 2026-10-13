@@ -1,15 +1,15 @@
 import { Routes, Route, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, lazy, Suspense } from "react";
 import Navbar from "./components/Navbar.jsx";
 import Footer from "./components/Footer.jsx";
 import StickyQuoteBar from "./components/StickyQuoteBar.jsx";
 import Home from "./pages/Home.jsx";
-import ServiceDetail from "./pages/ServiceDetail.jsx";
-import ServiceAreas from "./pages/ServiceAreas.jsx";
-import ProjectDetail from "./pages/ProjectDetail.jsx";
-import OurWork from "./pages/OurWork.jsx";
-import AquaPods from "./pages/AquaPods.jsx";
-import NotFound from "./pages/NotFound.jsx";
+const ServiceDetail = lazy(() => import("./pages/ServiceDetail.jsx"));
+const ServiceAreas = lazy(() => import("./pages/ServiceAreas.jsx"));
+const ProjectDetail = lazy(() => import("./pages/ProjectDetail.jsx"));
+const OurWork = lazy(() => import("./pages/OurWork.jsx"));
+const AquaPods = lazy(() => import("./pages/AquaPods.jsx"));
+const NotFound = lazy(() => import("./pages/NotFound.jsx"));
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
@@ -56,7 +56,8 @@ export default function App() {
       <PhoneClickTracker />
       <Navbar />
       <main>
-        <Routes>
+        <Suspense fallback={<div className="min-h-screen" />}>
+          <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/services/:slug" element={<ServiceDetail />} />
           <Route path="/service-areas" element={<ServiceAreas />} />
@@ -65,6 +66,7 @@ export default function App() {
           <Route path="/projects/:slug" element={<ProjectDetail />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+        </Suspense>
       </main>
       <Footer />
       <StickyQuoteBar />

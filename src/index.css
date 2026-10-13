@@ -69,3 +69,31 @@
   animation: float-bubble linear infinite;
   pointer-events: none;
 }
+
+/* Work photo strip (auto-scroll, pauses on hover/focus) */
+.work-strip-wrap { overflow: hidden; }
+.work-strip {
+  display: flex;
+  gap: 10px;
+  width: max-content;
+  animation: marquee 48s linear infinite;
+  padding-block: 8px;
+  margin-block: -8px;
+}
+.work-strip:hover,
+.work-strip:focus-within { animation-play-state: paused; }
+.work-strip-slide {
+  flex-shrink: 0;
+  width: clamp(240px, 28vw, 360px);
+  height: clamp(180px, 21vw, 270px);
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  background: #f3f4f6;
+}
+@media (prefers-reduced-motion: reduce) {
+  .work-strip-wrap { overflow-x: auto; }
+  .work-strip { animation: none; }
+  .work-strip-dup { display: none; }
+}

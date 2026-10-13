@@ -21,13 +21,13 @@ Uses a pages folder:
 
 ## Photos and projects (data-driven)
 Adding a job = one `WORK` entry in `src/data/index.js` + `public/work/<id>-800.webp` and `<id>-1600.webp`.
-It then appears in the Home strip, the `/our-work` grid, Recent projects on Home (first 3 jobs flagged `featured: true`; `card` picks a different photo for the card), and its own `/projects/<slug>` page. All photos are cropped to 4:3 (1600x1200 + 800x600) so grids stay even; `SERVICES[].photo` picks each Home service card image. Pod jobs: `pod: true`
+It then appears in the Home strip, the `/our-work` grid, Recent projects on Home (first 3 jobs flagged `featured: true`), and its own `/projects/<slug>` page. All photos are cropped to 4:3 (1600x1200 + 800x600) so grids stay even; `SERVICES[].photo` picks each Home service card image. Pod jobs: `pod: true`
 (keep them first in the array; they feed `/aqua-pods`). Optional fields (render only if present): `slug`, `title`, `overview`,
 `scope`, `duration`, `photos` (extra images), `before` + `after` (`{id,w,h}` pair -> Before/After slider). See the comment above `WORK`.
 Add new project slugs to `public/sitemap.xml`. Never invent facts. Alt text/captions: job type + suburb only; no client names or addresses;
 strip EXIF/GPS and compress to WebP before committing. Scroll-reveal/count-up animations were removed on purpose (content visible on first paint). `prefers-reduced-motion` stops the strip/reviews animating (they become scrollable rows). Naming: "Aqua Pods" everywhere; "Versipave" appears once (service overview) plus verbatim client quotes.
 
-Keep each photo to at most 2 uses per page (Home strip counts as one). Fonts are loaded non-blocking from `index.html` (a blocking stylesheet/@import delays the whole bundle and every image).
+PHOTO RULES: at most 2 photos per job and they must clearly differ (wide shot + detail); never two shots of the same spot/angle. Do not reuse a photo across content sections of one page (the Home strip and /our-work gallery are exempt). Home service cards show a photo only when `SERVICES[].photo` is set to a photo not used elsewhere on Home, otherwise an icon. Jobs: 7 photos total as of this commit, so most service cards use icons. Fonts are loaded non-blocking from `index.html` (a blocking stylesheet/@import delays the whole bundle and every image).
 
 ## Phone Number
 **Display**: 0408 827 996  

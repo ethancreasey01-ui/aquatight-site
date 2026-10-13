@@ -35,18 +35,19 @@ export const NAV_LINKS = [
 //   photos      extra photos of the same job: [{ id, w, h, caption?, alt? }] (caption overrides the job caption for that photo when it shows something different) (same -800/-1600 file naming)
 //   before, after   { id, w, h } pair -> draggable Before/After slider on the project page
 //   featured    true to show the job as a card under "Recent projects" on Home (first 3 featured; falls back to the first 3 jobs)
-//   card        photo id to use for the Recent projects card instead of the main photo (keeps one photo from repeating on Home)
 //   pod         true for Aqua Pods jobs: listed first, shown on /aqua-pods
 // Order here = order everywhere (strip, grid, Recent projects), so keep pod jobs at the top.
 // Only add facts the client has confirmed. Alt text/captions: job type + suburb only, never
 // client names, street addresses or anything identifying. Strip EXIF/GPS from new photos.
 // Photos are cropped to one 4:3 ratio (1600x1200 + 800x600) so every grid stays even.
-// SERVICES entries may carry photo: "<WORK photo id>" for the card image on Home.
+// RULES: at most 2 photos per job and they must clearly differ (e.g. wide shot + detail); never two shots of the same spot/angle.
+// A photo should not appear in two content sections of one page (galleries/strip excepted). SERVICES entries may carry
+// photo: "<WORK photo id>" for a Home card image, only when that photo is not used elsewhere on Home; otherwise the card shows its icon.
 export const WORK = [
   { pod: true, id: "pods-middle-park", slug: "pods-middle-park", caption: "Aqua Pods and tiles with steps", place: "Middle Park", w: 1600, h: 1200 },
-  { pod: true, id: "pods-maribyrnong", slug: "pods-maribyrnong", caption: "Aqua Pods going down", place: "Maribyrnong", w: 1600, h: 1200, featured: true, photos: [{ id: "pods-maribyrnong-2", w: 1600, h: 1200, caption: "Pod pedestals and tiles" }] },
-  { id: "balcony-mordialloc-1", slug: "balcony-mordialloc", caption: "New balcony membrane", place: "Mordialloc", w: 1600, h: 1200, featured: true, card: "balcony-mordialloc-4", photos: [{ id: "balcony-mordialloc-2", w: 1600, h: 1200 }, { id: "balcony-mordialloc-3", w: 1600, h: 1200 }, { id: "balcony-mordialloc-4", w: 1600, h: 1200 }, { id: "balcony-mordialloc-5", w: 1600, h: 1200 }] },
-  { id: "courtyard-brighton-1", slug: "courtyard-brighton", caption: "Courtyard waterproofing", place: "Brighton", w: 1600, h: 1200, featured: true, photos: [{ id: "courtyard-brighton-2", w: 1600, h: 1200 }] },
+  { pod: true, id: "pods-maribyrnong", slug: "pods-maribyrnong", caption: "Aqua Pods going down", place: "Maribyrnong", w: 1600, h: 1200, featured: true },
+  { id: "balcony-mordialloc-3", slug: "balcony-mordialloc", caption: "New balcony membrane", place: "Mordialloc", w: 1600, h: 1200, featured: true, photos: [{ id: "balcony-mordialloc-5", w: 1600, h: 1200, caption: "Membrane edge detail" }] },
+  { id: "courtyard-brighton-1", slug: "courtyard-brighton", caption: "Courtyard waterproofing", place: "Brighton", w: 1600, h: 1200, featured: true },
   { id: "shower-waterproofing", slug: "shower-waterproofing", caption: "Shower and bath waterproofing", place: "Melbourne", w: 1600, h: 1200 },
   { id: "tiled-balcony-bayside-1", slug: "tiled-balcony-bayside", caption: "Tiled balcony", place: "Bayside", w: 1600, h: 1200 },
 ];
@@ -68,9 +69,19 @@ export const gridCols = (n) => (n <= 1 ? "" : n === 2 ? "sm:grid-cols-2" : n % 3
 // `sizes` for an even grid inside max-w-6xl (1152px, 24px side padding, 16px gaps) matching gridCols(n),
 // so the browser picks the 800w file for ~355px tiles instead of 1600w.
 export const gridSizes = (n) => {
-  const [sm, lg] = n <= 1 ? [1, 1] : n === 2 ? [2, 2] : n % 3 === 0 ? [3, 3] : n % 5 === 0 ? [2, 5] : n % 4 === 0 ? [2, 4] : n % 2 === 0 ? [2, 2] : [2, 3];
+  const [sm, lg] = centeredGrid(n) ? [2, 4] : n <= 1 ? [1, 1] : n === 2 ? [2, 2] : n % 3 === 0 ? [3, 3] : n % 5 === 0 ? [2, 5] : n % 4 === 0 ? [2, 4] : n % 2 === 0 ? [2, 2] : [2, 3];
   const tile = (c) => `calc((min(100vw, 1152px) - ${48 + 16 * (c - 1)}px) / ${c})`;
   return `(min-width: 1024px) ${tile(lg)}, (min-width: 640px) ${tile(sm)}, calc(100vw - 32px)`;
+};
+// Grid for galleries where n has no even split (e.g. 7): 4 per row (2 per row on tablets) with the
+// short last row centred, so there is never a hole or a lone orphan column.
+export const centeredGrid = (n) => n > 2 && n % 3 !== 0 && n % 4 !== 0 && n % 5 !== 0 && n % 2 !== 0;
+export const centeredItemClass = (n, i) => {
+  const base = "sm:col-span-2";
+  const sm = n % 2 && i === n - 1 ? " sm:col-start-2 lg:col-start-auto" : "";
+  const r = n % 4,
+    lg = r && i === n - r ? { 1: " lg:col-start-4", 2: " lg:col-start-3", 3: " lg:col-start-2" }[r] : "";
+  return base + sm + lg;
 };
 export const POD_WORK = WORK.filter((p) => p.pod);
 export const getProject = (slug) => WORK.find((p) => projectSlug(p) === slug);
@@ -79,7 +90,6 @@ export const SERVICES = [
   {
     icon: CheckCircle,
     slug: "one-stop-service",
-    photo: "balcony-mordialloc-3",
     title: "One Stop Service",
     desc: "Complete waterproofing and renovation solution under one roof, from inspection through to completion, certification, and coordinated building works with Cherry Builds.",
     overviewHeading: "One Stop Waterproofing & Renovation",
@@ -113,7 +123,6 @@ export const SERVICES = [
   {
     icon: Wrench,
     slug: "rectification-works",
-    photo: "courtyard-brighton-2",
     title: "Rectification Works",
     desc: "Expert diagnosis and repair of failed waterproofing, water damage, and structural defects in bathrooms, balconies, and all wet areas.",
     overviewHeading: "Melbourne Waterproofing Rectification",
@@ -147,7 +156,6 @@ export const SERVICES = [
   {
     icon: LayoutGrid,
     slug: "versipave-pod-system",
-    photo: "pods-maribyrnong-2",
     title: "Aqua Pods",
     desc: "Industry-leading suspended balcony drainage solution that provides full membrane access without tile removal, ideal for balcony rectification.",
     overviewHeading: "Aqua Pods",
@@ -181,7 +189,6 @@ export const SERVICES = [
   {
     icon: Droplets,
     slug: "waterproofing-bathrooms",
-    photo: "shower-waterproofing",
     title: "Waterproofing Bathrooms",
     desc: "AS3740-compliant shower and bathroom waterproofing, new builds, renovations, and full rebuilds. Certificate issued on every completion.",
     overviewHeading: "Melbourne Bathroom Waterproofing",
@@ -215,7 +222,6 @@ export const SERVICES = [
   {
     icon: Hammer,
     slug: "renovations",
-    photo: "balcony-mordialloc-2",
     title: "Renovations",
     desc: "Bathroom and wet area renovations completed to the highest standard, from targeted upgrades to complete rebuilds with waterproofing in-house.",
     overviewHeading: "Melbourne Bathroom Renovations",
@@ -249,7 +255,6 @@ export const SERVICES = [
   {
     icon: Layers,
     slug: "tiling",
-    photo: "tiled-balcony-bayside-1",
     title: "Tiling",
     desc: "All tile formats and finishes, heritage mosaic to large-format porcelain, floor and wall, wet and dry areas. Laid to the Australian Standard.",
     overviewHeading: "Melbourne Tiling Services",
@@ -283,7 +288,6 @@ export const SERVICES = [
   {
     icon: Shield,
     slug: "over-existing-surfaces",
-    photo: "balcony-mordialloc-1",
     title: "Over Existing Hard Surfaces",
     desc: "Specialist systems applied directly over existing hard surfaces, eliminating full demolition in many rectification scenarios.",
     overviewHeading: "Waterproofing Without Full Demolition",

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { AnimatePresence } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { GALLERY, workSrc, gridCols, gridSizes } from "../data/index.js";
+import { GALLERY, workSrc, gridCols, gridSizes, centeredGrid, centeredItemClass } from "../data/index.js";
 import Lightbox from "../components/Lightbox.jsx";
 
 const AQUA = "#0a8fa6";
@@ -32,9 +32,9 @@ export default function OurWork() {
         </div>
       </section>
       <section className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
-        <div className={`grid grid-cols-1 gap-4 ${gridCols(GALLERY.length)}`}>
+        <div className={`grid grid-cols-1 gap-4 ${centeredGrid(GALLERY.length) ? "sm:grid-cols-4 lg:grid-cols-8" : gridCols(GALLERY.length)}`}>
           {GALLERY.map((p, i) => (
-            <div key={p.id} className="overflow-hidden rounded-2xl border border-neutral-200 bg-white">
+            <div key={p.id} className={`overflow-hidden rounded-2xl border border-neutral-200 bg-white ${centeredGrid(GALLERY.length) ? centeredItemClass(GALLERY.length, i) : ""}`}>
               <button type="button" onClick={() => setOpen(i)} aria-label={`View photo: ${p.alt}`} className="group block w-full aspect-[4/3] overflow-hidden bg-gray-100">
                 <img
                   src={workSrc(p.id, 800)}

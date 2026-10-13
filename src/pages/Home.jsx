@@ -362,10 +362,11 @@ function Services() {
               <Link
                 key={svc.slug}
                 to={`/services/${svc.slug}`}
-                className={`group flex h-full flex-col bg-white border border-neutral-200 rounded-2xl overflow-hidden hover:shadow-md transition-shadow${isLast ? " col-span-2 lg:col-span-3 lg:flex-row" : ""}`}
+                className={`group flex h-full flex-col bg-white border border-neutral-200 rounded-2xl overflow-hidden hover:shadow-md transition-shadow${isLast ? " col-span-2 lg:col-span-3" : ""}`}
+                style={photo ? undefined : { borderTop: `3px solid ${AQUA}` }}
               >
-                <div className={`aspect-[4/3] overflow-hidden bg-gray-100${isLast ? " lg:w-1/3 lg:flex-shrink-0" : ""}`}>
-                  {photo && (
+                {photo && (
+                  <div className="aspect-[4/3] overflow-hidden bg-gray-100">
                     <img
                       src={workSrc(photo.id, 800)}
                       alt={svc.title}
@@ -375,12 +376,17 @@ function Services() {
                       decoding="async"
                       className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
+                  </div>
+                )}
+                <div className="flex flex-col flex-1 p-4 sm:p-5">
+                  {!photo && (
+                    <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3" style={{ backgroundColor: AQUA }}>
+                      <svc.icon className="w-5 h-5 text-white" />
+                    </div>
                   )}
-                </div>
-                <div className={`flex flex-col flex-1 p-3 sm:p-5${isLast ? " lg:justify-center" : ""}`}>
                   <h3 className="font-semibold text-neutral-900 mb-2 text-sm sm:text-base">{svc.title}</h3>
-                  <p className="hidden sm:block text-sm text-neutral-500 leading-relaxed mb-4 flex-1">{svc.desc}</p>
-                  <div className="inline-flex items-center gap-1 text-sm font-semibold" style={{ color: AQUA }}>
+                  <p className="hidden sm:block text-sm text-neutral-500 leading-relaxed mb-4 flex-1 max-w-3xl">{svc.desc}</p>
+                  <div className="inline-flex items-center gap-1 text-sm font-semibold mt-auto" style={{ color: AQUA }}>
                     Learn More
                     <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
                   </div>

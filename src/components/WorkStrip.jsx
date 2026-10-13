@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import { Eye } from "lucide-react";
-import { WORK, workSrc } from "../data/index.js";
+import { GALLERY as WORK, workSrc } from "../data/index.js";
 import Lightbox from "./Lightbox.jsx";
 
 // Auto-scrolling photo strip. Pauses on hover/focus; under prefers-reduced-motion it
@@ -14,7 +14,7 @@ export default function WorkStrip() {
   const reps = Math.max(1, Math.ceil(8 / n));
   const half = Array.from({ length: reps }, () => WORK).flat();
   const loop = [...half, ...half];
-  const items = WORK.map((p) => ({ src: workSrc(p.id, 1600), alt: `${p.caption}, ${p.place}`, caption: p.caption, sub: p.place }));
+  const items = WORK.map((p) => ({ src: workSrc(p.id, 1600), alt: p.alt, caption: p.caption, sub: p.place }));
 
   return (
     <>
@@ -30,12 +30,12 @@ export default function WorkStrip() {
                 tabIndex={dup ? -1 : 0}
                 aria-hidden={dup || undefined}
                 onClick={() => setOpen(i % n)}
-                aria-label={`View photo: ${p.caption}, ${p.place}`}
+                aria-label={`View photo: ${p.alt}`}
                 className={`work-strip-slide group${dup ? " work-strip-dup" : ""}`}
               >
                 <img
                   src={workSrc(p.id, 800)}
-                  alt={dup ? "" : `${p.caption}, ${p.place}`}
+                  alt={dup ? "" : p.alt}
                   width={p.w}
                   height={p.h}
                   loading="lazy"

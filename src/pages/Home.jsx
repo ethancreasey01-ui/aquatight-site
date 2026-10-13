@@ -819,7 +819,7 @@ function Contact() {
             <div className="mt-8 space-y-3">
               <div className="flex items-center gap-2 text-sm" style={{ color: AQUA }}>
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" /></svg>
-                <a href="https://www.facebook.com/aquatightwaterproofing" target="_blank" rel="noopener noreferrer"
+                <a href="https://www.facebook.com/AquaTightPros" target="_blank" rel="noopener noreferrer"
                    onMouseEnter={e => (e.currentTarget.style.color = AQUA_HOVER)}
                    onMouseLeave={e => (e.currentTarget.style.color = AQUA)}
                    className="transition-colors">Follow us on Facebook</a>

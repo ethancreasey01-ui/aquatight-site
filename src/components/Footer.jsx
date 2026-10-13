@@ -75,7 +75,7 @@ export default function Footer() {
                 <div className="text-white text-xs font-semibold mb-2">Follow us</div>
                 <div className="flex gap-4">
                   <a
-                    href="https://www.facebook.com/aquatightwaterproofing"
+                    href="https://www.facebook.com/AquaTightPros"
                     target="_blank"
                     rel="noopener noreferrer"
                     onMouseEnter={hoverAqua}

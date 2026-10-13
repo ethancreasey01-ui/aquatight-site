@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { AnimatePresence } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { GALLERY, workSrc, gridCols } from "../data/index.js";
+import { GALLERY, workSrc, gridCols, gridSizes } from "../data/index.js";
 import Lightbox from "../components/Lightbox.jsx";
 
 const AQUA = "#0a8fa6";
@@ -39,7 +39,7 @@ export default function OurWork() {
                 <img
                   src={workSrc(p.id, 800)}
                   srcSet={`${workSrc(p.id, 800)} 800w, ${workSrc(p.id, 1600)} 1600w`}
-                  sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                  sizes={gridSizes(GALLERY.length)}
                   alt={p.alt}
                   width={p.w}
                   height={p.h}

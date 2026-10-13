@@ -32,7 +32,7 @@ export const NAV_LINKS = [
 //   overview    paragraph(s) of text, "\n\n" separates paragraphs
 //   scope       ["Item", ...] list of work carried out
 //   duration    "3 weeks" etc.
-//   photos      extra photos of the same job: [{ id, w, h, alt? }] (same -800/-1600 file naming)
+//   photos      extra photos of the same job: [{ id, w, h, caption?, alt? }] (caption overrides the job caption for that photo when it shows something different) (same -800/-1600 file naming)
 //   before, after   { id, w, h } pair -> draggable Before/After slider on the project page
 //   featured    true to show the job as a card under "Recent projects" on Home (first 3 featured; falls back to the first 3 jobs)
 //   card        photo id to use for the Recent projects card instead of the main photo (keeps one photo from repeating on Home)
@@ -44,7 +44,7 @@ export const NAV_LINKS = [
 // SERVICES entries may carry photo: "<WORK photo id>" for the card image on Home.
 export const WORK = [
   { pod: true, id: "pods-middle-park", slug: "pods-middle-park", caption: "Aqua Pods and tiles with steps", place: "Middle Park", w: 1600, h: 1200 },
-  { pod: true, id: "pods-maribyrnong", slug: "pods-maribyrnong", caption: "Aqua Pods going down", place: "Maribyrnong", w: 1600, h: 1200, featured: true, photos: [{ id: "pods-maribyrnong-2", w: 1600, h: 1200 }] },
+  { pod: true, id: "pods-maribyrnong", slug: "pods-maribyrnong", caption: "Aqua Pods going down", place: "Maribyrnong", w: 1600, h: 1200, featured: true, photos: [{ id: "pods-maribyrnong-2", w: 1600, h: 1200, caption: "Pod pedestals and tiles" }] },
   { id: "balcony-mordialloc-1", slug: "balcony-mordialloc", caption: "New balcony membrane", place: "Mordialloc", w: 1600, h: 1200, featured: true, card: "balcony-mordialloc-4", photos: [{ id: "balcony-mordialloc-2", w: 1600, h: 1200 }, { id: "balcony-mordialloc-3", w: 1600, h: 1200 }, { id: "balcony-mordialloc-4", w: 1600, h: 1200 }, { id: "balcony-mordialloc-5", w: 1600, h: 1200 }] },
   { id: "courtyard-brighton-1", slug: "courtyard-brighton", caption: "Courtyard waterproofing", place: "Brighton", w: 1600, h: 1200, featured: true, photos: [{ id: "courtyard-brighton-2", w: 1600, h: 1200 }] },
   { id: "shower-waterproofing", slug: "shower-waterproofing", caption: "Shower and bath waterproofing", place: "Melbourne", w: 1600, h: 1200 },
@@ -58,13 +58,20 @@ export const projectTitle = (p) => p.title ?? p.caption;
 // Each item: { id, w, h, caption, place, slug, pod, alt }
 export const GALLERY = WORK.flatMap((p) =>
   [p, ...(p.photos ?? [])].map((ph, i) => ({
-    id: ph.id, w: ph.w, h: ph.h, caption: p.caption, place: p.place, slug: projectSlug(p), pod: !!p.pod,
-    alt: ph.alt ?? `${p.caption}, ${p.place}${i ? ` (photo ${i + 1})` : ""}`,
+    id: ph.id, w: ph.w, h: ph.h, caption: ph.caption ?? p.caption, place: p.place, slug: projectSlug(p), pod: !!p.pod,
+    alt: ph.alt ?? (ph.caption ? `${ph.caption}, ${p.place}` : `${p.caption}, ${p.place}${i ? ` (photo ${i + 1})` : ""}`),
   }))
 );
 export const POD_GALLERY = GALLERY.filter((g) => g.pod);
 // grid columns that avoid orphan items for n cards
 export const gridCols = (n) => (n <= 1 ? "" : n === 2 ? "sm:grid-cols-2" : n % 3 === 0 ? "sm:grid-cols-3" : n % 5 === 0 ? "sm:grid-cols-2 lg:grid-cols-5" : n % 4 === 0 ? "sm:grid-cols-2 lg:grid-cols-4" : n % 2 === 0 ? "sm:grid-cols-2" : "sm:grid-cols-2 lg:grid-cols-3");
+// `sizes` for an even grid inside max-w-6xl (1152px, 24px side padding, 16px gaps) matching gridCols(n),
+// so the browser picks the 800w file for ~355px tiles instead of 1600w.
+export const gridSizes = (n) => {
+  const [sm, lg] = n <= 1 ? [1, 1] : n === 2 ? [2, 2] : n % 3 === 0 ? [3, 3] : n % 5 === 0 ? [2, 5] : n % 4 === 0 ? [2, 4] : n % 2 === 0 ? [2, 2] : [2, 3];
+  const tile = (c) => `calc((min(100vw, 1152px) - ${48 + 16 * (c - 1)}px) / ${c})`;
+  return `(min-width: 1024px) ${tile(lg)}, (min-width: 640px) ${tile(sm)}, calc(100vw - 32px)`;
+};
 export const POD_WORK = WORK.filter((p) => p.pod);
 export const getProject = (slug) => WORK.find((p) => projectSlug(p) === slug);
 

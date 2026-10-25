@@ -1,11 +1,9 @@
 import { motion } from "framer-motion";
-import { Shield, Award, CheckCircle, Clock, Star } from "lucide-react";
+import { Shield, CheckCircle, Star } from "lucide-react";
 
 const BADGES = [
-  { icon: Award,       text: "Master Tradesman Certified" },
   { icon: Shield,      text: "AS3740 Compliant" },
   { icon: CheckCircle, text: "Fully Insured" },
-  { icon: Clock,       text: "18+ Years Experience" },
   { icon: Star,        text: "Canteen Australia Sponsor" },
 ];
 

@@ -6,8 +6,6 @@ import {
   Shield,
   LayoutGrid,
   CheckCircle,
-  Award,
-  Clock,
   Star,
 } from "lucide-react";
 
@@ -453,9 +451,7 @@ export const TESTIMONIALS = [
 ];
 
 export const CREDENTIALS = [
-  { icon: Award,       text: "Master Tradesman Certified" },
   { icon: Shield,      text: "AS3740 Compliant" },
   { icon: CheckCircle, text: "Fully Insured" },
-  { icon: Clock,       text: "18+ Years Experience" },
   { icon: Star,        text: "Canteen Australia Sponsor" },
 ];

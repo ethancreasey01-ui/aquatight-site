@@ -63,7 +63,7 @@ export default function ServiceDetail() {
   const serviceTestimonials = TESTIMONIALS.filter((t) => t.service === service.slug);
 
   const metaTitle = `${service.title} Melbourne | Aquatight Waterproofing`;
-  const metaDesc = service.seoDesc ?? `${service.desc} Servicing Melbourne's Bayside, Mornington Peninsula, and Eastern Suburbs. AS3740 certified. 18+ years experience.`;
+  const metaDesc = service.seoDesc ?? `${service.desc} Servicing Melbourne's Bayside, Mornington Peninsula, and Eastern Suburbs. AS3740 certified.`;
 
   return (
     <div className="min-h-screen bg-white">
@@ -329,7 +329,6 @@ export default function ServiceDetail() {
               <ul className="space-y-2">
                 {[
                   "AS3740 certified on every job",
-                  "18+ years experience",
                   "Certificate issued on completion",
                   "Free inspections available",
                   "Partner of Cherry Builds",

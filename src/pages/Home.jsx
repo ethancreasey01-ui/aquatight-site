@@ -27,7 +27,7 @@ const schemaLocalBusiness = {
   "@id": "https://www.aquatightwaterproofing.au/#business",
   name: "Aquatight Waterproofing",
   description:
-    "AS3740-certified waterproofing specialists in Melbourne. Bathrooms, balconies, rectification works, tiling, and Aqua Pods across Bayside, Mornington Peninsula, and Eastern Suburbs. 18+ years experience.",
+    "AS3740-certified waterproofing specialists in Melbourne. Bathrooms, balconies, rectification works, tiling, and Aqua Pods across Bayside, Mornington Peninsula, and Eastern Suburbs.",
   url: "https://www.aquatightwaterproofing.au",
   telephone: "+61408827996",
   email: "info@cherrybuilds.com.au",
@@ -56,7 +56,6 @@ const schemaLocalBusiness = {
     name: "Cherry Builds",
     url: "https://cherrybuilds.com.au",
   },
-  foundingDate: "2008",
   image: "https://www.aquatightwaterproofing.au/logos/aqua-tight.png",
   logo: {
     "@type": "ImageObject",
@@ -143,7 +142,7 @@ function Hero() {
           style={{ backgroundColor: "rgba(10,143,166,0.3)", borderColor: "rgba(125,216,232,0.5)", color: "#ffffff" }}
         >
           <Award className="w-4 h-4 flex-shrink-0" />
-          AS3740 Certified · Master Tradesman · 18+ Years Experience
+          AS3740 Certified · Fully Insured
         </div>
 
         <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl font-bold text-white leading-[1.1] mb-5 tracking-tight">
@@ -177,10 +176,8 @@ function Hero() {
           </a>
         </div>
 
-        <div className="mt-8 sm:mt-12 grid grid-cols-3 gap-4 sm:gap-6 max-w-md mx-auto">
+        <div className="mt-8 sm:mt-12 grid grid-cols-1 gap-4 sm:gap-6 max-w-xs mx-auto">
           {[
-            { val: "18+", label: "Years Experience" },
-            { val: "99+", label: "Jobs Completed" },
             { val: "100%", label: "Certified on Completion" },
           ].map((s) => (
             <div key={s.label} className="text-center">
@@ -206,11 +203,11 @@ function About() {
               About Us
             </span>
             <h2 className="mt-3 font-serif text-4xl sm:text-5xl font-bold text-neutral-900 leading-tight">
-              Certified waterproofing professionals since 2008
+              Certified waterproofing professionals
             </h2>
             <p className="mt-5 text-neutral-600 leading-relaxed">
-              Aquatight Waterproofing has been protecting Melbourne homes and structures from water damage
-              for 18+ years. Our licensed waterproofers specialise in AS3740-compliant systems for
+              Aquatight Waterproofing protects Melbourne homes and structures from water damage.
+              Our licensed waterproofers specialise in AS3740-compliant systems for
               bathrooms, balconies, laundries, and all domestic wet areas.
             </p>
             <p className="mt-4 text-neutral-600 leading-relaxed">
@@ -247,10 +244,8 @@ function About() {
 
           <motion.div {...fadeUp(0.25)} className="grid grid-cols-2 gap-4">
             {[
-              { val: "18+", label: "Years in the industry" },
-              { val: "2008", label: "Established" },
-              { val: "99+", label: "Jobs completed" },
               { val: "100%", label: "Certified on completion" },
+              { val: "AS3740", label: "Compliant systems" },
             ].map((s) => (
               <div
                 key={s.label}
@@ -571,21 +566,6 @@ function CherryBuilds() {
                 </li>
               ))}
             </ul>
-
-            <div className="pt-2 grid grid-cols-2 gap-4">
-              {[
-                { val: "30+", label: "Years building experience" },
-                { val: "18+", label: "Years waterproofing expertise" },
-              ].map((s) => (
-                <div
-                  key={s.label}
-                  className="rounded-2xl p-5 text-center bg-white border border-neutral-200"
-                >
-                  <CountUp value={s.val} className="font-serif text-3xl font-bold" style={{ color: AQUA }} />
-                  <div className="text-xs text-neutral-500 mt-1.5 leading-snug">{s.label}</div>
-                </div>
-              ))}
-            </div>
 
             <div className="flex flex-col sm:flex-row gap-3 pt-2">
               <a
@@ -966,7 +946,7 @@ export default function Home() {
         <meta property="og:title" content="Aquatight Waterproofing | AS3740 Certified Waterproofers Melbourne" />
         <meta
           property="og:description"
-          content="AS3740-certified waterproofing across Melbourne. Bathrooms, balconies, tiling, rectification, and Aqua Pods. 18+ years experience. Certificate on every job."
+          content="AS3740-certified waterproofing across Melbourne. Bathrooms, balconies, tiling, rectification, and Aqua Pods. Certificate on every job."
         />
         <meta property="og:url" content="https://www.aquatightwaterproofing.au/" />
         <meta property="og:locale" content="en_AU" />

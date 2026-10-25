@@ -22,7 +22,6 @@ export default function Footer() {
               rectification works, and Aqua Pods.
             </p>
             <div className="text-xs space-y-0.5">
-              <div>18+ Years Experience</div>
               <div>AS3740 Certified · Fully Insured</div>
             </div>
           </div>
@@ -104,7 +103,7 @@ export default function Footer() {
 
         <div className="border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
           <div>© {new Date().getFullYear()} Aquatight Waterproofing. All rights reserved.</div>
-          <div className="text-neutral-600">Canteen Australia Sponsor · Master Tradesman Certified</div>
+          <div className="text-neutral-600">Canteen Australia Sponsor</div>
         </div>
       </div>
     </footer>

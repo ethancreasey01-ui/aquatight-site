@@ -12,6 +12,8 @@ import RevealText from "../components/RevealText.jsx";
 import CountUp from "../components/CountUp.jsx";
 import TrustBar from "../components/TrustBar.jsx";
 import WorkStrip from "../components/WorkStrip.jsx";
+import usePhoneNumber from "../usePhoneNumber.js";
+import { getClickId } from "../tracking.js";
 
 const AQUA = "#0a8fa6";
 const AQUA_HOVER = "#0a7285";
@@ -120,6 +122,7 @@ const fadeUp = () => ({});
 // ─── Hero ────────────────────────────────────────────────────────────────────
 
 function Hero() {
+  const phone = usePhoneNumber();
   const hero = WORK.find((w) => w.id === "pods-middle-park") ?? WORK[0];
   return (
     <section className="relative min-h-[88vh] flex items-center justify-center overflow-hidden bg-[#0a1f25]">
@@ -168,11 +171,11 @@ function Hero() {
             <ArrowRight className="w-4 h-4" />
           </a>
           <a
-            href="tel:0408827996"
+            href={`tel:${phone.tel}`}
             className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/30 text-white font-semibold px-8 py-4 rounded-xl transition-all backdrop-blur-sm"
           >
             <Phone className="w-4 h-4" />
-            0408 827 996
+            {phone.display}
           </a>
         </div>
 
@@ -723,6 +726,7 @@ function FAQ() {
 // ─── Contact ─────────────────────────────────────────────────────────────────
 
 function Contact() {
+  const phone = usePhoneNumber();
   const [submitted, setSubmitted] = React.useState(false);
   const [submitting, setSubmitting] = React.useState(false);
 
@@ -766,7 +770,7 @@ function Contact() {
 
             <div className="mt-8 space-y-4">
               {[
-                { icon: Phone, label: "Phone",  value: "0408 827 996",                    href: "tel:0408827996" },
+                { icon: Phone, label: "Phone",  value: phone.display,                    href: `tel:${phone.tel}` },
                 { icon: Mail,  label: "Email",  value: "info@cherrybuilds.com.au",  href: "mailto:info@cherrybuilds.com.au" },
                 { icon: MapPin, label: "Postal", value: "PO BOX 3109, Mentone East VIC 3194", href: null },
               ].map(({ icon: Icon, label, value, href }) => (
@@ -837,6 +841,9 @@ function Contact() {
               >
                 <input type="text" name="_gotcha" className="hidden" />
                 <input type="hidden" name="_subject" value="New enquiry from Aquatight Waterproofing website" />
+                <input type="hidden" name="gclid" value={getClickId("gclid")} />
+                <input type="hidden" name="gbraid" value={getClickId("gbraid")} />
+                <input type="hidden" name="wbraid" value={getClickId("wbraid")} />
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="at-first" className="block text-xs font-semibold text-neutral-600 mb-1">
@@ -918,9 +925,10 @@ function Contact() {
 // ─── Floating Call ────────────────────────────────────────────────────────────
 
 function FloatingCall() {
+  const phone = usePhoneNumber();
   return (
     <motion.a
-      href="tel:0408827996"
+      href={`tel:${phone.tel}`}
       whileHover={{ scale: 1.08 }}
       whileTap={{ scale: 0.95 }}
       className="fixed bottom-20 right-5 z-50 md:hidden flex items-center gap-2 text-white font-semibold text-sm px-4 py-3 rounded-full shadow-lg"

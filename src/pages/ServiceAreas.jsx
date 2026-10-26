@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { MapPin, Phone, ArrowRight, CheckCircle, ChevronRight } from "lucide-react";
 import WaveDivider from "../components/WaveDivider.jsx";
 import ScrollProgress from "../components/ScrollProgress.jsx";
+import usePhoneNumber from "../usePhoneNumber.js";
 
 const AQUA = "#0a8fa6";
 const AQUA_HOVER = "#0a7285";
@@ -75,6 +76,7 @@ const RECENT_JOBS = [
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function ServiceAreas() {
+  const phone = usePhoneNumber();
   return (
     <div className="min-h-screen bg-white">
       <Helmet>
@@ -192,11 +194,11 @@ export default function ServiceAreas() {
                   Get a Free Quote <ArrowRight className="w-4 h-4" />
                 </a>
                 <a
-                  href="tel:0408827996"
+                  href={`tel:${phone.tel}`}
                   className="inline-flex items-center gap-2 border border-neutral-200 text-neutral-700 hover:border-aqua-300 font-semibold px-6 py-3 rounded-xl transition-all"
                 >
                   <Phone className="w-4 h-4" style={{ color: AQUA }} />
-                  0408 827 996
+                  {phone.display}
                 </a>
               </div>
             </motion.div>
@@ -392,11 +394,11 @@ export default function ServiceAreas() {
                 Get a Free Quote <ArrowRight className="w-4 h-4" />
               </a>
               <a
-                href="tel:0408827996"
+                href={`tel:${phone.tel}`}
                 className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/15 border border-white/20 text-white font-semibold px-8 py-4 rounded-xl transition-all"
               >
                 <Phone className="w-4 h-4" />
-                0408 827 996
+                {phone.display}
               </a>
             </div>
           </motion.div>

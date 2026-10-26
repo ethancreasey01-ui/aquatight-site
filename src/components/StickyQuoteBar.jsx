@@ -2,11 +2,13 @@ import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Phone, ArrowRight } from "lucide-react";
 import { useLocation } from "react-router-dom";
+import usePhoneNumber from "../usePhoneNumber.js";
 
 const AQUA = "#0a8fa6";
 const AQUA_HOVER = "#0a7285";
 
 export default function StickyQuoteBar() {
+  const phone = usePhoneNumber();
   const [visible, setVisible] = React.useState(false);
   const location = useLocation();
 
@@ -63,11 +65,11 @@ export default function StickyQuoteBar() {
               <div className="hidden sm:block w-px h-5 bg-neutral-200" />
 
               <a
-                href="tel:0408827996"
+                href={`tel:${phone.tel}`}
                 className="hidden sm:inline-flex items-center gap-2 text-sm font-semibold text-neutral-700 hover:text-neutral-900 transition-colors"
               >
                 <Phone className="w-4 h-4" style={{ color: AQUA }} />
-                0408 827 996
+                {phone.display}
               </a>
 
               <div className="hidden sm:block w-px h-5 bg-neutral-200" />

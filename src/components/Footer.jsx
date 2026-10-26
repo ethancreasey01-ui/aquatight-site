@@ -1,6 +1,8 @@
 import { Phone, Mail, MapPin, ExternalLink } from "lucide-react";
+import usePhoneNumber from "../usePhoneNumber.js";
 
 export default function Footer() {
+  const phone = usePhoneNumber();
   const hoverAqua = (e) => (e.currentTarget.style.color = "#7dd8e8");
   const resetColor = (e) => (e.currentTarget.style.color = "");
 
@@ -50,8 +52,8 @@ export default function Footer() {
           <div>
             <div className="font-semibold text-white mb-3 text-sm">Contact</div>
             <div className="space-y-2 text-xs">
-              <a href="tel:0408827996" onMouseEnter={hoverAqua} onMouseLeave={resetColor} className="flex items-center gap-2 transition-colors">
-                <Phone className="w-3.5 h-3.5" /> 0408 827 996
+              <a href={`tel:${phone.tel}`} onMouseEnter={hoverAqua} onMouseLeave={resetColor} className="flex items-center gap-2 transition-colors">
+                <Phone className="w-3.5 h-3.5" /> {phone.display}
               </a>
               <a href="mailto:info@cherrybuilds.com.au" onMouseEnter={hoverAqua} onMouseLeave={resetColor} className="flex items-center gap-2 transition-colors">
                 <Mail className="w-3.5 h-3.5" /> info@cherrybuilds.com.au

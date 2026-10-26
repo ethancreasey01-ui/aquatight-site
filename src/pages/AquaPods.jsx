@@ -7,6 +7,7 @@ import { SERVICES, POD_GALLERY, workSrc, gridCols, gridSizes } from "../data/ind
 import ScrollProgress from "../components/ScrollProgress.jsx";
 import RevealText from "../components/RevealText.jsx";
 import Lightbox from "../components/Lightbox.jsx";
+import usePhoneNumber from "../usePhoneNumber.js";
 
 const AQUA = "#0a8fa6";
 const SITE = "https://www.aquatightwaterproofing.au";
@@ -24,6 +25,7 @@ const BENEFITS = [
 ];
 
 export default function AquaPods() {
+  const phone = usePhoneNumber();
   const service = SERVICES.find((s) => s.slug === "versipave-pod-system");
   const [open, setOpen] = useState(null);
   const paras = service.overview.split(/\n\n+/);
@@ -58,8 +60,8 @@ export default function AquaPods() {
             <Link to="/#contact" className="inline-flex items-center gap-2 bg-white font-semibold px-6 py-3 rounded-xl hover:bg-gray-50 transition-colors shadow-lg" style={{ color: AQUA }}>
               Get a Quote <ArrowRight className="w-4 h-4" />
             </Link>
-            <a href="tel:0408827996" className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/25 font-semibold px-6 py-3 rounded-xl transition-colors">
-              <Phone className="w-4 h-4" /> 0408 827 996
+            <a href={`tel:${phone.tel}`} className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/25 font-semibold px-6 py-3 rounded-xl transition-colors">
+              <Phone className="w-4 h-4" /> {phone.display}
             </a>
           </div>
         </div>
@@ -133,8 +135,8 @@ export default function AquaPods() {
             <Link to="/#contact" className="inline-flex items-center gap-2 bg-white font-semibold px-6 py-3 rounded-xl hover:bg-gray-50 transition-colors" style={{ color: AQUA }}>
               Send an enquiry <ArrowRight className="w-4 h-4" />
             </Link>
-            <a href="tel:0408827996" className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/25 font-semibold px-6 py-3 rounded-xl transition-colors">
-              <Phone className="w-4 h-4" /> 0408 827 996
+            <a href={`tel:${phone.tel}`} className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/25 font-semibold px-6 py-3 rounded-xl transition-colors">
+              <Phone className="w-4 h-4" /> {phone.display}
             </a>
           </div>
         </div>

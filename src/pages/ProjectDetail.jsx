@@ -9,6 +9,7 @@ import RevealText from "../components/RevealText.jsx";
 import Lightbox from "../components/Lightbox.jsx";
 import BeforeAfter from "../components/BeforeAfter.jsx";
 import NotFound from "./NotFound.jsx";
+import usePhoneNumber from "../usePhoneNumber.js";
 
 const AQUA = "#0a8fa6";
 const SITE = "https://www.aquatightwaterproofing.au";
@@ -17,6 +18,7 @@ const SITE = "https://www.aquatightwaterproofing.au";
 const fadeUp = () => ({});
 
 export default function ProjectDetail() {
+  const phone = usePhoneNumber();
   const { slug } = useParams();
   const project = getProject(slug);
   const [lightboxIdx, setLightboxIdx] = useState(null);
@@ -168,9 +170,9 @@ export default function ProjectDetail() {
                 Get a Quote
                 <ArrowRight className="w-4 h-4" />
               </Link>
-              <a href="tel:0408827996" className="mt-2 flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 border border-white/25 text-white text-sm font-medium px-5 py-3 rounded-xl transition-colors">
+              <a href={`tel:${phone.tel}`} className="mt-2 flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 border border-white/25 text-white text-sm font-medium px-5 py-3 rounded-xl transition-colors">
                 <Phone className="w-4 h-4" />
-                0408 827 996
+                {phone.display}
               </a>
             </motion.div>
           </div>
